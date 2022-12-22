@@ -52,6 +52,7 @@ require("packer").startup(
         use "lewis6991/gitsigns.nvim"
 
         use "navarasu/onedark.nvim" -- Theme inspired by Atom
+	use 'folke/tokyonight.nvim'
         use "nvim-lualine/lualine.nvim" -- Fancier statusline
         --   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
         --   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
@@ -99,7 +100,7 @@ vim.o.smartcase = true
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+vim.cmd[[colorscheme tokyonight]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
