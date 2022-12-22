@@ -1,2 +1,1 @@
-# nvim
-My config for vim
+# dotfiles
