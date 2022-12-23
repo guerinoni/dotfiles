@@ -12,5 +12,8 @@ echo "installing dotfiles..."
 mkdir -p "$HOME/.config/nvim"
 ln -s "$(pwd)/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 
+# macos
+./macos.sh
+
 echo "finished :)"
 
