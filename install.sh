@@ -15,5 +15,11 @@ ln -s "$(pwd)/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 # macos
 ./macos.sh
 
+# alias
+ln -s "$(pwd)/.alias" "$HOME/.alias"
+
+# zsh
+ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
+
 echo "finished :)"
 
