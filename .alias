@@ -1,3 +1,16 @@
 # Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup;'
+alias update="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
 
+# git
+alias gs="git status"
+alias gw="git switch"
+alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
+alias gco="git checkout"
+alias gfa="git fetch --all --prune"
+alias glo="git log --oneline --decorate"
+alias gp="git push"
+alias gpf="git push --force-with-lease"
+alias gca="git commit --amend --no-edit"
+alias gap="git add -p"
+alias gc="git commit"
+alias gcs="git commit -s"
