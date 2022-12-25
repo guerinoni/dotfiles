@@ -14,3 +14,6 @@ alias gca="git commit --amend --no-edit"
 alias gap="git add -p"
 alias gc="git commit"
 alias gcs="git commit -s"
+
+alias n="nvim ."
+
