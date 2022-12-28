@@ -21,5 +21,8 @@ ln -s "$(pwd)/.alias" "$HOME/.alias"
 # zsh
 ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
 
+# gitconfig
+ln -s "$(pwd)/.gitconfig" "$HOME/.gitconfig"
+
 echo "finished :)"
 
