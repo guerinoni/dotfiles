@@ -3,6 +3,7 @@ alias update="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 
 # git
 alias gs="git status"
+alias gd="git diff"
 alias gw="git switch"
 alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gco="git checkout"
