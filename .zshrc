@@ -1,7 +1,7 @@
 source .alias
 
-HISTSIZE='1000000000'
-HISTFILESIZE='1000000000'
+HISTSIZE=1000000000
+HISTFILESIZE=1000000
 
 # share history across multiple zsh sessions
 setopt SHARE_HISTORY
@@ -11,6 +11,12 @@ setopt INC_APPEND_HISTORY
 
 # expire duplicates first
 setopt HIST_EXPIRE_DUPS_FIRST
+
+# Delete old recorded entry if new entry is a duplicate.
+setopt HIST_IGNORE_ALL_DUPS
+
+# Don't write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS
 
 # do not store duplications
 setopt HIST_IGNORE_DUPS
