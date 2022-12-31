@@ -62,6 +62,8 @@ require("packer").startup(
 		use {"nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable "make" == 1}
 
 		use "simrat39/rust-tools.nvim"
+		use 'ray-x/go.nvim'
+		use 'ray-x/guihua.lua' -- recommanded if need floating window support
 	end
 )
 
@@ -435,3 +437,12 @@ rt.setup(
 		}
 	}
 )
+
+require('go').setup({
+  -- other setups ....
+  lsp_cfg = {
+    capabilities = capabilities,
+    -- other setups
+  },
+})
+
