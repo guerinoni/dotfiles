@@ -29,3 +29,6 @@ setopt HIST_REDUCE_BLANKS
 
 # set prompt with last operation
 PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '
+
+# trim space path like `Application Support/`
+export PATH=$(echo $PATH | sed 's/\ /\\ /g')
