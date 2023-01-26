@@ -15,7 +15,9 @@ alias gca="git commit --amend --no-edit"
 alias gap="git add -p"
 alias gc="git commit"
 alias gcs="git commit -s"
-alias gdbr="git branch -vv | grep ': gone]' |  grep -v '\*' | awk '{ print $1; }' | xargs -r git branch -d"
+alias gcsn="git commit -s --no-verify"
+alias grbc="git rebase --continue"
+alias gdbr="git branch -vv | grep ': gone]' |  grep -v '\*' | awk '{ print $1; }' | xargs git branch -D"
 
 alias n="nvim ."
 
