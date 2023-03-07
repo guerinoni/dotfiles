@@ -10,19 +10,19 @@ echo "installing dotfiles..."
 
 # nvim
 mkdir -p "$HOME/.config/nvim"
-ln -s "$(pwd)/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
+ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 
 # macos
 ./macos.sh
 
 # alias
-ln -s "$(pwd)/.alias" "$HOME/.alias"
+ln -sfn "$PWD/.alias" "$HOME/.alias"
 
 # zsh
-ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
+ln -sfn "$PWD/.zshrc" "$HOME/.zshrc"
 
 # gitconfig
-ln -s "$(pwd)/.gitconfig" "$HOME/.gitconfig"
+ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
 
 echo "finished :)"
 
