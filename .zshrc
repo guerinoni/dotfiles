@@ -27,8 +27,13 @@ setopt HIST_FIND_NO_DUPS
 # removes blank lines from history
 setopt HIST_REDUCE_BLANKS
 
+parse_git_branch() {
+    git symbolic-ref --short HEAD 2> /dev/null
+}
+
+setopt PROMPT_SUBST
 # set prompt with last operation
-PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '
+PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b $(parse_git_branch) %# '
 
 # trim space path like `Application Support/`
 export PATH=$(echo $PATH | sed 's/\ /\\ /g')
