@@ -37,3 +37,23 @@ PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b $(parse_git_branch) %# '
 
 # trim space path like `Application Support/`
 export PATH=$(echo $PATH | sed 's/\ /\\ /g')
+
+listening() {
+    if [ $# -eq 0 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
+
+listening_udp() {
+	if [ $# -eq 0 ]; then
+		sudo lsof -iUDP -s -n -P
+	elif [ $# -eq 1]; then
+		sudo lsof -iUDP -s -n -P | grep -i --color $1
+    	else
+        	echo "Usage: listening [pattern]"
+    	fi
+}
