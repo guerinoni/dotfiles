@@ -6,14 +6,18 @@
 # pipefail exits on command pipe failures
 set -euo pipefail
 
-echo "installing dotfiles..."
+echo "installing nvim things..."
 
 # nvim
 mkdir -p "$HOME/.config/nvim"
 ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 
+echo "running macos defaults..."
 # macos
 ./macos.sh
+
+echo "installing with brew"
+./brew.sh
 
 # alias
 ln -sfn "$PWD/.alias" "$HOME/.alias"
