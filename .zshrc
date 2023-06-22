@@ -1,4 +1,4 @@
-source .alias
+source ~/.alias
 
 HISTSIZE=1000000000
 HISTFILESIZE=1000000
