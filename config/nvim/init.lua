@@ -1,3 +1,9 @@
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 -- Install packer
 local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 
@@ -48,7 +54,6 @@ require("packer").startup(
 		--   -- Git related plugins
 		use "lewis6991/gitsigns.nvim"
 
-		use "navarasu/onedark.nvim" -- Theme inspired by Atom
 		use 'folke/tokyonight.nvim'
 		use "nvim-lualine/lualine.nvim" -- Fancier statusline
 		--   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
@@ -60,18 +65,12 @@ require("packer").startup(
 
 		-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
 		use {"nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable "make" == 1}
-
-		use "simrat39/rust-tools.nvim"
-		use 'ray-x/go.nvim'
 		use 'ray-x/guihua.lua' -- recommanded if need floating window support
 	end
 )
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
-
--- -- Set highlight on search
--- vim.o.hlsearch = false
 
 vim.wo.relativenumber = true
 
@@ -91,9 +90,10 @@ vim.wo.number = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- -- Decrease update time
--- vim.o.updatetime = 250
--- vim.wo.signcolumn = 'yes'
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeout = true
+vim.o.timeoutlen = 300
 
 -- Set colorscheme
 vim.o.termguicolors = true
@@ -101,13 +101,6 @@ vim.cmd[[colorscheme tokyonight]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
-
--- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -133,7 +126,7 @@ vim.g.maplocalleader = " "
 require("lualine").setup {
 	options = {
 		icons_enabled = false,
-		theme = "onedark",
+		theme = "tokyonight",
 		component_separators = "|",
 		section_separators = ""
 	}
@@ -206,7 +199,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 -- See `:help nvim-treesitter`
 require("nvim-treesitter.configs").setup {
 	-- Add languages to be installed here that you want installed for treesitter
-	ensure_installed = {"c", "cpp", "go", "lua", "rust", "help"},
+	ensure_installed = {"lua", "help"},
 	highlight = {enable = true},
 	indent = {enable = true},
 	incremental_selection = {
@@ -326,12 +319,6 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-	clangd = {},
-	gopls = {},
-	-- pyright = {},
-	rust_analyzer = {},
-	-- tsserver = {},
-
 	sumneko_lua = {
 		Lua = {
 			workspace = {checkThirdParty = false},
@@ -418,31 +405,4 @@ cmp.setup {
 		{name = "luasnip"}
 	}
 }
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
-
--- rust-tools
-local rt = require("rust-tools")
-
-rt.setup(
-	{
-		server = {
-			on_attach = function(client, bufnr)
-				-- Hover actions
-				vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, {buffer = bufnr})
-
-				on_attach(client,bufnr)
-			end
-		}
-	}
-)
-
-require('go').setup({
-  -- other setups ....
-  lsp_cfg = {
-    capabilities = capabilities,
-    -- other setups
-  },
-})
 
