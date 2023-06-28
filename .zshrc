@@ -1,7 +1,7 @@
 source ~/.alias
 
-HISTSIZE=1000000000
-HISTFILESIZE=1000000
+export HISTSIZE=1000000   # the number of items for the internal history list
+export SAVEHIST=1000000   # maximum number of items for the history file
 
 # share history across multiple zsh sessions
 setopt SHARE_HISTORY
