@@ -9,5 +9,6 @@ brew install --cask font-iosevka
 brew install --cask browserosaurus # browser selector on link click :)
 brew install --cask iterm2
 brew install --cask rectangle
+brew install --cask caffeine
 
 brew cleanup
