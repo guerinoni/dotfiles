@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/zsh
 
 # -e exit on error
 # -u error on undefined variables
@@ -27,6 +27,9 @@ ln -sfn "$PWD/.zshrc" "$HOME/.zshrc"
 
 # gitconfig
 ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
+
+# wezterm
+ln -sfn "$PWD/.wezterm.lua" "$HOME/.wezterm.lua"
 
 echo "finished :)"
 
