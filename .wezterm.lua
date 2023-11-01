@@ -15,6 +15,43 @@ end
 -- For example, changing the color scheme:
 config.color_scheme = 'Dracula+'
 config.font = wezterm.font 'Iosevka'
+config.keys = {
+  {
+    key = "k",
+    mods = "CMD",
+    action = wezterm.action.ClearScrollback 'ScrollbackAndViewport',
+  },
+  {
+    key = "Enter",
+    mods = "CMD|SHIFT",
+    action = wezterm.action.SplitVertical,
+  }, 
+  {
+    key = "Enter",
+    mods = "CMD",
+    action = wezterm.action.SplitHorizontal,
+  }, 
+  {
+    key = "UpArrow",
+    mods = "CMD",
+    action = wezterm.action.ActivatePaneDirection 'Up',
+  }, 
+  {
+    key = "DownArrow",
+    mods = "CMD",
+    action = wezterm.action.ActivatePaneDirection 'Down',
+  }, 
+  {
+    key = "LeftArrow",
+    mods = "CMD",
+    action = wezterm.action.ActivatePaneDirection 'Left',
+  }, 
+  {
+    key = "RightArrow",
+    mods = "CMD",
+    action = wezterm.action.ActivatePaneDirection 'Right',
+  }, 
+}
 
 -- and finally, return the configuration to wezterm
 return config
