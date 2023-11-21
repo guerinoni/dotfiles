@@ -35,6 +35,9 @@ setopt PROMPT_SUBST
 # set prompt with last operation
 PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b $(parse_git_branch) %# '
 
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
+
 # trim space path like `Application Support/`
 export PATH=$(echo $PATH | sed 's/\ /\\ /g')
 
