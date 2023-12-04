@@ -32,4 +32,3 @@ ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
 ln -sfn "$PWD/.wezterm.lua" "$HOME/.wezterm.lua"
 
 echo "finished :)"
-
