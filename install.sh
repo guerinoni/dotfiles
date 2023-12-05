@@ -31,4 +31,8 @@ ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
 # wezterm
 ln -sfn "$PWD/.wezterm.lua" "$HOME/.wezterm.lua"
 
+# nvim
+ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
+ln -sfn "$PWD/config/nvim/lua" "$HOME/.config/nvim/lua"
+
 echo "finished :)"
