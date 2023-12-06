@@ -18,7 +18,6 @@ vim.opt.splitbelow = true           -- open new vertical split bottom
 vim.opt.splitright = true           -- open new horizontal splits right
 vim.opt.showmode = false            -- we are experienced, wo don't need the "-- INSERT --" mode hint
 vim.opt.cmdheight = 0
-vim.opt.title = true
 vim.opt.termguicolors = true
 
 -- Searching

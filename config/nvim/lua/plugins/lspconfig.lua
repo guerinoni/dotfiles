@@ -1,30 +1,34 @@
 return {
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- 'williamboman/mason.nvim',
-      -- 'williamboman/mason-lspconfig.nvim',
-      -- 'b0o/schemastore.nvim',
-      -- { 'jose-elias-alvarez/null-ls.nvim', dependencies = 'nvim-lua/plenary.nvim' },
-      -- 'jayp0521/mason-null-ls.nvim',
-    },
-    config = function()
-      local lspconfig = require("lspconfig")
+  'neovim/nvim-lspconfig',
+
+  config = function()
+    local lspconfig = require("lspconfig")
+    local telescope = require("telescope.builtin")
 
     lspconfig.gopls.setup({
       settings = {
         gopls = {
-          staticcheck = true,
-          gofumpt = true,
+          completeUnimported = true,
+          usePlaceholders = true,
           analyses = {
-            nilness = true,
-            unusedwrite = true,
+            unusedparams = true,
+            shadow = true,
           },
-          experimentalPostfixCompletions = false,
-          hoverKind = "FullDocumentation",
-          linksInHover = false,
+          staticcheck = true,
         },
       },
+    })  
+
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+      callback = function(ev)
+        local opts = { buffer = ev.buf }
+
+        vim.keymap.set('n', 'gd', telescope.lsp_definitions, opts)
+        vim.keymap.set('n', 'gr', telescope.lsp_references, opts)
+        vim.keymap.set('n', 'gi', telescope.lsp_implementations, opts)
+
+      end,
     })
-    
-    end,
-  }
+  end
+}

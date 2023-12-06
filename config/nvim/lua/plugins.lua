@@ -18,9 +18,12 @@ require("lazy").setup({
   -- Fuzzy finder
   { import = 'plugins.telescope' },
 
-  --   -- Language Server Protocol.
+  -- Language Server Protocol.
   { import = 'plugins.lspconfig' },
 
   -- Completion
   { import = 'plugins.cmp' },
+
+  -- Mason
+  { import = 'plugins.mason' },
 })
