@@ -26,4 +26,7 @@ require("lazy").setup({
 
   -- Mason
   { import = 'plugins.mason' },
+
+  -- Copilot
+  { import = 'plugins.copilot' },
 })

@@ -20,22 +20,6 @@ return {
         completeopt = "menu,menuone,noinsert",
       },
       mapping = {
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            local entry = cmp.get_selected_entry()
-            if not entry then
-              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-            else
-              cmp.confirm()
-            end
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
