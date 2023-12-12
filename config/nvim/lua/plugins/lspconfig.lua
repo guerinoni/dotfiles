@@ -28,7 +28,8 @@ return {
         vim.keymap.set('n', 'gr', telescope.lsp_references, opts)
         vim.keymap.set('n', 'gi', telescope.lsp_implementations, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-
+        vim.keymap.set('n', 'ff', function() vim.lsp.buf.format { async = true } end, opts)
+      
       end,
     })
   end
