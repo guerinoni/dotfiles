@@ -29,4 +29,10 @@ require("lazy").setup({
 
   -- Copilot
   { import = 'plugins.copilot' },
+
+  -- Show Keymaps
+  { import = 'plugins.whichkey' },
+
+  -- A Status line.
+  { import = 'plugins.lualine' },
 })
