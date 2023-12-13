@@ -14,6 +14,8 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- Color scheme
   { import = 'plugins.tokyonight' },
+  { import = 'plugins.catppuccin' },
+  { import = 'plugins.gruvbox' },
 
   -- Fuzzy finder
   { import = 'plugins.telescope' },
@@ -26,6 +28,7 @@ require("lazy").setup({
 
   -- Mason
   { import = 'plugins.mason' },
+  { import = 'plugins.mason-lspconfig' },
 
   -- Copilot
   { import = 'plugins.copilot' },

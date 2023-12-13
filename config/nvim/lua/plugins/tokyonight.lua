@@ -6,6 +6,5 @@ return {
     require('tokyonight').setup({
         style = "night"
     })
-    require('tokyonight').colorscheme()
   end,
 }

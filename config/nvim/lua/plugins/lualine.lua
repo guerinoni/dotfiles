@@ -7,32 +7,14 @@ return {
   },
   opts = {
     options = {
-      section_separators = '',
-      component_separators = '',
+      section_separators = ' ',
+      component_separators = ' ',
       globalstatus = true,
-      theme = {
-        normal = {
-          a = 'StatusLine',
-          b = 'StatusLine',
-          c = 'StatusLine',
-        },
-      },
+      theme = 'auto',
     },
     sections = {
-      lualine_a = {
-        'mode',
-      },
-      lualine_b = {
-        'branch',
-        {
-          'diff',
-          symbols = { added = ' ', modified = ' ', removed = ' ' },
-        },
-        function ()
-          return '󰅭 ' .. vim.pesc(tostring(#vim.tbl_keys(vim.lsp.buf_get_clients())) or '')
-        end,
-        { 'diagnostics', sources = { 'nvim_diagnostic' } },
-      },
+      lualine_a = { 'mode' },
+      lualine_b = { 'branch' },
       lualine_c = {
         'filepath',
         {

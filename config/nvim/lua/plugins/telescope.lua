@@ -20,7 +20,6 @@ return {
 
     require('telescope').setup({
       defaults = {
-        path_display = { truncate = 1 },
         prompt_prefix = '   ',
         selection_caret = '  ',
         layout_config = {
@@ -52,9 +51,10 @@ return {
       pickers = {
         find_files = {
           hidden = true,
+          previewer = true,
         },
         buffers = {
-          previewer = false,
+          previewer = true,
           layout_config = {
             width = 80,
           },
@@ -63,10 +63,10 @@ return {
           prompt_title = 'History',
         },
         lsp_references = {
-          previewer = false,
+          previewer = true,
         },
         lsp_definitions = {
-          previewer = false,
+          previewer = true,
         },
         lsp_document_symbols = {
           symbol_width = 55,
