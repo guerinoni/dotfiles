@@ -29,6 +29,7 @@ return {
         vim.keymap.set('n', 'gi', telescope.lsp_implementations, opts)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', 'ff', function() vim.lsp.buf.format { async = true } end, opts)
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
       
       end,
     })
