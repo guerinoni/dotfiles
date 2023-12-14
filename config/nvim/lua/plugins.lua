@@ -38,4 +38,10 @@ require("lazy").setup({
 
   -- A Status line.
   { import = 'plugins.lualine' },
+
+  -- Highlight variable under cursor
+  { import = 'plugins.illuminate' },
+
+  -- Better Highlighting
+  { import = 'plugins.nvim-treesitter' },
 })
