@@ -40,6 +40,13 @@ bindkey "^[[1;3D" backward-word
 
 # trim space path like `Application Support/`
 export PATH=$(echo $PATH | sed 's/\ /\\ /g')
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+export PATH="/Users/guerra/.local/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 listening() {
     if [ $# -eq 0 ]; then
@@ -60,3 +67,7 @@ listening_udp() {
         	echo "Usage: listening [pattern]"
     	fi
 }
+
+export ANDROID_HOME=~/Library/Android/sdk
+export ANDROID_SDK_ROOT=~/Library/Android/sdk
+export ANDROID_AVD_HOME=~/.android/avd
