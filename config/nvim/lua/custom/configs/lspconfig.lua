@@ -20,3 +20,22 @@ lspconfig.gopls.setup {
     }
   }
 }
+
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { "rust-analyzer" },
+  filetypes = { "rust" },
+  root_dir = util.root_pattern("Cargo.toml", "rust-project.json", ".git"),
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = true,
+        loadOutDirsFromCheck = true,
+      },
+      procMacro = {
+        enable = true,
+      },
+    },
+  },
+}

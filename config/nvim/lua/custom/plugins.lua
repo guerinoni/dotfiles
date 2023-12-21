@@ -47,5 +47,36 @@ local plugins = {
     },
     config = true,
   },
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end,
+  },
+  {
+    "saecki/crates.nvim",
+    ft = { "toml" },
+    config = function(_, ops)
+      local crates = require('crates')
+      crates.setup({ops})
+      require('cmp').setup.buffer({sources = {{name = 'crates'}}})
+      crates.show()
+      require("core.utils").load_mappings("crates")
+    end,
+  },  
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function()
+      local M = require "plugins.configs.cmp"
+      M.completion.completeopt = "menu,menuone,noselect"
+      M.mapping["<CR>"] = require("cmp").mapping.confirm {
+        behavior = require("cmp").ConfirmBehavior.Insert,
+        select = false,
+      }
+      table.insert(M.sources, {name = "crates"})
+      return M
+    end,
+  },
 }
 return plugins

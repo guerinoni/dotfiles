@@ -3,7 +3,7 @@ local M = {}
 local customStatusline = require("custom.configs.statusline")
 
 M.ui = {
-	theme = "penumbra_dark",
+	theme = "tokyonight",
 	theme_toggle = { "gruvbox", "one_light" },
 	transparency = true,
 	statusline = {
@@ -27,5 +27,7 @@ M.ui = {
 		end,
 	},
 }
+
+M.plugins = "custom.plugins"
 
 return M
