@@ -17,6 +17,27 @@ alias gc="git commit"
 alias gcs="git commit -s"
 alias gcsn="git commit -s --no-verify"
 alias grbc="git rebase --continue"
-alias gdbr="git branch -vv | grep ': gone]' |  grep -v '\*' | awk '{ print $1; }' | xargs git branch -D"
+alias gdbr="git fetch --prune && git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs -r git branch -D"
 
 alias n="nvim ."
+
+listening() {
+    if [ $# -eq 0 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
+
+listening_udp() {
+	if [ $# -eq 0 ]; then
+		sudo lsof -iUDP -s -n -P
+	elif [ $# -eq 1]; then
+		sudo lsof -iUDP -s -n -P | grep -i --color $1
+    	else
+        	echo "Usage: listening [pattern]"
+    	fi
+}
+

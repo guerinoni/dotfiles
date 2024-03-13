@@ -11,8 +11,7 @@ brew install --cask font-iosevka
 brew install --cask browserosaurus # browser selector on link click :)
 brew install --cask wezterm
 brew install --cask rectangle
-brew install --cask arc
-brew install --cast bitwarden
+brew install --cask bitwarden
 brew install --cask maccy
 
 brew cleanup
