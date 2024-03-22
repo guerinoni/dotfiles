@@ -3,7 +3,7 @@
 /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
 
-brew install docker git-delta wget gh nvim ripgrep libpq
+brew install gpg2 docker git-delta wget gh nvim ripgrep libpq xsv
 
 brew tap homebrew/cask-fonts
 brew install --cask font-iosevka
