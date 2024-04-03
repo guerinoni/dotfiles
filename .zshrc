@@ -53,3 +53,7 @@ export ANDROID_SDK_ROOT=~/Library/Android/sdk
 export ANDROID_AVD_HOME=~/.android/avd
 
 [[ ! $(command -v nix) && -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]] && source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+
+export GPG_TTY=$(tty)
+eval $(ssh-agent)
+ssh-add --apple-use-keychain

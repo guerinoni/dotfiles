@@ -1,6 +1,7 @@
 [user]
 	name = Federico Guerinoni
 	email = guerinoni.federico@gmail.com
+	signingkey = 4E9FE5721BECB776
 
 [core]
 	pager = delta
@@ -22,11 +23,10 @@
 [delta]
     	line-numbers = true
 
-[url "git@github.com:"]
-	insteadOf = https://github.com/
-
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[commit]
+	gpgsign = true
