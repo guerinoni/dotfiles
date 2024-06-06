@@ -3,6 +3,9 @@ source ~/.alias
 export HISTSIZE=1000000   # the number of items for the internal history list
 export SAVEHIST=1000000   # maximum number of items for the history file
 
+# don't save commands starting with space
+setopt HIST_IGNORE_SPACE
+
 # share history across multiple zsh sessions
 setopt SHARE_HISTORY
 
