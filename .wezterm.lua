@@ -13,9 +13,9 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = 'Dracula+'
-config.font = wezterm.font 'Iosevka'
-config.font_size = 13.0
+config.color_scheme = 'Catppuccin Frappé (Gogh)'
+config.font = wezterm.font 'IBM Plex Mono'
+config.font_size = 12.0
 config.keys = {
   {
     key = "k",
