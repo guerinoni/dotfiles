@@ -3,7 +3,7 @@
 /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
 
-brew install gpg2 orbstack git-delta wget gh nvim ripgrep libpq xsv atuin direnv
+brew install gpg2 orbstack git-delta wget gh nvim ripgrep libpq atuin direnv
 
 brew install --cask font-iosevka
 
