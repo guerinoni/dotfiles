@@ -1,7 +1,7 @@
 [user]
 	name = Federico Guerinoni
 	email = guerinoni.federico@gmail.com
-	signingkey = 4E9FE5721BECB776
+	signingkey = 402CB24350E0342C7EEE32BE9B758A215BD8176A
 
 [core]
 	pager = delta

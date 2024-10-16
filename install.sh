@@ -35,4 +35,7 @@ ln -sfn "$PWD/.wezterm.lua" "$HOME/.wezterm.lua"
 ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 ln -sfn "$PWD/config/nvim/lua" "$HOME/.config/nvim/lua"
 
+# install devbox
+curl -fsSL https://get.jetify.com/devbox | bash
+
 echo "finished :)"
