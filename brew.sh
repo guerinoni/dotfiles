@@ -17,7 +17,6 @@ brew install --cask notion-calendar
 brew install --cask telegram
 brew install --cask discord
 brew install --cask slack
-brew install --cask tableplus
 brew install --cask proxyman
 
 
