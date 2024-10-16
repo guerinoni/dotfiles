@@ -28,8 +28,9 @@ ln -sfn "$PWD/.zshrc" "$HOME/.zshrc"
 # gitconfig
 ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
 
-# wezterm
-ln -sfn "$PWD/.wezterm.lua" "$HOME/.wezterm.lua"
+# ghostty terminal
+mkdir "$HOME/.config/ghostty/"
+ln -sfn "$PWD/ghostty" "$HOME/.config/ghostty/config"
 
 # nvim
 ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
