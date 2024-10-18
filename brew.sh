@@ -3,7 +3,7 @@
 /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
 
-brew install git gpg2 orbstack git-delta wget gh nvim ripgrep libpq atuin direnv gitui
+brew install git gh gpg2 tree git-delta orbstack wget nvim ripgrep libpq atuin direnv gitui
 
 brew install --cask font-iosevka
 brew install --cask browserosaurus
@@ -18,6 +18,8 @@ brew install --cask telegram
 brew install --cask discord
 brew install --cask slack
 brew install --cask proxyman
-
+brew install --cask netnewswire
+brew install --cask mongodb-compass
+brew install --cask visual-studio-code
 
 brew cleanup
