@@ -29,8 +29,12 @@ ln -sfn "$PWD/.zshrc" "$HOME/.zshrc"
 ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
 
 # ghostty terminal
-mkdir "$HOME/.config/ghostty/"
+mkdir -p "$HOME/.config/ghostty/"
 ln -sfn "$PWD/ghostty" "$HOME/.config/ghostty/config"
+
+# atuin config
+mkdir -p "$HOME/.config/atuin/"
+ln -sfn "$PWD/atuin" "$HOME/.config/atuin/config.toml"
 
 # nvim
 ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
