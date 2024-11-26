@@ -1,5 +1,5 @@
 # Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
+alias update="sudo softwareupdate -i -a; brew update; brew upgrade; brew upgrade --cask; brew cleanup"
 
 # git
 alias gs="git status"
