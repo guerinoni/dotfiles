@@ -8,8 +8,8 @@ osascript -e 'tell application "System Preferences" to quit'
 
 # Dock
 
-# set to left position
-defaults write com.apple.dock "orientation" -string "left"
+# set to dock position
+defaults write com.apple.dock "orientation" -string "bottom"
 
 # set 36 of icon size
 defaults write com.apple.dock "tilesize" -int "36"
