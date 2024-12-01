@@ -36,7 +36,13 @@ parse_git_branch() {
 
 setopt PROMPT_SUBST
 # set prompt with last operation
-PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b $(parse_git_branch) %# '
+PROMPT='%F{yellow}%D{%H:%M:%S}%f %(?.%F{green}✅.%F{red}❌%?)%f %B%F{240}%1~%f%b $(parse_git_branch) %F{magenta}$(git_status)%f %# '
+
+git_status() {
+  git status --porcelain 2>/dev/null | grep -q . && echo "✚" || echo ""
+  [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $1}') -gt 0 ]] && echo "⇡"
+  [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $2}') -gt 0 ]] && echo "⇣"
+}
 
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
