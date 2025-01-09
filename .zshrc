@@ -60,8 +60,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export GPG_TTY=$(tty)
-eval $(ssh-agent)
-ssh-add --apple-use-keychain
+# to avoid this just hit one time ssh-add --apple-use-keychain ~/.ssh/your_private_key
+# eval $(ssh-agent)
+# ssh-add --apple-use-keychain
 
 eval "$(atuin init zsh)"
 eval "$(direnv hook zsh)"
