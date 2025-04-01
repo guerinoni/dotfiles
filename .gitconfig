@@ -6,6 +6,7 @@
 [core]
 	pager = delta
 	editor = nvim
+	ignorecase = false
 
 [interactive]
     	diffFilter = delta --color-only
