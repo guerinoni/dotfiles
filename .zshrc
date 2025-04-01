@@ -24,25 +24,62 @@ setopt HIST_SAVE_NO_DUPS
 # do not store duplications
 setopt HIST_IGNORE_DUPS
 
-#ignore duplicates when searching
+# ignore duplicates when searching
 setopt HIST_FIND_NO_DUPS
 
 # removes blank lines from history
 setopt HIST_REDUCE_BLANKS
+
+# Push the current directory visited onto the stack
+setopt AUTO_PUSHD
+
+# Do not store duplicates in the stack
+setopt PUSHD_IGNORE_DUPS
+
+# Do not print directory stack after pushd/popd
+setopt PUSHD_SILENT
 
 parse_git_branch() {
     git symbolic-ref --short HEAD 2> /dev/null
 }
 
 setopt PROMPT_SUBST
-# set prompt with last operation
-PROMPT='%F{yellow}%D{%H:%M:%S}%f %(?.%F{green}✅.%F{red}❌%?)%f %B%F{240}%1~%f%b $(parse_git_branch) %F{magenta}$(git_status)%f %# '
+
+# Show execution time for commands that take longer than 5 seconds
+function preexec() {
+  timer=${timer:-$SECONDS}
+}
+
+function precmd() {
+  if [ $timer ]; then
+    timer_show=$(($SECONDS - $timer))
+    if [ $timer_show -gt 5 ]; then
+      export RPROMPT="%F{yellow}${timer_show}s%f"
+    else
+      export RPROMPT=""
+    fi
+    unset timer
+  fi
+}
+
+parse_git_branch() {
+    local branch=$(git symbolic-ref --short HEAD 2> /dev/null)
+    [[ -n $branch ]] && echo "%F{cyan}($branch)%f "
+}
 
 git_status() {
-  git status --porcelain 2>/dev/null | grep -q . && echo "✚" || echo ""
-  [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $1}') -gt 0 ]] && echo "⇡"
-  [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $2}') -gt 0 ]] && echo "⇣"
+    local symbols=""
+    # Modified/staged files
+    git status --porcelain 2>/dev/null | grep -q . && symbols+="%F{yellow}✚%f"
+    # Check for unpulled changes
+    [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $1}') -gt 0 ]] && symbols+="%F{red}⇣%f"
+    # Check for unpushed changes
+    [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $2}') -gt 0 ]] && symbols+="%F{green}⇡%f"
+    echo $symbols
 }
+
+# Set prompt with execution time for long-running commands
+PROMPT='%F{yellow}%D{%H:%M:%S}%f %(?.%F{green}✓.%F{red}✗%?)%f %B%F{blue}%1~%f%b $(parse_git_branch)$(git_status)%(!.%F{red}#.%F{magenta}$)%f '
 
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
