@@ -39,58 +39,16 @@ setopt PUSHD_IGNORE_DUPS
 # Do not print directory stack after pushd/popd
 setopt PUSHD_SILENT
 
-parse_git_branch() {
-    git symbolic-ref --short HEAD 2> /dev/null
-}
-
+# Enable command substitution in the prompt
 setopt PROMPT_SUBST
 
-# Set prompt with improved styling and information
-prompt_precmd() {
-  # Git information
-  local git_branch=$(git symbolic-ref --short HEAD 2> /dev/null)
-  local git_symbols=""
-  
-  # Check git status
-  if [[ -n $git_branch ]]; then
-    # Modified/staged files
-    git status --porcelain 2>/dev/null | grep -q . && git_symbols+="%F{yellow}✚%f"
-    # Check for unpulled changes
-    [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $1}') -gt 0 ]] && git_symbols+="%F{red}⇣%f"
-    # Check for unpushed changes
-    [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $2}') -gt 0 ]] && git_symbols+="%F{green}⇡%f"
-  fi
-  
-  # Current directory with better truncation
-  local dir_info="%B%F{blue}%1~%f%b"
-  
-  # Git branch info with better spacing
-  local git_info=""
-  if [[ -n $git_branch ]]; then
-    git_info=" %F{cyan}(%f%F{cyan}${git_branch}%f%F{cyan})%f ${git_symbols}"
-  fi
-  
-  # Status indicator (✓ for success, ✗ with exit code for failure)
-  local status_indicator="%(?.%F{green}✓.%F{red}✗%?)%f"
-  
-  # Time with milliseconds
-  local time_info="%F{yellow}%D{%H:%M:%S}%f"
-  
-  # User indicator (# for root, $ for normal user)
-  local user_indicator="%(!.%F{red}#.%F{magenta}$)%f"
-  
-  # Set the prompt
-  PROMPT="${time_info} ${status_indicator} ${dir_info}${git_info} ${user_indicator} "
-}
-
-# Check for execution time of commands
-prompt_preexec() {
+# Show execution time for commands that take longer than 5 seconds
+function preexec() {
   timer=${timer:-$SECONDS}
 }
 
-# Function that runs before each prompt
-prompt_precmd_exec() {
-  # Show execution time for long-running commands
+function precmd() {
+  # Handle timer for long-running commands
   if [ $timer ]; then
     timer_show=$(($SECONDS - $timer))
     if [ $timer_show -gt 5 ]; then
@@ -100,13 +58,28 @@ prompt_precmd_exec() {
     fi
     unset timer
   fi
-  
-  prompt_precmd
 }
 
-# Hook into ZSH
-add-zsh-hook precmd prompt_precmd_exec
-add-zsh-hook preexec prompt_preexec
+# Set prompt with improved styling and information
+function prompt_git_info() {
+  # Git information
+  local git_branch=$(git symbolic-ref --short HEAD 2> /dev/null)
+  local git_symbols=""
+
+  if [[ -n $git_branch ]]; then
+    # Modified/staged files
+    git status --porcelain 2>/dev/null | grep -q . && git_symbols+="%F{yellow}✚%f"
+    # Check for unpulled changes
+    [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $1}') -gt 0 ]] && git_symbols+="%F{red}⇣%f"
+    # Check for unpushed changes
+    [[ $(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null | awk '{print $2}') -gt 0 ]] && git_symbols+="%F{green}⇡%f"
+
+    echo " %F{cyan}(${git_branch})%f ${git_symbols}"
+  fi
+}
+
+# Set the prompt with all components
+PROMPT='%F{yellow}%D{%H:%M:%S}%f %(?.%F{green}✓.%F{red}✗%?)%f %B%F{blue}%1~%f%b$(prompt_git_info) %(!.%F{red}#.%F{magenta}$)%f '
 
 parse_git_branch() {
     local branch=$(git symbolic-ref --short HEAD 2> /dev/null)
