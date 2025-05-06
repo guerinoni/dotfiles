@@ -6,7 +6,6 @@ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
 brew install git gh gpg2 tree git-delta orbstack wget nvim ripgrep libpq atuin direnv gitui
 
 brew install --cask font-iosevka
-brew install --cask browserosaurus
 brew install --cask rectangle
 brew install --cask bitwarden
 brew install --cask maccy
