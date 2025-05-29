@@ -1,50 +1,59 @@
-#! /bin/zsh
+#!/bin/zsh
 
-# -e exit on error
-# -u error on undefined variables
-# -o option
-# pipefail exits on command pipe failures
 set -euo pipefail
 
-echo "installing nvim things..."
+# Get the directory this script resides in
+SCRIPT_DIR="$(cd -- "$(dirname "$0")" && pwd)"
 
-# nvim
-mkdir -p "$HOME/.config/nvim"
-ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
+log() {
+  echo "\033[1;32m==>\033[0m $1"
+}
 
-echo "running macos defaults..."
-# macos
-./macos.sh
+symlink() {
+  local src="$1"
+  local dest="$2"
+  mkdir -p "$(dirname "$dest")"
+  ln -sfn "$src" "$dest"
+  log "Linked $src → $dest"
+}
 
-echo "installing with brew"
-./brew.sh
+log "Installing nvim config..."
+symlink "$SCRIPT_DIR/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
+symlink "$SCRIPT_DIR/config/nvim/lua" "$HOME/.config/nvim/lua"
 
-# alias
-ln -sfn "$PWD/.alias" "$HOME/.alias"
+log "Linking shell configs..."
+symlink "$SCRIPT_DIR/.alias" "$HOME/.alias"
+symlink "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
+symlink "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
 
-# zsh
-ln -sfn "$PWD/.zshrc" "$HOME/.zshrc"
+log "Setting up terminal config..."
+symlink "$SCRIPT_DIR/ghostty" "$HOME/.config/ghostty/config"
 
-# gitconfig
-ln -sfn "$PWD/.gitconfig" "$HOME/.gitconfig"
+log "Setting up Atuin config..."
+symlink "$SCRIPT_DIR/atuin" "$HOME/.config/atuin/config.toml"
 
-# ghostty terminal
-mkdir -p "$HOME/.config/ghostty/"
-ln -sfn "$PWD/ghostty" "$HOME/.config/ghostty/config"
+log "Setting up Finicky config..."
+symlink "$SCRIPT_DIR/finicky.js" "$HOME/.config/finicky/finicky.js"
 
-# atuin config
-mkdir -p "$HOME/.config/atuin/"
-ln -sfn "$PWD/atuin" "$HOME/.config/atuin/config.toml"
+log "Running macOS defaults script..."
+if [[ -x "$SCRIPT_DIR/macos.sh" ]]; then
+  "$SCRIPT_DIR/macos.sh"
+else
+  log "Skipped: macos.sh not found or not executable"
+fi
 
-# nvim
-ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
-ln -sfn "$PWD/config/nvim/lua" "$HOME/.config/nvim/lua"
+log "Running brew setup..."
+if [[ -x "$SCRIPT_DIR/brew.sh" ]]; then
+  "$SCRIPT_DIR/brew.sh"
+else
+  log "Skipped: brew.sh not found or not executable"
+fi
 
-# finicky
-mkdir -p "$HOME/.config/finicky"
-ln -sfn "$PWD/finicky" "$HOME/.config/finicky/finicky.js"
+log "Installing Devbox..."
+if command -v curl &>/dev/null; then
+  curl -fsSL https://get.jetify.com/devbox | bash
+else
+  log "Error: curl is not installed, cannot install Devbox"
+fi
 
-# install devbox
-curl -fsSL https://get.jetify.com/devbox | bash
-
-echo "finished :)"
+log "Setup complete 🎉"
