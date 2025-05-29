@@ -8,6 +8,12 @@ osascript -e 'tell application "System Preferences" to quit'
 
 # Dock
 
+# speed up Mission Control animations
+defaults write com.apple.dock expose-animation-duration -float 0.12
+
+# remove launch animation
+defaults write com.apple.dock launchanim -bool false
+
 # set to dock position
 defaults write com.apple.dock "orientation" -string "bottom"
 
@@ -26,6 +32,9 @@ defaults write com.apple.dock "static-only" -bool "true"
 
 
 # Finder
+
+# list view in all Finder windows
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # show extension of files
 defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "true"
@@ -57,6 +66,10 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 
 # Keyboard
+
+# fast key repeat
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # disable held down menu when keep press a letter
 defaults write NSGlobalDomain "ApplePressAndHoldEnabled" -bool "false"
