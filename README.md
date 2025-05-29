@@ -1,7 +1,8 @@
 # dotfiles
 
 Installations
-```sh
+
+```zsh
 # clone to somewhere
 ./install.sh
 ```
