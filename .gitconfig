@@ -9,23 +9,21 @@
 	ignorecase = false
 
 [interactive]
-    	diffFilter = delta --color-only
+    diffFilter = delta --color-only
 
 [delta]
-    	navigate = true    # use n and N to move between diff sections
-    	light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	line-numbers = true
 
 [merge]
-    	conflictstyle = diff3
+    conflictstyle = diff3
 
 [diff]
-    	colorMoved = default
-
-[delta]
-    	line-numbers = true
+    colorMoved = default
 
 [init]
-      defaultBranch = main
+	defaultBranch = main
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -40,3 +38,5 @@
 	insteadOf = https://github.com/
 [push]
 	autoSetupRemote = true
+[pull]
+    rebase = true # use rebase instead of merge when pulling changes
