@@ -40,6 +40,10 @@ ln -sfn "$PWD/atuin" "$HOME/.config/atuin/config.toml"
 ln -sfn "$PWD/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 ln -sfn "$PWD/config/nvim/lua" "$HOME/.config/nvim/lua"
 
+# finicky
+mkdir -p "$HOME/.config/finicky"
+ln -sfn "$PWD/finicky" "$HOME/.config/finicky/finicky.js"
+
 # install devbox
 curl -fsSL https://get.jetify.com/devbox | bash
 
