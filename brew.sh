@@ -32,6 +32,7 @@ install_formulae() {
     atuin
     direnv
     gitui
+    finicky
   )
 
   log "Installing CLI tools..."
@@ -46,7 +47,6 @@ install_formulae() {
 
 install_casks() {
   CASKS=(
-    finicky
     font-iosevka
     font-jetbrains-mono
     rectangle
