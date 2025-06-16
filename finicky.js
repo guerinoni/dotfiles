@@ -6,7 +6,7 @@ export default {
       browser: "Brave Browser"
     },
     {
-      match: ["app.graphite.dev/*","accounts.google.com/*", "meet.google.com/*"],
+      match: ["www.linkedin.com/*","app.graphite.dev/*","accounts.google.com/*", "meet.google.com/*"],
       browser: "Zen"
     },
     {  
