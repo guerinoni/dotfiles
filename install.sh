@@ -32,9 +32,6 @@ symlink "$SCRIPT_DIR/ghostty" "$HOME/.config/ghostty/config"
 log "Setting up Atuin config..."
 symlink "$SCRIPT_DIR/atuin" "$HOME/.config/atuin/config.toml"
 
-log "Setting up Finicky config..."
-symlink "$SCRIPT_DIR/finicky.js" "$HOME/.config/finicky/finicky.js"
-
 log "Running macOS defaults script..."
 if [[ -x "$SCRIPT_DIR/macos.sh" ]]; then
   "$SCRIPT_DIR/macos.sh"
