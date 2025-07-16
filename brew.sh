@@ -28,11 +28,12 @@ install_formulae() {
     wget
     nvim
     ripgrep
+    fzf
     libpq
     atuin
     direnv
     gitui
-    finicky
+    1password-cli
   )
 
   log "Installing CLI tools..."
@@ -50,19 +51,16 @@ install_casks() {
     font-iosevka
     font-jetbrains-mono
     rectangle
-    bitwarden
     maccy
-    brave-browser
-    zen-browser
     zed
     notion-calendar
     telegram
     discord
     slack
-    proxyman
     netnewswire
-    mongodb-compass
     visual-studio-code
+    ghostty
+    1password
   )
 
   log "Installing GUI applications..."
