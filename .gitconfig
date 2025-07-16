@@ -1,7 +1,7 @@
 [user]
 	name = Federico Guerinoni
 	email = guerinoni.federico@gmail.com
-	signingkey = 402CB24350E0342C7EEE32BE9B758A215BD8176A
+	signingkey = C64FEC6274394E79829F857C6C17FCC1A3C0A699
 
 [core]
 	pager = delta
@@ -40,3 +40,5 @@
 	autoSetupRemote = true
 [pull]
     rebase = true # use rebase instead of merge when pulling changes
+[gpg]
+	program = /opt/homebrew/bin/gpg
