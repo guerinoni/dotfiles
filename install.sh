@@ -18,6 +18,7 @@ symlink() {
 }
 
 log "Installing nvim config..."
+symlink "$SCRIPT_DIR/config/nvim/lazy-lock.json" "$HOME/.config/nvim/lazy-lock.json"
 symlink "$SCRIPT_DIR/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 symlink "$SCRIPT_DIR/config/nvim/lua" "$HOME/.config/nvim/lua"
 
