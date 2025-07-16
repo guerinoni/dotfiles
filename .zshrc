@@ -1,5 +1,7 @@
 source ~/.alias
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 export HISTSIZE=1000000   # the number of items for the internal history list
 export SAVEHIST=1000000   # maximum number of items for the history file
 
@@ -107,9 +109,9 @@ bindkey "^[[1;3D" backward-word
 export PATH=$(echo $PATH | sed 's/\ /\\ /g')
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
-export PATH="/Users/guerra/.local/bin:$PATH"
+export PATH="/Users/fg/.local/bin:$PATH"
 
-export PATH="/Users/guerra/go/bin:$PATH"
+export PATH="/Users/fg/go/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -122,5 +124,3 @@ export GPG_TTY=$(tty)
 
 eval "$(atuin init zsh)"
 eval "$(direnv hook zsh)"
-
-source /Users/guerra/.config/op/plugins.sh
