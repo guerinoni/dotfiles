@@ -14,6 +14,7 @@ return {
 
         keymap = {
             preset = 'default',
+            ['<enter>'] = { 'accept', 'fallback' }
         },
 
         completion = {
