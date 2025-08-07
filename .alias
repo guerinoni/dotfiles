@@ -1,50 +1,224 @@
-# Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+# ============================================================================
+# SYSTEM UPDATE FUNCTION
+# ============================================================================
 update() {
+    echo "🔄 Starting system updates..."
+
+    # macOS Software Updates
+    echo "📱 Checking for macOS updates..."
     sudo softwareupdate -i -a
+
+    # Homebrew updates
+    echo "🍺 Updating Homebrew..."
     brew update
     brew upgrade
     brew upgrade --cask
-    brew install $(brew list --cask | tr ' ' '\n')
+
+    # Clean up Homebrew
+    echo "🧹 Cleaning up Homebrew..."
     brew cleanup
+    brew autoremove 2>/dev/null || true
+
+    echo "✅ All updates complete!"
 }
 
-# git
+# ============================================================================
+# GIT ALIASES
+# ============================================================================
 alias gs="git status"
 alias gd="git diff"
 alias gw="git switch"
-alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gco="git checkout"
-alias gfa="git fetch --all --prune"
-alias glo="git log --oneline --decorate"
 alias gp="git push"
 alias gpf="git push --force-with-lease"
-alias gca="git commit --amend --no-edit"
-alias gap="git add -p"
 alias gc="git commit"
 alias gcs="git commit -s"
 alias gcsn="git commit -s --no-verify"
+alias gca="git commit --amend --no-edit"
+alias gap="git add -p"
+alias gfa="git fetch --all --prune"
+alias glo="git log --oneline --decorate"
 alias grbc="git rebase --continue"
-alias gdbr="git fetch --prune && git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs -r git branch -D"
 alias gundo="git reset --soft HEAD~1"
 
-alias n="nvim ."
+# Enhanced git branch view with better formatting
+alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 
+# Delete merged/gone branches
+alias gdbr="git fetch --prune && git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs -r git branch -D"
+
+# ============================================================================
+# EDITOR ALIASES
+# ============================================================================
+alias n="nvim ."
+alias nv="nvim"
+alias vim="nvim"  # Use neovim instead of vim
+
+
+# ============================================================================
+# NETWORK MONITORING FUNCTIONS
+# ============================================================================
 listening() {
     if [ $# -eq 0 ]; then
-        sudo lsof -iTCP -sTCP:LISTEN -n -P
+        echo "🔍 Showing all listening TCP ports:"
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | head -20
     elif [ $# -eq 1 ]; then
-        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+        echo "🔍 Searching for TCP ports matching '$1':"
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color "$1"
     else
         echo "Usage: listening [pattern]"
+        echo "  listening        - show all listening TCP ports"
+        echo "  listening 3000   - show processes listening on port 3000"
     fi
 }
 
 listening_udp() {
-	if [ $# -eq 0 ]; then
-		sudo lsof -iUDP -s -n -P
-	elif [ $# -eq 1]; then
-		sudo lsof -iUDP -s -n -P | grep -i --color $1
-    	else
-        	echo "Usage: listening [pattern]"
-    	fi
+    if [ $# -eq 0 ]; then
+        echo "🔍 Showing all UDP connections:"
+        sudo lsof -iUDP -n -P | head -20
+    elif [ $# -eq 1 ]; then
+        echo "🔍 Searching for UDP connections matching '$1':"
+        sudo lsof -iUDP -n -P | grep -i --color "$1"
+    else
+        echo "Usage: listening_udp [pattern]"
+        echo "  listening_udp        - show all UDP connections"
+        echo "  listening_udp 53     - show UDP processes on port 53"
+    fi
+}
+
+# Show what's using a specific port
+port() {
+    if [ $# -eq 1 ]; then
+        echo "🔍 Checking what's using port $1:"
+        sudo lsof -i ":$1"
+    else
+        echo "Usage: port <port_number>"
+    fi
+}
+
+# ============================================================================
+# UTILITY FUNCTIONS
+# ============================================================================
+# Quick directory creation and navigation
+mkcd() {
+    if [ $# -eq 1 ]; then
+        mkdir -p "$1" && cd "$1"
+        echo "📁 Created and entered directory: $1"
+    else
+        echo "Usage: mkcd <directory_name>"
+    fi
+}
+
+# Find and kill processes (with confirmation)
+pk() {
+    if [ $# -eq 1 ]; then
+        local pids=$(ps aux | grep "$1" | grep -v grep | awk '{print $2}')
+        if [ -n "$pids" ]; then
+            echo "🔍 Found processes matching '$1':"
+            ps aux | grep "$1" | grep -v grep
+            echo -n "❓ Kill these processes? (y/N): "
+            read -r confirm
+            if [[ $confirm =~ ^[Yy]$ ]]; then
+                echo "$pids" | xargs kill -9
+                echo "💀 Processes killed"
+            else
+                echo "❌ Cancelled"
+            fi
+        else
+            echo "❌ No processes found matching '$1'"
+        fi
+    else
+        echo "Usage: pk <process_name>"
+    fi
+}
+
+# Extract various archive formats
+extract() {
+    if [ $# -eq 1 ]; then
+        if [ -f "$1" ]; then
+            echo "📦 Extracting $1..."
+            case $1 in
+                *.tar.bz2)   tar xjf "$1"     ;;
+                *.tar.gz)    tar xzf "$1"     ;;
+                *.bz2)       bunzip2 "$1"     ;;
+                *.rar)       unrar e "$1"     ;;
+                *.gz)        gunzip "$1"      ;;
+                *.tar)       tar xf "$1"      ;;
+                *.tbz2)      tar xjf "$1"     ;;
+                *.tgz)       tar xzf "$1"     ;;
+                *.zip)       unzip "$1"       ;;
+                *.Z)         uncompress "$1"  ;;
+                *.7z)        7z x "$1"        ;;
+                *.xz)        unxz "$1"        ;;
+                *.lzma)      unlzma "$1"      ;;
+                *)           echo "❌ '$1' cannot be extracted (unsupported format)" ;;
+            esac
+            echo "✅ Extraction complete"
+        else
+            echo "❌ '$1' is not a valid file"
+        fi
+    else
+        echo "Usage: extract <archive_file>"
+    fi
+}
+
+
+# ============================================================================
+# DIRECTORY NAVIGATION
+# ============================================================================
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ~="cd ~"
+alias -- -="cd -"  # Go back to previous directory
+
+# ============================================================================
+# FILE OPERATIONS
+# ============================================================================
+alias ll="ls -alF"
+alias la="ls -A"
+alias l="ls -CF"
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+
+# Safe file operations
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
+
+# ============================================================================
+# SYSTEM INFO
+# ============================================================================
+# Quick system info
+sysinfo() {
+    echo "💻 System Information:"
+    echo "OS: $(sw_vers -productName) $(sw_vers -productVersion)"
+    echo "Uptime: $(uptime | sed 's/.*up \([^,]*\).*/\1/')"
+    
+    # Get memory info in a more readable format
+    local total_mem=$(sysctl -n hw.memsize | awk '{print $1/1024/1024/1024 " GB"}')
+    local used_mem=$(vm_stat | awk '
+        /Pages active/ { active = $3 }
+        /Pages inactive/ { inactive = $3 }
+        /Pages speculative/ { speculative = $3 }
+        /Pages wired down/ { wired = $4 }
+        /Pages occupied by compressor/ { compressed = $5 }
+        END {
+            gsub(/\.$/, "", active)
+            gsub(/\.$/, "", inactive) 
+            gsub(/\.$/, "", speculative)
+            gsub(/\.$/, "", wired)
+            gsub(/\.$/, "", compressed)
+            used_pages = active + inactive + speculative + wired + compressed
+            used_gb = used_pages * 4096 / 1024 / 1024 / 1024
+            printf "%.1f GB", used_gb
+        }')
+    echo "Memory: ${used_mem} used of ${total_mem}"
+    echo "Disk: $(df -h / | tail -1 | awk '{print $4" free of "$2}')"
+}
+
+# Show largest files/directories
+big() {
+    du -ah "${1:-.}" | sort -rh | head -20
 }
