@@ -1,12 +1,30 @@
 return {
     "ibhagwan/fzf-lua",
     dependencies = { "echasnovski/mini.icons" },
-    opts = {},
+    opts = {
+        files = {
+            -- Include hidden files in search
+            fd_opts = "--color=never --type f --hidden --follow --exclude .git --exclude node_modules",
+            rg_opts = "--color=never --files --hidden --follow -g '!.git' -g '!node_modules'",
+        },
+        grep = {
+            -- Add --fixed-strings option to treat input as literal strings
+            rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --fixed-strings -g '!.git' -g '!node_modules'",
+        },
+        live_grep = {
+            -- Add --fixed-strings option for live grep as well
+            rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --fixed-strings -g '!.git' -g '!node_modules'",
+        },
+    },
     keys = {
         {
             "<leader>ff",
-            function() require('fzf-lua').files() end,
-            desc = "Find Files in project directory"
+            function() 
+                require('fzf-lua').files({
+                    cmd = "rg --files --hidden --follow -g '!.git' -g '!node_modules'"
+                })
+            end,
+            desc = "Find Files in project directory (including hidden)"
         },
         {
             "<leader>fg",
