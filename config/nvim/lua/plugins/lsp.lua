@@ -47,14 +47,8 @@ return {
                 -- Go-specific keymaps when gopls is attached
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
                 if client and client.name == 'gopls' then
-                    map("<leader>gt", "<cmd>GoTestFunc<CR>", "Run [Go] Test for [T]his Function")
-                    -- map("<leader>gT", "<cmd>GoTestFile<CR>", "Run [Go] [T]ests in File")
-                    -- map("<leader>ga", "<cmd>GoTestPkg<CR>", "Run [Go] Tests in P[a]ckage")
-                    -- map("<leader>gc", "<cmd>GoCoverage<CR>", "Show [Go] Test [C]overage")
-                    -- map("<leader>gf", "<cmd>GoFmt<CR>", "Format [Go] [F]ile")
-                    -- map("<leader>gi", "<cmd>GoImport<CR>", "Organize [Go] [I]mports")
-                    -- map("<leader>gv", "<cmd>GoVet<CR>", "Run [Go] [V]et")
-                    -- map("<leader>gl", "<cmd>GoLint<CR>", "Run [Go] [L]int")
+                    map("<leader>gt", "<cmd>GoTestFunc -v<CR>", "Run [Go] Test for [T]his Function")
+                    map("<leader>gtt", "<cmd>GoAltV<CR>", "Run [Go] To Test File")
                 end
 
                 -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
