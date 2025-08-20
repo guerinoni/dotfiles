@@ -1,10 +1,45 @@
+# Font Configuration
 font-family = "Iosevka"
 font-family-bold = "Iosevka Bold"
 font-family-italic = "Iosevka Italic"
 font-family-bold-italic = "Iosevka Bold Italic"
 font-size = 14
+
+# Font Features - Keep ligatures disabled for code clarity
 font-feature = -liga
 font-feature = -calt
 font-feature = -dlig
 
+# Theme
 theme = "nord"
+
+# Window Settings
+window-decoration = true
+window-padding-x = 8
+window-padding-y = 8
+
+# Terminal Behavior
+cursor-style = block
+cursor-style-blink = false
+mouse-hide-while-typing = true
+confirm-close-surface = false
+quit-after-last-window-closed = true
+
+# Scrollback
+scrollback-limit = 10000
+
+# Shell Integration
+shell-integration-features = cursor,sudo,title
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+
+# Performance
+macos-non-native-fullscreen = false
+macos-option-as-alt = true
+macos-titlebar-style = transparent
+
+# Advanced
+auto-update = check
