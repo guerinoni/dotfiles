@@ -38,15 +38,15 @@
 
 ## which search mode to use
 ## possible values: prefix, fulltext, fuzzy, skim
-# search_mode = "fuzzy"
+search_mode = "fuzzy"
 
 ## which filter mode to use
 ## possible values: global, host, session, directory
-# filter_mode = "directory"
+filter_mode = "directory"
 
 ## With workspace filtering enabled, Atuin will filter for commands executed
 ## in any directory within a git repository tree (default: false)
-# workspaces = false
+workspaces = true
 
 ## which filter mode to use when atuin is invoked from a shell up-key binding
 ## the accepted values are identical to those of "filter_mode"
@@ -60,11 +60,11 @@ filter_mode_shell_up_key_binding = "directory"
 
 ## which style to use
 ## possible values: auto, full, compact
-# style = "auto"
+style = "compact"
 
 ## the maximum number of lines the interface should take up
 ## set it to 0 to always go full screen
-# inline_height = 0
+inline_height = 15
 
 ## Invert the UI - put the search bar at the top , Default to `false`
 # invert = false
@@ -98,24 +98,35 @@ filter_mode_shell_up_key_binding = "directory"
 ## with ^ or end with $, they'll match anywhere in the command.
 ## For details on the supported regular expression syntax, see
 ## https://docs.rs/regex/latest/regex/#syntax
-# history_filter = [
-#   "^secret-cmd",
-#   "^innocuous-cmd .*--secret=.+",
-# ]
+history_filter = [
+  "^secret",
+  "^export.*API_KEY",
+  "^export.*PASSWORD",
+  "^export.*TOKEN",
+  ".*--password",
+  ".*--token",
+  ".*--secret",
+  "^aws.*--secret-access-key",
+  "^kubectl.*--token",
+  "^docker login",
+  "^ssh.*@.*password",
+]
 
 ## prevent commands run with cwd matching any of these regexes from being written
 ## to history. Note that these regular expressions are unanchored, i.e. if they don't
 ## start with ^ or end with $, they'll match anywhere in CWD.
 ## For details on the supported regular expression syntax, see
 ## https://docs.rs/regex/latest/regex/#syntax
-# cwd_filter = [
-#   "^/very/secret/area",
-# ]
+cwd_filter = [
+  "^/tmp",
+  ".*/.git/hooks",
+  ".*/node_modules",
+]
 
 ## Configure the maximum height of the preview to show.
 ## Useful when you have long scripts in your history that you want to distinguish
 ## by more than the first few lines.
-# max_preview_height = 4
+max_preview_height = 8
 
 ## Configure whether or not to show the help row, which includes the current Atuin
 ## version (and whether an update is available), a keymap hint, and the total
@@ -158,41 +169,50 @@ enter_accept = true
 
 ## Set this to true and Atuin will minimize motion in the UI - timers will not update live, etc.
 ## Alternatively, set env NO_MOTION=true
-# prefers_reduced_motion = false
+prefers_reduced_motion = false
 
 [stats]
 ## Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
-# common_subcommands = [
-#   "apt",
-#   "cargo",
-#   "composer",
-#   "dnf",
-#   "docker",
-#   "git",
-#   "go",
-#   "ip",
-#   "kubectl",
-#   "nix",
-#   "nmcli",
-#   "npm",
-#   "pecl",
-#   "pnpm",
-#   "podman",
-#   "port",
-#   "systemctl",
-#   "tmux",
-#   "yarn",
-# ]
+common_subcommands = [
+  "git",
+  "docker",
+  "kubectl",
+  "npm",
+  "yarn",
+  "pnpm",
+  "cargo",
+  "go",
+  "make",
+  "brew",
+  "pip",
+  "poetry",
+  "terraform",
+  "aws",
+  "gcloud",
+  "az",
+  "helm",
+  "tmux",
+  "systemctl",
+  "journalctl",
+]
 
 ## Set commands that should be totally stripped and ignored from stats
-# common_prefix = ["sudo"]
+common_prefix = ["sudo", "time", "nohup"]
 
 ## Set commands that will be completely ignored from stats
-# ignored_commands = [
-#   "cd",
-#   "ls",
-#   "vi"
-# ]
+ignored_commands = [
+  "ls",
+  "cd",
+  "pwd",
+  "clear",
+  "exit",
+  "history",
+  "ll",
+  "la",
+  "which",
+  "man",
+  "help",
+]
 
 [keys]
 # Defaults to true. If disabled, using the up/down key won't exit the TUI when scrolled past the first/last entry.
