@@ -34,6 +34,10 @@ install_formulae() {
     direnv
     gitui
     1password-cli
+    htop
+    btop
+    jq
+    yq
   )
 
   log "Installing CLI tools..."
@@ -61,6 +65,7 @@ install_casks() {
     visual-studio-code
     ghostty
     1password
+    folo
   )
 
   log "Installing GUI applications..."
