@@ -154,7 +154,6 @@ setopt NULL_GLOB
 
 # Better error handling
 setopt CORRECT
-setopt CORRECT_ALL
 
 # ============================================================================
 # TOOL INITIALIZATIONS
