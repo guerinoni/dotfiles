@@ -20,6 +20,7 @@ install_brew() {
 install_formulae() {
   FORMULAE=(
     git
+    git-extras
     gh
     gpg2
     tree
