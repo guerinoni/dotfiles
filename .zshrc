@@ -211,6 +211,14 @@ bindkey "^Y" yank                        # Ctrl + Y
 # PATH CONFIGURATION
 # ============================================================================
 
+# Helper function to add a directory to PATH if not already present
+add_to_path() {
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) PATH="$1:$PATH" ;;
+  esac
+}
+
 add_to_path /opt/homebrew/opt/libpq/bin
 add_to_path ~/.local/bin
 add_to_path /usr/local/bin
