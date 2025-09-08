@@ -184,7 +184,7 @@ function git_prompt_info() {
 }
 
 # More informative prompt with better visual hierarchy
-PROMPT='%F{cyan}%n%f@%F{blue}%m%f:%F{yellow}%2~%f$(git_prompt_info) %(?.%F{green}.%F{red})%(!.#.❯)%f '
+PROMPT='%F{cyan}%n%f@%F{blue}MBP%f:%F{yellow}%2~%f$(git_prompt_info) %(?.%F{green}.%F{red})%(!.#.❯)%f '
 
 # ============================================================================
 # KEY BINDINGS
