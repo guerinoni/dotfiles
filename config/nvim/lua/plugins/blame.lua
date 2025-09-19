@@ -1,9 +1,12 @@
 return {
     {
-        "FabijanZulj/blame.nvim",
+        "guerinoni/blame.nvim",
+        branch = "relative-date",
         lazy = false,
         config = function()
-            require('blame').setup {}
+            require('blame').setup {
+                relative_date_if_recent = true
+            }
             vim.keymap.set('n', '<leader>gb', '<cmd>BlameToggle<CR>', { desc = 'Toggle Git Blame' })
         end,
     },
