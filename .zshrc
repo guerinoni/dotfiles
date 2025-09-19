@@ -222,6 +222,7 @@ add_to_path() {
 add_to_path /opt/homebrew/opt/libpq/bin
 add_to_path ~/.local/bin
 add_to_path /usr/local/bin
+add_to_path ~/.cargo/bin
 
 export PATH
 
