@@ -1,7 +1,6 @@
 return {
     {
-        "guerinoni/blame.nvim",
-        branch = "relative-date",
+        "FabijanZulj/blame.nvim",
         lazy = false,
         config = function()
             require('blame').setup {
