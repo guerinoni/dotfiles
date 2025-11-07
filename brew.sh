@@ -58,7 +58,6 @@ install_casks() {
     rectangle
     maccy
     zed
-    notion-calendar
     telegram
     discord
     slack
