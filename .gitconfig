@@ -21,6 +21,8 @@
 
 [diff]
     colorMoved = default
+    algorithm = histogram
+    context = 5
 
 [init]
 	defaultBranch = main
@@ -36,9 +38,27 @@
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
 [push]
 	autoSetupRemote = true
 [pull]
     rebase = true # use rebase instead of merge when pulling changes
 [gpg]
 	program = /opt/homebrew/bin/gpg
+
+[includeIf "gitdir:~/velve/"]
+    path = ~/velve/.gitconfig
+
+[column]
+	ui = auto
+
+[fetch]
+    prune = true
+    prunetags = true
+
+[rerere]
+    enabled = true
+
+[rebase]
+    autoStash = true
+    autoSquash = true
