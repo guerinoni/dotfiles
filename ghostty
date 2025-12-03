@@ -19,8 +19,6 @@ window-decoration = true
 window-padding-x = 8
 # Vertical padding in pixels
 window-padding-y = 8
-# Window transparency (0.0-1.0)
-background-opacity = 0.92
 # Dim inactive splits to highlight focused one
 unfocused-split-opacity = 0.85
 
@@ -54,8 +52,6 @@ copy-on-select = true
 macos-non-native-fullscreen = false
 # Treat Option key as Alt for terminal apps
 macos-option-as-alt = true
-# Hide titlebar but keep traffic light buttons
-macos-titlebar-style = hidden
 # Use official Tahoe-compatible icon
 macos-icon = official
 
@@ -65,11 +61,11 @@ quick-terminal-animation-duration = 0.08
 # Check for updates but don't auto-install
 auto-update = check
 
-# Send escape + return (useful for some apps)
-keybind = shift+enter=text:\x1b\r
 # Toggle dropdown quick terminal
 keybind = cmd+s=toggle_quick_terminal
 # Copy URL under cursor
 keybind = cmd+u=copy_url_to_clipboard
 # Reload config without restarting
 keybind = cmd+shift+r=reload_config
+
+keybind = shift+enter=text:\x0a
