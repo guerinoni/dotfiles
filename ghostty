@@ -1,45 +1,75 @@
-# Font Configuration
 font-family = "Iosevka"
 font-family-bold = "Iosevka Bold"
 font-family-italic = "Iosevka Italic"
 font-family-bold-italic = "Iosevka Bold Italic"
 font-size = 14
 
-# Font Features - Keep ligatures disabled for code clarity
-font-feature = -liga
-font-feature = -calt
-font-feature = -dlig
+# Enable standard ligatures (e.g., fi, fl)
+font-feature = liga
+# Enable contextual alternates
+font-feature = calt
+# Enable discretionary ligatures (e.g., => -> !=)
+font-feature = dlig
 
-# Theme
 theme = "nord"
 
-# Window Settings
+# Show native window decorations
 window-decoration = true
+# Horizontal padding in pixels
 window-padding-x = 8
+# Vertical padding in pixels
 window-padding-y = 8
+# Window transparency (0.0-1.0)
+background-opacity = 0.92
+# Dim inactive splits to highlight focused one
+unfocused-split-opacity = 0.85
 
-# Terminal Behavior
+# Block cursor (alternatives: bar, underline)
 cursor-style = block
+# Solid cursor, no blinking
 cursor-style-blink = false
+# Hide mouse cursor when typing
 mouse-hide-while-typing = true
+# Don't prompt when closing terminal
 confirm-close-surface = false
+# Exit app when last window closes
 quit-after-last-window-closed = true
+# Clear text selection when you start typing
+selection-invert-fg-bg = true
 
-# Scrollback
-scrollback-limit = 10000
+# Lines of history to keep
+scrollback-limit = 100000
 
-# Shell Integration
+# cursor: shell cursor sync, sudo: preserve integration with sudo, title: set window title
 shell-integration-features = cursor,sudo,title
 
-# Clipboard
+# Allow programs to read clipboard
 clipboard-read = allow
+# Allow programs to write to clipboard
 clipboard-write = allow
+# Automatically copy selected text
 copy-on-select = true
 
-# Performance
+# Use native macOS fullscreen (with animation)
 macos-non-native-fullscreen = false
+# Treat Option key as Alt for terminal apps
 macos-option-as-alt = true
-macos-titlebar-style = transparent
+# Hide titlebar but keep traffic light buttons
+macos-titlebar-style = hidden
+# Use official Tahoe-compatible icon
+macos-icon = official
 
-# Advanced
+# Fast dropdown animation (seconds)
+quick-terminal-animation-duration = 0.08
+
+# Check for updates but don't auto-install
 auto-update = check
+
+# Send escape + return (useful for some apps)
+keybind = shift+enter=text:\x1b\r
+# Toggle dropdown quick terminal
+keybind = cmd+s=toggle_quick_terminal
+# Copy URL under cursor
+keybind = cmd+u=copy_url_to_clipboard
+# Reload config without restarting
+keybind = cmd+shift+r=reload_config
