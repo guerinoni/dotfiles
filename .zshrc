@@ -55,14 +55,13 @@ else
 fi
 
 # Completion options
-setopt COMPLETE_ALIASES
+setopt COMPLETE_ALIASES   # complete aliases
 setopt LIST_PACKED
 setopt AUTO_LIST
 setopt AUTO_MENU
 setopt ALWAYS_TO_END
 setopt COMPLETE_IN_WORD   # allow completion in the middle of a word
 setopt HASH_LIST_ALL      # hash everything before completion
-setopt COMPLETEALIASES    # complete alisases
 
 # Completion styling
 zstyle ':completion:*' menu select
@@ -239,9 +238,6 @@ export VISUAL="$EDITOR"
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
-# Better colors for grep
-export GREP_OPTIONS='--color=auto'
-
 # Locale settings
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -280,6 +276,7 @@ nvm() {
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
-export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
+# Ruby paths
+add_to_path "$HOME/.gem/ruby/2.6.0/bin"
+add_to_path /opt/homebrew/opt/ruby/bin
+add_to_path /opt/homebrew/lib/ruby/gems/3.4.0/bin
