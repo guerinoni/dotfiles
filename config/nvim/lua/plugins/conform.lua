@@ -10,7 +10,7 @@ return {
                 cpp = { "clang-format" },
                 lua = { "stylua" },
                 rust = { "rustfmt" },
-                go = { "gofmt" },            -- gopls can format too, but gofmt is safe standalone
+                go = { "goimports" },
                 dockerfile = { "dockfmt" },  -- or use "dockerfile_lint" if installed
                 json = { "jq", "jsonlint" }, -- jq formats, jsonlint can validate
                 terraform = { "terraform_fmt", "tflint" },
