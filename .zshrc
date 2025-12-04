@@ -279,13 +279,7 @@ nvm() {
 # Other tools
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
-nvm() {
-  unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm "$@"
-}
 
-# Other tools
-command -v atuin >/dev/null && eval "$(atuin init zsh)"
-command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
