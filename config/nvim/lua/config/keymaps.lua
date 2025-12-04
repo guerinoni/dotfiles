@@ -17,7 +17,3 @@ vim.keymap.set('n', '<leader>dc', function()
   vim.cmd('cclose')
 end, { desc = "Close quickfix list" })
 
--- Telescope workspace diagnostics (if you have telescope.nvim)
-vim.keymap.set('n', '<leader>dw', function()
-  require('telescope.builtin').diagnostics({ bufnr = nil })
-end, { desc = "Workspace diagnostics (Telescope)" })

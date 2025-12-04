@@ -67,11 +67,25 @@ return {
             desc = "[F]ind current [W]ORD",
         },
         {
+            "<leader>fs",
+            function()
+                require("fzf-lua").lsp_document_symbols()
+            end,
+            desc = "[F]ind [S]ymbols (functions, classes, etc.)",
+        },
+        {
             "<leader>fd",
             function()
                 require("fzf-lua").diagnostics_document()
             end,
-            desc = "[F]ind [D]iagnostics",
+            desc = "[F]ind [D]iagnostics (buffer)",
+        },
+        {
+            "<leader>fD",
+            function()
+                require("fzf-lua").diagnostics_workspace()
+            end,
+            desc = "[F]ind [D]iagnostics (workspace)",
         },
         {
             "<leader>fr",
