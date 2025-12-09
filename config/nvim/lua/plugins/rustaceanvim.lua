@@ -35,7 +35,7 @@ return {
             },
         },
         on_attach = function(_, bufnr)
-            WK.add({
+            require("which-key").add({
             { "<leader>r", desc = "Rust" },
             {
                 "<leader>rr",

@@ -1,4 +1,4 @@
--- Git Copilot configuration
+-- GitHub Copilot configuration
 --
 return {
     "zbirenbaum/copilot.lua",
