@@ -7,13 +7,4 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Easy save
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save File" })
 
--- Quickfix list for all diagnostics (LSP-wide, not just file)
-vim.keymap.set('n', '<leader>do', function()
-  vim.diagnostic.setqflist()
-  vim.cmd('copen')
-end, { desc = "Open quickfix list with all diagnostics" })
-
-vim.keymap.set('n', '<leader>dc', function()
-  vim.cmd('cclose')
-end, { desc = "Close quickfix list" })
 
