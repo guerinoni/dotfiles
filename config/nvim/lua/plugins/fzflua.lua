@@ -15,6 +15,12 @@ return {
             -- Add --fixed-strings option for live grep as well
             rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --fixed-strings -g '!.git' -g '!node_modules'",
         },
+        lsp = {
+            -- Jump directly if only one result (skips the picker)
+            jump1 = true,
+            -- Don't include the declaration in references
+            includeDeclaration = false,
+        },
     },
     keys = {
         {
