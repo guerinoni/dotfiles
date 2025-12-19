@@ -20,19 +20,6 @@ ctrl_n_shortcuts = false                        # Use Ctrl-0..9 instead of Alt-0
 
 secrets_filter = true                           # Auto-filter AWS keys, GitHub PATs, Slack tokens, etc.
 
-history_filter = [
-  "^secret",                                    # Commands starting with "secret"
-  "^export.*(API_KEY|PASSWORD|TOKEN|SECRET)",   # Env vars with sensitive names
-  ".*(--password|--token|--secret)",            # CLI args with secrets
-  "^aws.*--secret-access-key",                  # AWS secret keys
-  "^kubectl.*--token",                          # Kubernetes tokens
-  "^docker login",                              # Docker credentials
-  "^ssh.*password",                             # SSH with password
-  "^gh auth",                                   # GitHub CLI auth
-  "^op ",                                       # 1Password CLI commands
-  ".*Bearer ",                                  # Bearer tokens in curl/http
-]
-
 cwd_filter = [
   "^/tmp",                                      # Temporary directories
   ".*/.git/hooks",                              # Git hooks (often sensitive)
