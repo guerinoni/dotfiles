@@ -29,6 +29,7 @@ install_formulae() {
     direnv                                # Directory-based env vars
     fzf                                   # Fuzzy finder
     ripgrep                               # Fast grep alternative
+    bat                                   # Better cat with syntax highlighting
     tree                                  # Directory tree view
     htop                                  # Interactive process viewer
     btop                                  # Modern resource monitor

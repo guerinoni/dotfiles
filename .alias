@@ -175,6 +175,7 @@ alias -- -="cd -"  # Go back to previous directory
 # ============================================================================
 # FILE OPERATIONS
 # ============================================================================
+alias cat="bat --paging=never"
 alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
@@ -222,3 +223,37 @@ sysinfo() {
 big() {
     du -ah "${1:-.}" | sort -rh | head -20
 }
+
+# Weather lookup
+meteo() {
+    curl -s "wttr.in/${1:-}?lang=${LANG:-en}" | head -17
+}
+
+# ============================================================================
+# NETWORK INFO
+# ============================================================================
+alias ipp="curl -s https://ipinfo.io/ip"
+alias ipl="ipconfig getifaddr en0"
+
+# ============================================================================
+# QUICK INFO
+# ============================================================================
+alias week="date +%V"
+alias paths='echo $PATH | tr ":" "\n"'
+
+# ============================================================================
+# INTERACTIVE PROCESS KILLER (requires fzf)
+# ============================================================================
+fkill() {
+    local pid
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    if [ -n "$pid" ]; then
+        echo "$pid" | xargs kill -9
+    fi
+}
+
+# ============================================================================
+# INTROSPECTION
+# ============================================================================
+alias aliases="alias | sed 's/=.*//'"
+alias functions="declare -f | grep '^[a-z].* ()' | sed 's/ ()//'"
