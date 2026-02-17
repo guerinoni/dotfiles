@@ -20,7 +20,9 @@ window-padding-x = 8
 # Vertical padding in pixels
 window-padding-y = 8
 # Dim inactive splits to highlight focused one
-unfocused-split-opacity = 0.85
+unfocused-split-opacity = 0.4
+# Custom split divider color (Nord gray for better visibility)
+split-divider-color = #4c566a
 
 # Block cursor (alternatives: bar, underline)
 cursor-style = block
@@ -37,6 +39,9 @@ selection-invert-fg-bg = true
 
 # Lines of history to keep
 scrollback-limit = 100000
+
+# Apply background opacity to cells with explicit bg color (helps with tmux/neovim)
+background-opacity-cells = true
 
 # cursor: shell cursor sync, sudo: preserve integration with sudo, title: set window title
 shell-integration-features = cursor,sudo,title

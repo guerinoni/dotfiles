@@ -285,5 +285,34 @@ return {
                 end
             }
         }
+
+        -- Rust: use rust-analyzer from PATH (devbox/rustup) instead of mason
+        -- Using vim.lsp.config for Neovim 0.11+
+        vim.lsp.config.rust_analyzer = {
+            cmd = { 'rust-analyzer' },
+            filetypes = { 'rust' },
+            root_markers = { 'Cargo.toml', 'rust-project.json' },
+            capabilities = capabilities,
+            settings = {
+                ["rust-analyzer"] = {
+                    cargo = {
+                        allFeatures = true,
+                        loadOutDirsFromCheck = true,
+                    },
+                    procMacro = {
+                        enable = true,
+                    },
+                    checkOnSave = {
+                        command = "clippy",
+                        allFeatures = true,
+                    },
+                    completion = {
+                        autoimport = { enable = true },
+                        postfix = { enable = true },
+                    },
+                }
+            }
+        }
+        vim.lsp.enable('rust_analyzer')
     end
 }
