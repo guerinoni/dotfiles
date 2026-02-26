@@ -26,6 +26,8 @@ log "Linking shell configs..."
 symlink "$SCRIPT_DIR/.alias" "$HOME/.alias"
 symlink "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
 symlink "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
+symlink "$SCRIPT_DIR/.hushlogin" "$HOME/.hushlogin"
+symlink "$SCRIPT_DIR/.editorconfig" "$HOME/.editorconfig"
 
 log "Setting up terminal config..."
 symlink "$SCRIPT_DIR/ghostty" "$HOME/.config/ghostty/config"
@@ -40,11 +42,18 @@ else
   log "Skipped: macos.sh not found or not executable"
 fi
 
-log "Running brew setup..."
-if [[ -x "$SCRIPT_DIR/brew.sh" ]]; then
-  "$SCRIPT_DIR/brew.sh"
+log "Installing Homebrew if needed..."
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+log "Running brew bundle..."
+if [[ -f "$SCRIPT_DIR/Brewfile" ]]; then
+  brew bundle --file="$SCRIPT_DIR/Brewfile"
 else
-  log "Skipped: brew.sh not found or not executable"
+  log "Skipped: Brewfile not found"
 fi
 
 log "Installing Devbox..."
