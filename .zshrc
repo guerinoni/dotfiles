@@ -231,7 +231,7 @@ export PATH
 export GPG_TTY=$(tty)
 export PAGER="less"
 export LESS="-R -F -X"  # -F: exit if less than one screen, -X: don't clear screen
-export EDITOR="vim"
+export EDITOR="nvim"
 export VISUAL="$EDITOR"
 
 # Colors for ls and completion
