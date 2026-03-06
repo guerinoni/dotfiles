@@ -103,8 +103,6 @@ function preexec() {
 }
 
 function precmd() {
-  local exit_code=$? 
-
   # Initialize RPROMPT
   export RPROMPT=""
 
@@ -115,11 +113,6 @@ function precmd() {
       export RPROMPT="%F{242}⏱ ${timer_show}s%f"
     fi
     unset timer
-  fi
-
-  # Show exit code if not zero
-  if [ $exit_code -ne 0 ]; then
-    export RPROMPT="${RPROMPT} %F{red}✘ [${exit_code}]%f"
   fi
 }
 
