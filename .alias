@@ -1,25 +1,44 @@
-# ============================================================================
-# SYSTEM UPDATE FUNCTION
-# ============================================================================
 update() {
-    echo "🔄 Starting system updates..."
+    echo "starting system updates..."
+    local errors=()
 
-    # macOS Software Updates
-    echo "📱 Checking for macOS updates..."
-    sudo softwareupdate -i -a
+    # ── macOS Software Updates ──────────────────────────────────────
+    echo "\nchecking for macOS updates..."
+    sudo softwareupdate -i -a || errors+=("macOS updates")
 
-    # Homebrew updates
-    echo "🍺 Updating Homebrew..."
-    brew update
-    brew upgrade
-    brew upgrade --cask
+    # ── Homebrew ────────────────────────────────────────────────────
+    echo "\nupdating Homebrew..."
+    brew update                         || errors+=("brew update")
+    brew upgrade                        || errors+=("brew upgrade")
+    brew list --cask | while read -r cask; do
+    brew upgrade --cask --greedy "$cask" 2>&1 \
+        || echo "  ⚠️  Skipped $cask (check manually)"
+    done  # --greedy catches auto-update casks too
 
-    # Clean up Homebrew
-    echo "🧹 Cleaning up Homebrew..."
-    brew cleanup
-    brew autoremove 2>/dev/null || true
+    echo "\ncleaning Homebrew..."
+    brew cleanup --prune=all -s         # -s removes source files too
+    brew autoremove
+    brew doctor 2>&1 | grep -v "^Your system is ready" || true  # surface any issues
 
-    echo "✅ All updates complete!"
+    # ── Trash ───────────────────────────────────────────────────────
+    echo "\nemptying Trash..."
+    rm -rf ~/.Trash/* 2>/dev/null
+
+    # ── Logs ────────────────────────────────────────────────────────
+    echo "\nclearing old logs..."
+    sudo rm -rf /private/var/log/asl/*.asl 2>/dev/null
+    rm -rf ~/Library/Logs/* 2>/dev/null
+
+    # ── Summary ─────────────────────────────────────────────────────
+    echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    if [ ${#errors[@]} -eq 0 ]; then
+        echo "✅ All updates and cleanup complete!"
+    else
+        echo "⚠️  Completed with errors in: ${errors[*]}"
+    fi
+
+    # Show disk space freed
+    echo "disk space available: $(df -h / | awk 'NR==2 {print $4}')"
 }
 
 # ============================================================================
