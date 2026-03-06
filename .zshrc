@@ -190,7 +190,7 @@ bindkey "^E" end-of-line                 # Ctrl + E
 bindkey "^K" kill-line                   # Ctrl + K
 bindkey "^U" kill-whole-line             # Ctrl + U
 bindkey "^W" backward-kill-word          # Ctrl + W
-bindkey "^R" history-incremental-search-backward  # Ctrl + R for better search
+# Ctrl+R is handled by atuin
 bindkey "^F" forward-char                # Ctrl + F
 bindkey "^B" backward-char               # Ctrl + B
 bindkey "^D" delete-char                 # Ctrl + D
