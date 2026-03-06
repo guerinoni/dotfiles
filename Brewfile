@@ -96,8 +96,6 @@ cask "1password-cli"                         # 1Password CLI
 cask "rectangle"                             # Window management
 cask "maccy"                                 # Clipboard manager
 cask "caffeine"                              # Prevent sleep
-cask "linear-linear"                         # Project management
-cask "notion"                                # Notes & docs
 
 # Communication
 cask "telegram"                              # Messaging
