@@ -109,8 +109,7 @@ cask "brave-browser"                         # Privacy-focused browser
 cask "google-chrome@canary"                  # Chrome canary
 
 # Cloud
-cask "gcloud-cli"                            # Google Cloud CLI
-cask "google-cloud-sdk"                      # Google Cloud SDK
+cask "google-cloud-sdk"                      # Google Cloud SDK (includes gcloud CLI)
 
 # Utilities
 cask "netnewswire"                           # RSS reader
