@@ -24,8 +24,7 @@ export HISTFILE="$HOME/.zsh_history"
 
 # History options
 setopt HIST_IGNORE_SPACE        # don't save commands starting with space
-setopt SHARE_HISTORY            # share history across multiple zsh sessions
-setopt INC_APPEND_HISTORY       # adds commands as they are typed, not at shell exit
+setopt SHARE_HISTORY            # share history across multiple zsh sessions (implies INC_APPEND_HISTORY)
 setopt HIST_EXPIRE_DUPS_FIRST   # expire duplicates first
 setopt HIST_IGNORE_ALL_DUPS     # ignore all duplicates
 setopt HIST_SAVE_NO_DUPS        # don't save duplicates
