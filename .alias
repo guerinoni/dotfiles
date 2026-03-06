@@ -12,7 +12,7 @@ update() {
     brew upgrade                        || errors+=("brew upgrade")
     brew list --cask | while read -r cask; do
     brew upgrade --cask --greedy "$cask" 2>&1 \
-        || echo "  ⚠️  Skipped $cask (check manually)"
+        || echo "  ⚠️  skipped $cask (check manually)"
     done  # --greedy catches auto-update casks too
 
     echo "\ncleaning Homebrew..."
@@ -32,9 +32,9 @@ update() {
     # ── Summary ─────────────────────────────────────────────────────
     echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     if [ ${#errors[@]} -eq 0 ]; then
-        echo "✅ All updates and cleanup complete!"
+        echo "✅ all updates and cleanup complete!"
     else
-        echo "⚠️  Completed with errors in: ${errors[*]}"
+        echo "⚠️  completed with errors in: ${errors[*]}"
     fi
 
     # Show disk space freed
@@ -79,13 +79,13 @@ alias vim="nvim"  # Use neovim instead of vim
 # ============================================================================
 listening() {
     if [ $# -eq 0 ]; then
-        echo "🔍 Showing all listening TCP ports:"
+        echo "🔍 showing all listening TCP ports:"
         sudo lsof -iTCP -sTCP:LISTEN -n -P | head -20
     elif [ $# -eq 1 ]; then
-        echo "🔍 Searching for TCP ports matching '$1':"
+        echo "🔍 searching for TCP ports matching '$1':"
         sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color "$1"
     else
-        echo "Usage: listening [pattern]"
+        echo "usage: listening [pattern]"
         echo "  listening        - show all listening TCP ports"
         echo "  listening 3000   - show processes listening on port 3000"
     fi
@@ -93,13 +93,13 @@ listening() {
 
 listening_udp() {
     if [ $# -eq 0 ]; then
-        echo "🔍 Showing all UDP connections:"
+        echo "🔍 showing all UDP connections:"
         sudo lsof -iUDP -n -P | head -20
     elif [ $# -eq 1 ]; then
-        echo "🔍 Searching for UDP connections matching '$1':"
+        echo "🔍 searching for UDP connections matching '$1':"
         sudo lsof -iUDP -n -P | grep -i --color "$1"
     else
-        echo "Usage: listening_udp [pattern]"
+        echo "usage: listening_udp [pattern]"
         echo "  listening_udp        - show all UDP connections"
         echo "  listening_udp 53     - show UDP processes on port 53"
     fi
@@ -108,10 +108,10 @@ listening_udp() {
 # Show what's using a specific port
 port() {
     if [ $# -eq 1 ]; then
-        echo "🔍 Checking what's using port $1:"
+        echo "🔍 checking what's using port $1:"
         sudo lsof -i ":$1"
     else
-        echo "Usage: port <port_number>"
+        echo "usage: port <port_number>"
     fi
 }
 
@@ -122,9 +122,9 @@ port() {
 mkcd() {
     if [ $# -eq 1 ]; then
         mkdir -p "$1" && cd "$1"
-        echo "📁 Created and entered directory: $1"
+        echo "📁 created and entered directory: $1"
     else
-        echo "Usage: mkcd <directory_name>"
+        echo "usage: mkcd <directory_name>"
     fi
 }
 
@@ -133,21 +133,21 @@ pk() {
     if [ $# -eq 1 ]; then
         local pids=$(ps aux | grep "$1" | grep -v grep | awk '{print $2}')
         if [ -n "$pids" ]; then
-            echo "🔍 Found processes matching '$1':"
+            echo "🔍 found processes matching '$1':"
             ps aux | grep "$1" | grep -v grep
-            echo -n "❓ Kill these processes? (y/N): "
+            echo -n "❓ kill these processes? (y/N): "
             read -r confirm
             if [[ $confirm =~ ^[Yy]$ ]]; then
                 echo "$pids" | xargs kill -9
-                echo "💀 Processes killed"
+                echo "💀 processes killed"
             else
-                echo "❌ Cancelled"
+                echo "❌ cancelled"
             fi
         else
-            echo "❌ No processes found matching '$1'"
+            echo "❌ no processes found matching '$1'"
         fi
     else
-        echo "Usage: pk <process_name>"
+        echo "usage: pk <process_name>"
     fi
 }
 
@@ -155,7 +155,7 @@ pk() {
 extract() {
     if [ $# -eq 1 ]; then
         if [ -f "$1" ]; then
-            echo "📦 Extracting $1..."
+            echo "📦 extracting $1..."
             case $1 in
                 *.tar.bz2)   tar xjf "$1"     ;;
                 *.tar.gz)    tar xzf "$1"     ;;
@@ -172,12 +172,12 @@ extract() {
                 *.lzma)      unlzma "$1"      ;;
                 *)           echo "❌ '$1' cannot be extracted (unsupported format)" ;;
             esac
-            echo "✅ Extraction complete"
+            echo "✅ extraction complete"
         else
             echo "❌ '$1' is not a valid file"
         fi
     else
-        echo "Usage: extract <archive_file>"
+        echo "usage: extract <archive_file>"
     fi
 }
 
@@ -212,9 +212,9 @@ alias mv="mv -i"
 # ============================================================================
 # Quick system info
 sysinfo() {
-    echo "💻 System Information:"
-    echo "OS: $(sw_vers -productName) $(sw_vers -productVersion)"
-    echo "Uptime: $(uptime | sed 's/.*up \([^,]*\).*/\1/')"
+    echo "💻 system information:"
+    echo "os: $(sw_vers -productName) $(sw_vers -productVersion)"
+    echo "uptime: $(uptime | sed 's/.*up \([^,]*\).*/\1/')"
     
     # Get memory info in a more readable format
     local total_mem=$(sysctl -n hw.memsize | awk '{print $1/1024/1024/1024 " GB"}')
@@ -234,8 +234,8 @@ sysinfo() {
             used_gb = used_pages * 4096 / 1024 / 1024 / 1024
             printf "%.1f GB", used_gb
         }')
-    echo "Memory: ${used_mem} used of ${total_mem}"
-    echo "Disk: $(df -h / | tail -1 | awk '{print $4" free of "$2}')"
+    echo "memory: ${used_mem} used of ${total_mem}"
+    echo "disk: $(df -h / | tail -1 | awk '{print $4" free of "$2}')"
 }
 
 # Show largest files/directories
