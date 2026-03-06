@@ -64,7 +64,7 @@ alias gundo="git reset --soft HEAD~1"
 alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 
 # Delete merged/gone branches
-alias gdbr="git fetch --prune && git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs -r git branch -D"
+alias gdbr="git fetch --prune && git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs git branch -D"
 
 # ============================================================================
 # EDITOR ALIASES
