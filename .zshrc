@@ -276,6 +276,8 @@ command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
 # Ruby paths
-add_to_path "$HOME/.gem/ruby/2.6.0/bin"
 add_to_path /opt/homebrew/opt/ruby/bin
-add_to_path /opt/homebrew/lib/ruby/gems/3.4.0/bin
+if command -v ruby >/dev/null 2>&1; then
+  add_to_path "$(ruby -e 'puts Gem.user_dir')/bin"
+  add_to_path "$(ruby -e 'puts Gem.default_dir')/bin"
+fi
