@@ -123,7 +123,7 @@ function git_prompt_info() {
     return
   fi
 
-  local branch=$(git symbolic-ref --short HEAD 2>/dev/null || git describe --tags --exact-match 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+  local branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
   [[ -z "$branch" ]] && return
 
   local git_status=""
