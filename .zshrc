@@ -89,12 +89,19 @@ setopt PROMPT_SUBST         # enable command substitution in the prompt
 # Performance optimization: cache git status and remote info
 typeset -g __git_prompt_cache=""
 typeset -g __git_prompt_cache_dir=""
+typeset -gA __git_remote_cache
 
 function preexec() {
   timer=${timer:-$SECONDS}
   # Clear git cache on command execution
   __git_prompt_cache=""
   __git_prompt_cache_dir=""
+  # Invalidate remote cache only for commands that can move refs
+  case "$1" in
+    git*push*|git*pull*|git*fetch*|git*commit*|git*reset*|git*rebase*|git*merge*|git*checkout*|git*switch*)
+      __git_remote_cache=()
+      ;;
+  esac
 }
 
 function precmd() {
@@ -148,14 +155,18 @@ function git_prompt_info() {
     fi
   fi
 
-  # Always check remote status (no caching)
   local remote_status=""
-  local remote=$(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null)
-  if [[ -n $remote ]]; then
-    local behind=$(echo $remote | cut -f1)
-    local ahead=$(echo $remote | cut -f2)
-    [[ $behind -gt 0 ]] && remote_status+="%F{red}↓%f"
-    [[ $ahead -gt 0 ]] && remote_status+="%F{green}↑%f"
+  if (( ${+__git_remote_cache[$current_dir]} )); then
+    remote_status="${__git_remote_cache[$current_dir]}"
+  else
+    local remote=$(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null)
+    if [[ -n $remote ]]; then
+      local behind=${remote%%$'\t'*}
+      local ahead=${remote##*$'\t'}
+      [[ $behind -gt 0 ]] && remote_status+="%F{red}↓%f"
+      [[ $ahead -gt 0 ]] && remote_status+="%F{green}↑%f"
+    fi
+    __git_remote_cache[$current_dir]="$remote_status"
   fi
 
   local result=" ${color}${branch}%f${git_status:+ [${git_status}]}${remote_status}"
