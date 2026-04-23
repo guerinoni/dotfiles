@@ -10,10 +10,7 @@ update() {
     echo "\nupdating Homebrew..."
     brew update                         || errors+=("brew update")
     brew upgrade                        || errors+=("brew upgrade")
-    brew list --cask | while read -r cask; do
-    brew upgrade --cask --greedy "$cask" 2>&1 \
-        || echo "  ⚠️  skipped $cask (check manually)"
-    done  # --greedy catches auto-update casks too
+    brew upgrade --cask --greedy        || errors+=("brew upgrade --cask")
 
     echo "\ncleaning Homebrew..."
     brew cleanup --prune=all -s         # -s removes source files too
