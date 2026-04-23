@@ -257,7 +257,7 @@ setopt NO_BEEP             # don't beep on error
 # TOOL INITIALIZATIONS
 # ============================================================================
 # Create cache directory if it doesn't exist
-mkdir -p ~/.zsh/cache
+[[ -d ~/.zsh/cache ]] || mkdir -p ~/.zsh/cache
 
 # NVM (lazy loading for better shell startup time)
 export NVM_DIR="$HOME/.nvm"
