@@ -187,8 +187,7 @@ PROMPT='%F{cyan}%n%f@%F{blue}MBP%f:%F{yellow}%2~%f$(git_prompt_info) %(?.%F{gree
 
 bindkey "^[[1;3C" forward-word           # Alt + Right
 bindkey "^[[1;3D" backward-word          # Alt + Left
-bindkey "^[[A" history-search-backward   # Up arrow - search history
-bindkey "^[[B" history-search-forward    # Down arrow - search history
+# Up/Down arrows are bound by atuin
 bindkey "^A" beginning-of-line           # Ctrl + A
 bindkey "^E" end-of-line                 # Ctrl + E
 bindkey "^K" kill-line                   # Ctrl + K
