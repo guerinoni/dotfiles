@@ -25,3 +25,6 @@ indent_style = tab
 
 [*.{sh,bash,zsh}]
 indent_size = 2
+
+[{.zshrc,.zshenv,.zprofile,.alias}]
+indent_size = 2
