@@ -272,9 +272,8 @@ nvm() {
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
-# Ruby paths
+# Ruby paths (glob avoids spawning ruby on every shell start)
 add_to_path /opt/homebrew/opt/ruby/bin
-if command -v ruby >/dev/null 2>&1; then
-  add_to_path "$(ruby -e 'puts Gem.user_dir')/bin"
-  add_to_path "$(ruby -e 'puts Gem.default_dir')/bin"
-fi
+for d in /opt/homebrew/lib/ruby/gems/*/bin(N) ~/.gem/ruby/*/bin(N); do
+  add_to_path "$d"
+done
