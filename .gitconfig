@@ -42,6 +42,7 @@
 
 [push]
 	autoSetupRemote = true
+	followTags = true
 [pull]
     rebase = true # use rebase instead of merge when pulling changes
 [gpg]
