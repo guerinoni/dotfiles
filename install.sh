@@ -57,7 +57,9 @@ else
 fi
 
 log "Installing Devbox..."
-if command -v curl &>/dev/null; then
+if command -v devbox >/dev/null 2>&1; then
+  log "Skipped: devbox already installed"
+elif command -v curl >/dev/null 2>&1; then
   curl -fsSL https://get.jetify.com/devbox | bash
 else
   log "Error: curl is not installed, cannot install Devbox"
