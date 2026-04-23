@@ -133,18 +133,16 @@ function git_prompt_info() {
   local status_output=$(git status --porcelain 2>/dev/null)
 
   if [[ -n "$status_output" ]]; then
-    # Check for different types of changes
-    if echo "$status_output" | grep -q '^.M\|^.T\|^.D'; then
+    local haystack=$'\n'"$status_output"
+    if [[ $haystack == *$'\n'?[MTD]* ]]; then
       git_status+="M"
       color="%F{yellow}"
     fi
-
-    if echo "$status_output" | grep -q '^M\|^A\|^D\|^R\|^C'; then
+    if [[ $haystack == *$'\n'[MADRC]* ]]; then
       git_status+="S"
       color="%F{yellow}"
     fi
-
-    if echo "$status_output" | grep -q '^??'; then
+    if [[ $haystack == *$'\n'\?\?* ]]; then
       git_status+="U"
       color="%F{red}"
     fi
