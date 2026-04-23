@@ -58,7 +58,7 @@ brew "mongodb/brew/mongodb-database-tools"   # MongoDB tools (mongodump, etc.)
 brew "awscli"                                # AWS CLI
 
 # Languages & Runtimes
-brew "python@3.12"                           # Python 3.12
+brew "python@3.13"                           # Python 3.13
 brew "ruby"                                  # Ruby
 
 # Media
