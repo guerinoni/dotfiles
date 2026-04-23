@@ -124,18 +124,23 @@ mkcd() {
     fi
 }
 
-# Find and kill processes (with confirmation)
+# Find and kill processes (with confirmation). Default SIGTERM; pass -9 for SIGKILL.
 pk() {
+    local sig=TERM
+    if [[ "$1" == "-9" || "$1" == "-KILL" ]]; then
+        sig=KILL
+        shift
+    fi
     if [ $# -eq 1 ]; then
         local pids=$(ps aux | grep "$1" | grep -v grep | awk '{print $2}')
         if [ -n "$pids" ]; then
             echo "🔍 found processes matching '$1':"
             ps aux | grep "$1" | grep -v grep
-            echo -n "❓ kill these processes? (y/N): "
+            echo -n "❓ kill these processes (SIG${sig})? (y/N): "
             read -r confirm
             if [[ $confirm =~ ^[Yy]$ ]]; then
-                echo "$pids" | xargs kill -9
-                echo "💀 processes killed"
+                echo "$pids" | xargs kill -${sig}
+                echo "💀 processes signalled"
             else
                 echo "❌ cancelled"
             fi
@@ -143,7 +148,7 @@ pk() {
             echo "❌ no processes found matching '$1'"
         fi
     else
-        echo "usage: pk <process_name>"
+        echo "usage: pk [-9] <process_name>"
     fi
 }
 
