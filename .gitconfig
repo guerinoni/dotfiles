@@ -23,6 +23,7 @@
     colorMoved = zebra
     algorithm = histogram
     context = 5
+    mnemonicPrefix = true
 
 [init]
 	defaultBranch = main
