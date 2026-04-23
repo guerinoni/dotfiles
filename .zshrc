@@ -246,9 +246,6 @@ setopt EXTENDED_GLOB
 setopt NULL_GLOB
 setopt GLOB_STAR_SHORT    # ** for recursive globbing
 
-# Better error handling
-setopt CORRECT            # spelling correction for commands
-
 # Additional useful options
 setopt INTERACTIVECOMMENTS  # allow comments in interactive shells
 setopt MULTIOS             # perform implicit tees or cats when multiple redirections are attempted
