@@ -34,8 +34,6 @@ mouse-hide-while-typing = true
 confirm-close-surface = false
 # Exit app when last window closes
 quit-after-last-window-closed = true
-# Clear text selection when you start typing
-selection-invert-fg-bg = true
 
 # Lines of history to keep
 scrollback-limit = 100000
@@ -62,6 +60,9 @@ macos-icon = official
 
 # Fast dropdown animation (seconds)
 quick-terminal-animation-duration = 0.08
+
+# Notify when long-running commands finish (only when terminal is unfocused)
+notify-on-command-finish = unfocused
 
 # Check for updates but don't auto-install
 auto-update = check
