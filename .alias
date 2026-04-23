@@ -15,7 +15,6 @@ update() {
     echo "\ncleaning Homebrew..."
     brew cleanup --prune=all -s         # -s removes source files too
     brew autoremove
-    brew doctor 2>&1 | grep -v "^Your system is ready" || true  # surface any issues
 
     # ── Trash ───────────────────────────────────────────────────────
     echo "\nemptying Trash..."
