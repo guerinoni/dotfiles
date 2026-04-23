@@ -89,17 +89,12 @@ setopt PROMPT_SUBST         # enable command substitution in the prompt
 # Performance optimization: cache git status and remote info
 typeset -g __git_prompt_cache=""
 typeset -g __git_prompt_cache_dir=""
-typeset -g __git_remote_cache=""
-typeset -g __git_remote_cache_dir=""
-typeset -g __git_remote_cache_time=0
 
 function preexec() {
   timer=${timer:-$SECONDS}
   # Clear git cache on command execution
   __git_prompt_cache=""
   __git_prompt_cache_dir=""
-  __git_remote_cache=""
-  __git_remote_cache_dir=""
 }
 
 function precmd() {
