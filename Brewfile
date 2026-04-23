@@ -12,6 +12,7 @@ tap "skyhook-io/tap"
 brew "git"                                   # Distributed version control
 brew "git-extras"                            # Extra git commands (git-info, git-effort, etc.)
 brew "git-delta"                             # Better git diff viewer
+brew "git-lfs"                               # Large file storage (matches lfs filter in .gitconfig)
 brew "gh"                                    # GitHub CLI
 brew "gitui"                                 # Terminal UI for git
 
