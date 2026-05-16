@@ -175,8 +175,7 @@ return {
         --  - settings (table): Override the default settings passed when initializing the server.
         --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
         local servers = {
-            -- Bash/Shell
-            shellcheck = {},
+            -- Bash/Shell (shellcheck is a linter; bashls invokes it from PATH)
             bashls = {},
             -- Markdown
             marksman = {},
@@ -276,6 +275,7 @@ return {
         vim.list_extend(
             ensure_installed,
             {
+                "shellcheck",   -- Bash linter (invoked by bashls)
                 "shfmt",        -- Bash formatter
                 "stylua",       -- Lua formatter
                 "clang-format", -- C/C++ formatter
@@ -285,19 +285,19 @@ return {
         )
         require("mason-tool-installer").setup { ensure_installed = ensure_installed }
 
+        -- Register per-server config with vim.lsp.config so the settings
+        -- actually reach the server. mason-lspconfig 2.x removed the
+        -- `handlers` field, and automatic_enable (default true) takes care
+        -- of vim.lsp.enable() once the server is installed.
+        for name, config in pairs(servers) do
+            config.capabilities = vim.tbl_deep_extend(
+                "force", {}, capabilities, config.capabilities or {}
+            )
+            vim.lsp.config(name, config)
+        end
+
         require("mason-lspconfig").setup {
-            ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-            automatic_installation = false,
-            handlers = {
-                function(server_name)
-                    local server = servers[server_name] or {}
-                    -- This handles overriding only values explicitly passed
-                    -- by the server configuration above. Useful when disabling
-                    -- certain features of an LSP (for example, turning off formatting for ts_ls)
-                    server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-                    require("lspconfig")[server_name].setup(server)
-                end
-            }
+            ensure_installed = {}, -- mason-tool-installer handles installs
         }
 
         -- rust-analyzer is managed by rustaceanvim, see plugins/rustaceanvim.lua
