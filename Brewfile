@@ -30,7 +30,6 @@ brew "yq"                                    # YAML processor
 
 # Editors
 brew "neovim"                                # Modern vim
-brew "helix"                                 # Post-modern editor
 
 # Security
 brew "gnupg"                                 # GPG encryption
@@ -45,8 +44,6 @@ brew "wireshark"                             # Network protocol analyzer (CLI)
 # Kubernetes
 brew "k9s"                                   # Kubernetes TUI
 brew "kubectx"                               # Switch k8s contexts/namespaces
-brew "minikube"                              # Local Kubernetes
-brew "skaffold"                              # K8s dev workflow
 brew "skyhook-io/tap/radar"                  # K8s topology & Helm management
 
 # Databases
@@ -58,16 +55,13 @@ brew "mongodb/brew/mongodb-database-tools"   # MongoDB tools (mongodump, etc.)
 brew "awscli"                                # AWS CLI
 
 # Languages & Runtimes
-brew "python@3.13"                           # Python 3.13
+brew "python@3.14"                           # Python 3.14
 brew "ruby"                                  # Ruby
 
 # Media
 brew "ffmpeg"                                # Video/audio processing
 brew "graphviz"                              # Graph visualization
 brew "imagemagick"                           # Image manipulation
-
-# AI
-brew "opencode"                              # AI coding agent for terminal
 
 # ============================================================================
 # GUI Applications
@@ -89,7 +83,6 @@ cask "mongodb-compass"                       # MongoDB GUI
 
 # AI
 cask "claude"                                # Claude AI assistant
-cask "ollama-app"                            # Run local LLMs
 
 # Productivity
 cask "1password"                             # Password manager
@@ -119,5 +112,4 @@ cask "cap"                                   # Screen recording
 cask "utm"                                   # Virtual machines
 cask "tunnelblick"                           # OpenVPN client
 cask "wireshark-app"                         # Network analyzer GUI
-cask "rar"                                   # Archive utility
 cask "microsoft-auto-update"                 # Microsoft auto-updater
