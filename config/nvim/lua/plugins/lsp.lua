@@ -219,7 +219,9 @@ return {
                             -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
                             unusedvariable = true,
                             shadow = true,
-                            fieldalignment = true,
+                            -- fieldalignment is noisy on existing codebases
+                            -- and the wins are negligible outside hot paths.
+                            fieldalignment = false,
                             nilness = true,
                             unusedparams = true,
                             unusedwrite = true,
