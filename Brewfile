@@ -109,7 +109,6 @@ cask "google-cloud-sdk"                      # Google Cloud SDK (includes gcloud
 cask "netnewswire"                           # RSS reader
 cask "folo"                                  # RSS reader
 cask "cap"                                   # Screen recording
-cask "utm"                                   # Virtual machines
 cask "tunnelblick"                           # OpenVPN client
 cask "wireshark-app"                         # Network analyzer GUI
 cask "microsoft-auto-update"                 # Microsoft auto-updater
