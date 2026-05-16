@@ -15,9 +15,10 @@
     navigate = true    # use n and N to move between diff sections
     light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
 	line-numbers = true
+	hyperlinks = true  # OSC 8 file:line links; cmd+click in ghostty opens in $EDITOR
 
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
 
 [diff]
     colorMoved = zebra
@@ -51,7 +52,6 @@
 [includeIf "gitdir:~/velve/"]
     path = ~/velve/.gitconfig
 
-
 [includeIf "gitdir:~/cl/"]
     path = ~/cl/.gitconfig
 
@@ -61,6 +61,10 @@
 [fetch]
     prune = true
     prunetags = true
+    writeCommitGraph = true  # maintain commit-graph for faster log/blame
+
+[transfer]
+    fsckObjects = true  # reject malformed/malicious objects on fetch and push
 
 [rerere]
     enabled = true
