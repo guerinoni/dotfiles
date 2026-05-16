@@ -186,6 +186,15 @@ return {
 
             jsonls = {},
 
+            -- C/C++
+            clangd = {},
+
+            -- Terraform / HCL
+            terraformls = {},
+
+            -- YAML
+            yamlls = {},
+
             gopls = {
                 settings = {
                     gopls = {
@@ -265,8 +274,14 @@ return {
         vim.list_extend(
             ensure_installed,
             {
-                "shfmt", -- Used to format Bash code
-                "stylua" -- Used to format Lua code
+                "shfmt",       -- Bash formatter
+                "stylua",      -- Lua formatter
+                "clang-format",-- C/C++ formatter
+                "jq",          -- JSON formatter
+                "jsonlint",    -- JSON linter
+                "tflint",      -- Terraform linter
+                "yamlfmt",     -- YAML formatter
+                "yamllint"     -- YAML linter
             }
         )
         require("mason-tool-installer").setup { ensure_installed = ensure_installed }
