@@ -51,19 +51,6 @@ return {
                     map("<leader>gtt", "<cmd>GoAltV<CR>", "Run [Go] To Test File")
                 end
 
-                -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-                ---@param client vim.lsp.Client
-                ---@param method vim.lsp.protocol.Method
-                ---@param bufnr? integer some lsp support methods only in specific files
-                ---@return boolean
-                local function client_supports_method(client, method, bufnr)
-                    if vim.fn.has "nvim-0.11" == 1 then
-                        return client:supports_method(method, bufnr)
-                    else
-                        return client.supports_method(method, { bufnr = bufnr })
-                    end
-                end
-
                 -- The following two autocommands are used to highlight references of the
                 -- word under your cursor when your cursor rests there for a little while.
                 --    See `:help CursorHold` for information about when this is executed
@@ -71,11 +58,7 @@ return {
                 -- When you move your cursor, the highlights will be cleared (the second autocommand).
                 if
                     client and
-                    client_supports_method(
-                        client,
-                        vim.lsp.protocol.Methods.textDocument_documentHighlight,
-                        event.buf
-                    )
+                    client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
                 then
                     local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
                     vim.api.nvim_create_autocmd(
@@ -114,7 +97,7 @@ return {
                 -- This may be unwanted, since they displace some of your code
                 if
                     client and
-                    client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
+                    client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
                 then
                     map(
                         "<leader>th",
