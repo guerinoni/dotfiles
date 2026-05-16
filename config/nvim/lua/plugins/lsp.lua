@@ -274,14 +274,11 @@ return {
         vim.list_extend(
             ensure_installed,
             {
-                "shfmt",       -- Bash formatter
-                "stylua",      -- Lua formatter
-                "clang-format",-- C/C++ formatter
-                "jq",          -- JSON formatter
-                "jsonlint",    -- JSON linter
-                "tflint",      -- Terraform linter
-                "yamlfmt",     -- YAML formatter
-                "yamllint"     -- YAML linter
+                "shfmt",        -- Bash formatter
+                "stylua",       -- Lua formatter
+                "clang-format", -- C/C++ formatter
+                "jq",           -- JSON formatter
+                "yamlfmt"       -- YAML formatter
             }
         )
         require("mason-tool-installer").setup { ensure_installed = ensure_installed }

@@ -4,22 +4,24 @@ return {
         local conform = require("conform")
 
         conform.setup({
+            -- Linters (shellcheck, jsonlint, tflint, yamllint) intentionally
+            -- not here: conform runs formatters and the linters' output would
+            -- get treated as buffer content. shellcheck is wired through
+            -- bashls; yaml/json/terraform diagnostics come from their LSPs.
             formatters_by_ft = {
-                bash = { "shfmt", "shellcheck" },
-                c = { "clang-format" },
-                cpp = { "clang-format" },
-                lua = { "stylua" },
-                rust = { "rustfmt" },
-                go = { "goimports" },
-                dockerfile = { "dockfmt" },  -- or use "dockerfile_lint" if installed
-                json = { "jq", "jsonlint" }, -- jq formats, jsonlint can validate
-                terraform = { "terraform_fmt", "tflint" },
-                yaml = { "yamlfmt", "yamllint" },
-                sh = { "shfmt", "shellcheck" },
+                bash      = { "shfmt" },
+                sh        = { "shfmt" },
+                c         = { "clang-format" },
+                cpp       = { "clang-format" },
+                lua       = { "stylua" },
+                rust      = { "rustfmt" },
+                go        = { "goimports" },
+                json      = { "jq" },
+                terraform = { "terraform_fmt" },
+                yaml      = { "yamlfmt" },
             },
 
-            -- Optional: fallback to LSP formatter if no formatter found
-            format_on_save = false, -- Set to true to enable auto-format on save
+            format_on_save = false,
             lsp_fallback = true,
         })
 
