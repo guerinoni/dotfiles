@@ -17,6 +17,7 @@ exit_mode = "return-original"                   # On Esc: return-original or ret
 keymap_mode = "auto"                            # Keymap: auto, emacs, vim-insert, vim-normal
 word_jump_mode = "emacs"                        # Word navigation: emacs or subl
 ctrl_n_shortcuts = false                        # Use Ctrl-0..9 instead of Alt-0..9
+command_chaining = true                         # After && || |, chain instead of replacing the line
 
 secrets_filter = true                           # Auto-filter AWS keys, GitHub PATs, Slack tokens, etc.
 
@@ -48,9 +49,6 @@ ignored_commands = [                            # Ignore these from stats entire
 
 [keys]
 scroll_exits = true                             # Up/down exits TUI at first/last entry
-
-[sync]
-records = true                                  # Enable sync v2 (better conflict resolution)
 
 [preview]
 strategy = "auto"                               # Preview height: auto (based on command) or static
