@@ -3,6 +3,7 @@
 
 return {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master", -- v0.x API; v1.0 lives on `main` with a different setup
     build = ":TSUpdate",
     config = function()
         local configs = require("nvim-treesitter.configs")
