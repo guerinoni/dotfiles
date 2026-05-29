@@ -165,7 +165,7 @@ alias -- -="cd -"  # Go back to previous directory
 # ============================================================================
 # FILE OPERATIONS
 # ============================================================================
-alias cat="bat --paging=never"
+alias bcat="bat --paging=never"
 alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"

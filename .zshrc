@@ -225,7 +225,7 @@ export PATH
 # ============================================================================
 export GPG_TTY=$(tty)
 export PAGER="less"
-export LESS="-R -F -X"  # -F: exit if less than one screen, -X: don't clear screen
+export LESS="-R -F"  # -R: raw color codes, -F: exit if output fits one screen
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 
@@ -267,6 +267,8 @@ nvm() {
 # Other tools
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+# fzf shell integration: Ctrl-T file picker, Alt-C cd, fuzzy completion (Ctrl-R owned by atuin)
+command -v fzf >/dev/null && source <(fzf --zsh)
 
 # Ruby paths (glob avoids spawning ruby on every shell start)
 add_to_path /opt/homebrew/opt/ruby/bin
