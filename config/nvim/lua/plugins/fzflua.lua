@@ -121,5 +121,27 @@ return {
             end,
             desc = "[/] Live grep the current buffer",
         },
+        {
+            "<leader>gs",
+            function()
+                require("fzf-lua").git_status()
+            end,
+            desc = "[G]it [S]tatus (changed files, switch over them)",
+        },
+        {
+            "<leader>gg",
+            function()
+                -- Restrict live grep to files changed vs HEAD (tracked + untracked).
+                local files = vim.fn.systemlist(
+                    "git diff --name-only HEAD; git ls-files --others --exclude-standard"
+                )
+                if vim.v.shell_error ~= 0 or #files == 0 then
+                    vim.notify("No changed files", vim.log.levels.INFO)
+                    return
+                end
+                require("fzf-lua").live_grep({ search_paths = files })
+            end,
+            desc = "[G]it changed files: live [G]rep",
+        },
     }
 }
