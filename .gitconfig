@@ -49,11 +49,9 @@
 [gpg]
 	program = /opt/homebrew/bin/gpg
 
-[includeIf "gitdir:~/velve/"]
-    path = ~/velve/.gitconfig
-
-[includeIf "gitdir:~/cl/"]
-    path = ~/cl/.gitconfig
+# Work-specific config (URL rewrites, per-dir identity) lives here, untracked.
+[include]
+	path = ~/.gitconfig.local
 
 [column]
 	ui = auto
