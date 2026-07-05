@@ -20,11 +20,6 @@ update() {
     echo "\nemptying Trash..."
     rm -rf ~/.Trash/* 2>/dev/null
 
-    # ── Logs ────────────────────────────────────────────────────────
-    echo "\nclearing old logs..."
-    sudo rm -rf /private/var/log/asl/*.asl 2>/dev/null
-    rm -rf ~/Library/Logs/* 2>/dev/null
-
     # ── Summary ─────────────────────────────────────────────────────
     echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     if [ ${#errors[@]} -eq 0 ]; then

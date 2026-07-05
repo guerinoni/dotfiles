@@ -39,7 +39,6 @@ brew "pinentry-mac"                          # GPG pinentry for macOS
 brew "wget"                                  # File download tool
 brew "croc"                                  # Secure file transfer
 brew "netbirdio/tap/netbird"                 # Peer-to-peer VPN
-brew "wireshark"                             # Network protocol analyzer (CLI)
 
 # Kubernetes
 brew "k9s"                                   # Kubernetes TUI
