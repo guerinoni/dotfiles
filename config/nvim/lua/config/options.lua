@@ -13,7 +13,6 @@ vim.o.undofile = true           -- Save undo history
 vim.o.showmode = false          -- Hide mode information, it is in status line
 vim.o.signcolumn = "yes"        -- Show sign column
 vim.o.clipboard = "unnamedplus" -- Enable clipboard integration with system clipboard
-vim.b.completion = true         -- Enable completion
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  Notice listchars is set using `vim.opt` instead of `vim.o`.
