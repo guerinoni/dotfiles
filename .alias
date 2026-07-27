@@ -235,4 +235,5 @@ fkill() {
 # INTROSPECTION
 # ============================================================================
 alias aliases="alias | sed 's/=.*//'"
-alias functions="declare -f | grep '^[a-z].* ()' | sed 's/ ()//'"
+# not named "functions", that is a zsh builtin
+alias funcs="declare -f | grep '^[a-z].* ()' | sed 's/ ()//'"
