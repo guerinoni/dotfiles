@@ -26,6 +26,7 @@ log "Linking shell configs..."
 symlink "$SCRIPT_DIR/.alias" "$HOME/.alias"
 symlink "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
 symlink "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
+symlink "$SCRIPT_DIR/.gitignore_global" "$HOME/.gitignore_global"
 symlink "$SCRIPT_DIR/.hushlogin" "$HOME/.hushlogin"
 symlink "$SCRIPT_DIR/.editorconfig" "$HOME/.editorconfig"
 

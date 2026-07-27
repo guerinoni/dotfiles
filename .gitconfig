@@ -7,6 +7,9 @@
 	pager = delta
 	editor = nvim
 	ignorecase = false
+	excludesFile = ~/.gitignore_global
+	fsmonitor = true      # daemon watches the worktree, keeps the prompt's git status cheap
+	untrackedCache = true # cache untracked scans, the other half of a fast status
 
 [interactive]
     diffFilter = delta --color-only

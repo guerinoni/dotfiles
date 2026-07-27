@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.idea/
+*.swp
+*.swo
+.vscode/
+.nvim.lua
+.zed/
+
+# Direnv
+.envrc.local
+.direnv/
+
+# Build noise that is never worth committing from a machine-local run
+*.pyc
+__pycache__/
+
+# Claude config is machine and session state. CLAUDE.md sits outside this
+# directory, so the base prompt still gets committed normally.
+.claude/
