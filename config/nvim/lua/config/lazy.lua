@@ -21,7 +21,9 @@ require("lazy").setup({
 		-- import your plugins
 		{ import = "plugins" },
 	},
-	checker = { enabled = true },
+	-- notify = false: still check for updates, but stop the popup on every start.
+	-- The lock file only moves when :Lazy update is run by hand.
+	checker = { enabled = true, notify = false },
 	-- none of my plugins use luarocks so disable this.
 	rocks = {
 		enabled = false,
