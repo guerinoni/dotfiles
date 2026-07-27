@@ -41,8 +41,10 @@
 [commit]
 	gpgsign = true
 
+# pushInsteadOf, not insteadOf: pushes go over SSH but https clones stay https,
+# so go mod download and anonymous fetches of public repos keep working.
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+	pushInsteadOf = https://github.com/
 
 [push]
 	autoSetupRemote = true
