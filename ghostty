@@ -71,8 +71,9 @@ notify-on-command-finish = unfocused
 # Check for updates but don't auto-install
 auto-update = check
 
-# Toggle dropdown quick terminal
-keybind = cmd+s=toggle_quick_terminal
+# Toggle dropdown quick terminal, global so it works while another app is focused
+# (macOS asks for accessibility permission the first time)
+keybind = global:cmd+s=toggle_quick_terminal
 # Copy URL under cursor
 keybind = cmd+u=copy_url_to_clipboard
 # Reload config without restarting
