@@ -7,7 +7,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Disable checking mail
 unsetopt MAIL_WARNING
 
-setopt GLOB_DOTS          # include dotfiles in globbing
+# GLOB_DOTS deliberately left off: it makes a bare * match .git and .env, so
+# rm * or mv * dst reaches things you never meant to touch. Use *(D) when you
+# actually want dotfiles in a glob.
 setopt NUMERIC_GLOB_SORT  # sort filenames numerically when it makes sense
 setopt NO_CASE_GLOB       # case insensitive globbing
 
