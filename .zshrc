@@ -108,14 +108,15 @@ function preexec() {
 }
 
 function precmd() {
-  # Initialize RPROMPT
-  export RPROMPT=""
+  # Plain assignment, not export: RPROMPT is a zsh shell parameter and exporting
+  # it only leaks the prompt string into every child process.
+  RPROMPT=""
 
   # Timer display
   if [ $timer ]; then
     timer_show=$(($SECONDS - $timer))
     if [ $timer_show -gt 3 ]; then
-      export RPROMPT="%F{242}⏱ ${timer_show}s%f"
+      RPROMPT="%F{242}⏱ ${timer_show}s%f"
     fi
     unset timer
   fi
