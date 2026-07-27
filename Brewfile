@@ -1,7 +1,6 @@
 # Taps
 tap "mongodb/brew"
 tap "netbirdio/tap"
-tap "nikitabobko/tap"
 tap "skyhook-io/tap"
 
 # ============================================================================
