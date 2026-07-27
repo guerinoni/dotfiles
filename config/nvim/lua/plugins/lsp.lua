@@ -37,11 +37,13 @@ return {
                     vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
                 end
 
+                -- Override the built-in grr/gri (see :help lsp-defaults) with the
+                -- fzf-lua pickers. Staying on the gr prefix keeps grn, gra, grx
+                -- and grt reachable, and leaves r, gi and gr themselves alone.
                 map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
                 map('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition')
-                map('gr', require('fzf-lua').lsp_references, '[G]oto [R]eferences')
-                map('gi', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
-                map('rn', vim.lsp.buf.rename, '[R]e[n]ame')
+                map('grr', require('fzf-lua').lsp_references, '[G]oto [R]eferences')
+                map('gri', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
                 map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
                 -- Go-specific keymaps when gopls is attached
