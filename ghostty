@@ -41,8 +41,12 @@ scrollback-limit = 100000
 # Apply background opacity to cells with explicit bg color (helps with tmux/neovim)
 background-opacity-cells = true
 
-# cursor: shell cursor sync, sudo: preserve integration with sudo, title: set window title
-shell-integration-features = cursor,sudo,title
+# This option replaces the defaults, it does not merge with them, so path has to
+# be repeated here or new splits and tabs stop inheriting the current directory.
+# cursor: shell cursor sync, sudo: preserve integration with sudo,
+# title: set window title, path: report cwd, ssh-env/ssh-terminfo: keep colors
+# and a working terminfo on remote hosts.
+shell-integration-features = cursor,sudo,title,path,ssh-env,ssh-terminfo
 
 # Allow programs to read clipboard
 clipboard-read = allow
