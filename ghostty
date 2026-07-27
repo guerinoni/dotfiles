@@ -40,9 +40,6 @@ quit-after-last-window-closed = true
 # as the buffer fills.
 scrollback-limit = 100000000
 
-# Apply background opacity to cells with explicit bg color (helps with tmux/neovim)
-background-opacity-cells = true
-
 # This option replaces the defaults, it does not merge with them, so path has to
 # be repeated here or new splits and tabs stop inheriting the current directory.
 # cursor: shell cursor sync, sudo: preserve integration with sudo,
