@@ -35,8 +35,10 @@ confirm-close-surface = false
 # Exit app when last window closes
 quit-after-last-window-closed = true
 
-# Lines of history to keep
-scrollback-limit = 100000
+# Scrollback buffer in BYTES, not lines, and allocated per surface. The default
+# is 10000000, so 100MB here is roughly ten times that. Memory is claimed lazily
+# as the buffer fills.
+scrollback-limit = 100000000
 
 # Apply background opacity to cells with explicit bg color (helps with tmux/neovim)
 background-opacity-cells = true
