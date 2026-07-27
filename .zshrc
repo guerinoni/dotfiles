@@ -56,7 +56,8 @@ else
 fi
 
 # Completion options
-setopt COMPLETE_ALIASES   # complete aliases
+# COMPLETE_ALIASES deliberately left off: it stops aliases expanding before
+# completion runs, which is what killed git subcommand completion behind gs.
 setopt LIST_PACKED
 setopt AUTO_LIST
 setopt AUTO_MENU
@@ -198,7 +199,8 @@ bindkey "^W" backward-kill-word          # Ctrl + W
 # Ctrl+R is handled by atuin
 bindkey "^F" forward-char                # Ctrl + F
 bindkey "^B" backward-char               # Ctrl + B
-bindkey "^D" delete-char                 # Ctrl + D
+# Ctrl + D left at its default delete-char-or-list, so it still exits the shell
+# on an empty line
 bindkey "^H" backward-delete-char        # Ctrl + H
 bindkey "^T" transpose-chars             # Ctrl + T
 bindkey "^Y" yank                        # Ctrl + Y
