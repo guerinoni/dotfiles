@@ -78,7 +78,9 @@
     updateRefs = true
 
 [maintenance]
-    auto = true
+    # auto is already true by default. strategy applies to the auto-maintenance
+    # that commands trigger on their own, run 'git maintenance start' in a repo
+    # to also get the scheduled background jobs.
     strategy = incremental
 
 [branch]
