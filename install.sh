@@ -30,6 +30,10 @@ symlink "$SCRIPT_DIR/.gitignore_global" "$HOME/.gitignore_global"
 symlink "$SCRIPT_DIR/.hushlogin" "$HOME/.hushlogin"
 symlink "$SCRIPT_DIR/.editorconfig" "$HOME/.editorconfig"
 
+log "Linking GPG agent config..."
+symlink "$SCRIPT_DIR/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
+chmod 700 "$HOME/.gnupg"  # gpg refuses to use a world-readable home
+
 log "Setting up terminal config..."
 symlink "$SCRIPT_DIR/ghostty" "$HOME/.config/ghostty/config"
 
