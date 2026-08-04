@@ -12,6 +12,7 @@
 *.swo
 .vscode/
 .nvim.lua
+nvim.log
 .zed/
 
 # Direnv

@@ -17,8 +17,7 @@ update() {
     brew autoremove
 
     # ── Trash ───────────────────────────────────────────────────────
-    echo "\nemptying Trash..."
-    rm -rf ~/.Trash/* 2>/dev/null
+    echo "\nTrash left untouched. Run emptytrash when you explicitly want it emptied."
 
     # ── Summary ─────────────────────────────────────────────────────
     echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -53,8 +52,14 @@ alias gundo="git reset --soft HEAD~1"
 # Enhanced git branch view with better formatting
 alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 
-# Delete merged/gone branches
-alias gdbr="git fetch --prune && git branch -vv | grep ': gone]' | awk '{print \$1}' | xargs git branch -D"
+# Delete local branches whose upstream was removed.
+gdbr() {
+    git fetch --prune
+    local branch
+    git branch -vv | awk '/: gone]/{print ($1 == "*" ? $2 : $1)}' | while read -r branch; do
+        git branch -D "$branch"
+    done
+}
 
 # ============================================================================
 # EDITOR ALIASES
@@ -165,12 +170,16 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
+alias fgrep="grep -F --color=auto"
+alias egrep="grep -E --color=auto"
 
 # Safe file operations
 alias cp="cp -i"
 alias mv="mv -i"
+
+emptytrash() {
+    osascript -e 'tell application "Finder" to empty trash'
+}
 
 # ============================================================================
 # SYSTEM INFO
@@ -206,6 +215,122 @@ sysinfo() {
 # Show largest files/directories
 big() {
     du -ah "${1:-.}" | sort -rh | head -20
+}
+
+devspace() {
+    local paths=(
+        ~/.cache/devbox
+        ~/.local/share/devbox
+        /nix
+        ~/.npm
+        ~/.cargo
+        ~/.rustup
+        ~/Library/Caches/Homebrew
+        ~/Library/Developer/Xcode/DerivedData
+        ~/Library/Caches/pip
+        ~/Library/Caches/go-build
+        ~/go/pkg/mod
+    )
+
+    du -sh "${paths[@]}" 2>/dev/null | sort -rh
+}
+
+devclean() {
+    case "${1:-}" in
+        go)
+            go clean -cache -testcache
+            ;;
+        go-all)
+            go clean -cache -testcache -modcache
+            ;;
+        rust)
+            if [[ -f Cargo.toml ]]; then
+                cargo clean
+            else
+                echo "devclean rust must be run from a Cargo project"
+                return 2
+            fi
+            ;;
+        rust-cache-dry)
+            du -sh ~/.cargo/registry ~/.cargo/git ~/.rustup/toolchains 2>/dev/null
+            ;;
+        rust-targets-dry)
+            find "${2:-.}" -type d -name target -prune -exec du -sh {} + 2>/dev/null | sort -rh
+            ;;
+        rust-targets)
+            local root="${2:-.}"
+            local targets
+            targets=$(find "$root" -type d -name target -prune -print 2>/dev/null)
+            if [[ -z "$targets" ]]; then
+                echo "no Rust target directories found under $root"
+                return 0
+            fi
+            echo "$targets"
+            echo "This removes every target/ directory listed above."
+            printf "Continue? [y/N] "
+            read -r answer
+            case "$answer" in
+                [Yy]|[Yy][Ee][Ss])
+                    echo "$targets" | while read -r dir; do
+                        rm -rf "$dir"
+                    done
+                    ;;
+                *)
+                    echo "cancelled"
+                    return 1
+                    ;;
+            esac
+            ;;
+        rust-cache)
+            echo "This removes Cargo's global registry/git caches."
+            echo "Crates will be downloaded again when builds need them."
+            printf "Continue? [y/N] "
+            read -r answer
+            case "$answer" in
+                [Yy]|[Yy][Ee][Ss])
+                    rm -rf ~/.cargo/registry/cache ~/.cargo/registry/src ~/.cargo/git/checkouts ~/.cargo/git/db
+                    ;;
+                *)
+                    echo "cancelled"
+                    return 1
+                    ;;
+            esac
+            ;;
+        nix-dry)
+            nix store gc --dry-run
+            ;;
+        nix)
+            nix store gc
+            ;;
+        npm)
+            npm cache verify && npm cache clean --force
+            ;;
+        *)
+            echo "usage: devclean {go|go-all|rust|rust-cache-dry|rust-targets-dry|rust-targets|rust-cache|nix-dry|nix|npm}"
+            echo "  go      - clear Go build/test cache"
+            echo "  go-all  - clear Go build/test cache and module downloads"
+            echo "  rust    - run cargo clean in the current project"
+            echo "  rust-cache-dry - show global Cargo/Rust cache sizes"
+            echo "  rust-targets-dry [root] - show target/ directories under root"
+            echo "  rust-targets [root]     - remove target/ directories under root"
+            echo "  rust-cache     - clear global Cargo registry/git caches"
+            echo "  nix-dry - show what Nix garbage collection would remove"
+            echo "  nix     - run Nix garbage collection"
+            echo "  npm     - verify and clear npm cache"
+            return 2
+            ;;
+    esac
+}
+
+memtop() {
+    ps -Ao pid,%cpu,%mem,rss,comm | sort -nrk4 | head -30
+}
+
+agenttop() {
+    ps -Ao pid,%cpu,%mem,rss,comm |
+        awk 'NR == 1 || $5 ~ /(claude|codex|opencode|treehouse|node|npm|chrome-devtools-mcp)/' |
+        sort -nrk4 |
+        head -40
 }
 
 # ============================================================================

@@ -1,5 +1,10 @@
-source ~/.alias
-eval "$(/opt/homebrew/bin/brew shellenv)"
+[[ -r ~/.alias ]] && source ~/.alias
+
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
 
 # ============================================================================
 # ZSH OPTIONS AND PERFORMANCE
@@ -273,7 +278,13 @@ nvm() {
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 # fzf shell integration: Ctrl-T file picker, Alt-C cd, fuzzy completion (Ctrl-R owned by atuin)
+if command -v fd >/dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --exclude node_modules'
+fi
 command -v fzf >/dev/null && source <(fzf --zsh)
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
 # Ruby paths (glob avoids spawning ruby on every shell start)
 add_to_path /opt/homebrew/opt/ruby/bin

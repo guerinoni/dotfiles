@@ -18,14 +18,18 @@ brew "gitui"                                 # Terminal UI for git
 # Shell tools
 brew "atuin"                                 # Magical shell history
 brew "direnv"                                # Directory-based env vars
+brew "fd"                                    # Fast find alternative; powers fzf file pickers
 brew "fzf"                                   # Fuzzy finder
 brew "ripgrep"                               # Fast grep alternative
 brew "bat"                                   # Better cat with syntax highlighting
+brew "shellcheck"                            # Shell script linting
 brew "tree"                                  # Directory tree view
 brew "htop"                                  # Interactive process viewer
 brew "btop"                                  # Modern resource monitor
 brew "jq"                                    # JSON processor
 brew "yq"                                    # YAML processor
+brew "zoxide"                                # Frecency-based cd replacement
+brew "tmux"                                  # Persistent terminal sessions for long-running agents/tasks
 
 # Editors
 brew "neovim"                                # Modern vim
@@ -81,6 +85,7 @@ cask "mongodb-compass"                       # MongoDB GUI
 
 # AI
 cask "claude"                                # Claude AI assistant
+cask "codex"                                 # Codex AI coding agent
 
 # Productivity
 cask "1password"                             # Password manager
@@ -101,7 +106,7 @@ cask "brave-browser"                         # Privacy-focused browser
 cask "google-chrome@canary"                  # Chrome canary
 
 # Cloud
-cask "google-cloud-sdk"                      # Google Cloud SDK (includes gcloud CLI)
+cask "gcloud-cli"                            # Google Cloud SDK (renamed from google-cloud-sdk)
 
 # Utilities
 cask "netnewswire"                           # RSS reader

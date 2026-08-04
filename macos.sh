@@ -259,6 +259,8 @@ log "Configuring Software Update..."
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
 defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true
 defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
+defaults write com.apple.SoftwareUpdate ConfigDataInstall -bool true
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 defaults write com.apple.commerce AutoUpdate -bool true
 
 ###############################################################################
@@ -269,7 +271,7 @@ log "Configuring Menu Bar..."
 defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM HH:mm"
 
 # show battery percentage
-defaults -currentHost write com.apple.controlcenter.plist BatteryShowPercentage -bool true 2>/dev/null || true
+defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -bool true 2>/dev/null || true
 
 ###############################################################################
 # Sound
