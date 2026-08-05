@@ -56,7 +56,7 @@ fi
 
 log "Running brew bundle..."
 if [[ -f "$SCRIPT_DIR/Brewfile" ]]; then
-  brew bundle install --file="$SCRIPT_DIR/Brewfile"
+  brew bundle install --no-upgrade --file="$SCRIPT_DIR/Brewfile"
 else
   log "Skipped: Brewfile not found"
 fi
