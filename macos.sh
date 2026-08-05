@@ -159,6 +159,12 @@ else
   warn "Skipping Safari AutoOpenSafeDownloads — terminal lacks Full Disk Access."
 fi
 
+# App Management is a TCC privacy permission. macOS does not allow normal
+# shell scripts to grant it, even with sudo. Homebrew needs it to upgrade some
+# casks that replace apps in /Applications, such as Tunnelblick.
+warn "App Management cannot be granted by this script."
+warn "Enable your terminal in System Settings -> Privacy & Security -> App Management."
+
 ###############################################################################
 # Window & system performance
 ###############################################################################
