@@ -72,31 +72,63 @@ alias vim="nvim"  # Use neovim instead of vim
 # ============================================================================
 # NETWORK MONITORING FUNCTIONS
 # ============================================================================
+_listening_filter() {
+    local pattern="$1"
+    awk -v pattern="$pattern" '
+        BEGIN {
+            needle = tolower(pattern)
+            found = 0
+        }
+        NR == 1 {
+            header = $0
+            next
+        }
+        index(tolower($0), needle) {
+            if (!found) {
+                print header
+            }
+            print
+            found = 1
+        }
+        END {
+            exit found ? 0 : 1
+        }
+    '
+}
+
 listening() {
     if [ $# -eq 0 ]; then
         echo "🔍 showing all listening TCP ports:"
-        sudo lsof -iTCP -sTCP:LISTEN -n -P | head -20
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
     elif [ $# -eq 1 ]; then
         echo "🔍 searching for TCP ports matching '$1':"
-        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color "$1"
+        if ! sudo lsof -iTCP -sTCP:LISTEN -n -P | _listening_filter "$1"; then
+            echo "no listening TCP ports matched '$1'"
+            return 1
+        fi
     else
         echo "usage: listening [pattern]"
         echo "  listening        - show all listening TCP ports"
         echo "  listening 3000   - show processes listening on port 3000"
+        return 2
     fi
 }
 
 listening_udp() {
     if [ $# -eq 0 ]; then
         echo "🔍 showing all UDP connections:"
-        sudo lsof -iUDP -n -P | head -20
+        sudo lsof -iUDP -n -P
     elif [ $# -eq 1 ]; then
         echo "🔍 searching for UDP connections matching '$1':"
-        sudo lsof -iUDP -n -P | grep -i --color "$1"
+        if ! sudo lsof -iUDP -n -P | _listening_filter "$1"; then
+            echo "no UDP connections matched '$1'"
+            return 1
+        fi
     else
         echo "usage: listening_udp [pattern]"
         echo "  listening_udp        - show all UDP connections"
         echo "  listening_udp 53     - show UDP processes on port 53"
+        return 2
     fi
 }
 
