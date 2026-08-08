@@ -1,5 +1,4 @@
 # Taps
-tap "mongodb/brew"
 tap "netbirdio/tap"
 tap "skyhook-io/tap"
 
@@ -18,7 +17,6 @@ brew "gitui"                                 # Terminal UI for git
 # Shell tools
 brew "atuin"                                 # Magical shell history
 brew "direnv"                                # Directory-based env vars
-brew "fd"                                    # Fast find alternative; powers fzf file pickers
 brew "fzf"                                   # Fuzzy finder
 brew "ripgrep"                               # Fast grep alternative
 brew "bat"                                   # Better cat with syntax highlighting
@@ -40,7 +38,6 @@ brew "pinentry-mac"                          # GPG pinentry for macOS
 
 # Network
 brew "wget"                                  # File download tool
-brew "croc"                                  # Secure file transfer
 brew "netbirdio/tap/netbird"                 # Peer-to-peer VPN
 
 # Kubernetes
@@ -50,8 +47,6 @@ brew "skyhook-io/tap/radar"                  # K8s topology & Helm management
 
 # Databases
 brew "libpq"                                 # PostgreSQL client libs
-brew "mongosh"                               # MongoDB shell
-brew "mongodb/brew/mongodb-database-tools"   # MongoDB tools (mongodump, etc.)
 
 # Cloud
 brew "awscli"                                # AWS CLI
@@ -81,7 +76,6 @@ cask "zed"                                   # Fast collaborative editor
 # DevOps
 cask "orbstack"                              # Docker/Linux VM (fast alternative)
 cask "beekeeper-studio"                      # SQL database GUI
-cask "mongodb-compass"                       # MongoDB GUI
 
 # AI
 cask "claude"                                # Claude AI assistant
