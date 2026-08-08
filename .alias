@@ -354,6 +354,145 @@ devclean() {
     esac
 }
 
+# ============================================================================
+# GLOBALLY INSTALLED PACKAGES (go install / cargo install / npm -g)
+# ============================================================================
+# the toolchain can be gone while its binaries are still around, so fall back
+# to the default location instead of pointing callers at /bin
+_devpkg_gobin() {
+    local gopath
+    gopath=$(go env GOPATH 2>/dev/null)
+    echo "${gopath:-$HOME/go}/bin"
+}
+
+_devpkg_go_list() {
+    local bin
+    bin=$(_devpkg_gobin)
+    [[ -d $bin ]] || return 0
+    ls -1 "$bin" 2>/dev/null
+}
+
+_devpkg_rust_list() {
+    if command -v cargo >/dev/null; then
+        cargo install --list 2>/dev/null | awk '/^[^ ]/ {print $1}'
+    else
+        ls -1 "$HOME/.cargo/bin" 2>/dev/null
+    fi
+}
+
+_devpkg_node_list() {
+    npm ls -g --depth=0 --json 2>/dev/null | jq -r '.dependencies // {} | keys[]'
+}
+
+# picks names to remove: from arguments, or interactively with fzf
+_devpkg_select() {
+    local lister="$1"
+    shift
+    if [[ $# -gt 0 ]]; then
+        printf '%s\n' "$@"
+        return 0
+    fi
+    local items picked
+    items=$("$lister")
+    if [[ -z $items ]]; then
+        echo "nothing installed" >&2
+        return 1
+    fi
+    if ! command -v fzf >/dev/null; then
+        echo "$items" >&2
+        echo "fzf not available, pass the names to remove as arguments" >&2
+        return 1
+    fi
+    picked=$(echo "$items" | fzf -m --prompt="remove> ")
+    [[ -n $picked ]] || return 1
+    echo "$picked"
+}
+
+_devpkg_confirm() {
+    echo "$1"
+    printf "Remove the above? [y/N] "
+    read -r answer
+    case "$answer" in
+        [Yy]|[Yy][Ee][Ss])
+            return 0
+            ;;
+        *)
+            echo "cancelled"
+            return 1
+            ;;
+    esac
+}
+
+devpkg() {
+    local sel bin b
+    case "${1:-}" in
+        list)
+            echo "== go"
+            devpkg go
+            echo "== rust"
+            devpkg rust
+            echo "== node"
+            devpkg node
+            ;;
+        go)
+            bin=$(_devpkg_gobin)
+            [[ -d $bin ]] || return 0
+            for b in "$bin"/*(N); do
+                printf '%s\t%s\n' "${b##*/}" \
+                    "$(go version -m "$b" 2>/dev/null | awk '$1 == "path" {print $2; exit}')"
+            done
+            ;;
+        rust)
+            if command -v cargo >/dev/null; then
+                cargo install --list
+            else
+                _devpkg_rust_list
+            fi
+            ;;
+        node)
+            npm ls -g --depth=0
+            ;;
+        go-rm)
+            shift
+            sel=$(_devpkg_select _devpkg_go_list "$@") || return 1
+            _devpkg_confirm "$sel" || return 1
+            bin=$(_devpkg_gobin)
+            echo "$sel" | while read -r b; do
+                [[ -n $b ]] && rm -f "$bin/$b"
+            done
+            ;;
+        rust-rm)
+            shift
+            sel=$(_devpkg_select _devpkg_rust_list "$@") || return 1
+            _devpkg_confirm "$sel" || return 1
+            if command -v cargo >/dev/null; then
+                echo "$sel" | xargs cargo uninstall
+            else
+                echo "$sel" | while read -r b; do
+                    [[ -n $b ]] && rm -f "$HOME/.cargo/bin/$b"
+                done
+            fi
+            ;;
+        node-rm)
+            shift
+            sel=$(_devpkg_select _devpkg_node_list "$@") || return 1
+            _devpkg_confirm "$sel" || return 1
+            echo "$sel" | xargs npm rm -g
+            ;;
+        *)
+            echo "usage: devpkg {list|go|rust|node|go-rm|rust-rm|node-rm} [name...]"
+            echo "  list    - everything installed globally by go, cargo and npm"
+            echo "  go      - Go binaries in GOPATH/bin with their module path"
+            echo "  rust    - crates installed with cargo install"
+            echo "  node    - packages installed with npm -g"
+            echo "  go-rm [name...]   - remove Go binaries, fzf picker when no name given"
+            echo "  rust-rm [name...] - cargo uninstall, fzf picker when no name given"
+            echo "  node-rm [name...] - npm rm -g, fzf picker when no name given"
+            return 2
+            ;;
+    esac
+}
+
 memtop() {
     ps -Ao pid,%cpu,%mem,rss,comm | sort -nrk4 | head -30
 }

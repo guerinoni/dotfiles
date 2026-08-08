@@ -19,6 +19,10 @@ devclean rust-cache-dry
 devclean rust
 devclean rust-targets-dry ~/hack
 devclean nix-dry
+devpkg list     # global go, cargo and npm packages
+devpkg go-rm    # pick Go binaries to delete (fzf), or pass names
+devpkg rust-rm
+devpkg node-rm
 ```
 
 The current machine pressure is mostly memory, not disk. Keep parallel agent
