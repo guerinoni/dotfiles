@@ -280,6 +280,15 @@ defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM HH:mm"
 defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -bool true 2>/dev/null || true
 
 ###############################################################################
+# Notifications
+###############################################################################
+log "Configuring Notifications..."
+
+# Show full notification previews (message text instead of just "Notification").
+# 1 = never, 2 = when unlocked, 3 = always. Apps set to "Default" follow this.
+defaults write com.apple.ncprefs content_visibility -int 3
+
+###############################################################################
 # Sound
 ###############################################################################
 log "Configuring Sound..."
@@ -308,7 +317,8 @@ for app in "Activity Monitor" \
   "Finder" \
   "Photos" \
   "SystemUIServer" \
-  "Terminal"; do
+  "Terminal" \
+  "usernoted"; do
   killall "${app}" &>/dev/null || true
 done
 
