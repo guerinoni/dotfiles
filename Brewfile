@@ -54,6 +54,7 @@ brew "awscli"                                # AWS CLI
 # Languages & Runtimes
 brew "python@3.14"                           # Python 3.14
 brew "ruby"                                  # Ruby
+brew "node"                                  # Node.js stable
 
 # Media
 brew "ffmpeg"                                # Video/audio processing

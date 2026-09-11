@@ -265,15 +265,6 @@ setopt NO_BEEP             # don't beep on error
 # Create cache directory if it doesn't exist
 [[ -d ~/.zsh/cache ]] || mkdir -p ~/.zsh/cache
 
-# NVM (lazy loading for better shell startup time)
-export NVM_DIR="$HOME/.nvm"
-nvm() {
-  unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  nvm "$@"
-}
-
 # Other tools
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
