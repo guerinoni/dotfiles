@@ -9,7 +9,7 @@ return {
     },
 
     opts = {
-        signature = { enabled = true, window = { border = "single" } },
+        signature = { enabled = true },
         fuzzy = { implementation = "prefer_rust_with_warning" },
 
         keymap = {

@@ -22,7 +22,7 @@ return {
             },
 
             format_on_save = false,
-            lsp_fallback = true,
+            default_format_opts = { lsp_format = "fallback" },
         })
 
         -- Custom ":Format" command
@@ -38,7 +38,6 @@ return {
 
             conform.format({
                 async = true,
-                lsp_fallback = true,
                 range = range,
             })
         end, { range = true, desc = "Format current buffer or selected range" })
