@@ -32,8 +32,9 @@ cursor-style-blink = false
 mouse-hide-while-typing = true
 # Don't prompt when closing terminal
 confirm-close-surface = false
-# Exit app when last window closes
-quit-after-last-window-closed = true
+# Keep running after the last window closes, or the global quick terminal
+# keybind below dies with the app
+quit-after-last-window-closed = false
 
 # Scrollback buffer in BYTES, not lines, and allocated per surface. The default
 # is 10000000, so 100MB here is roughly ten times that. Memory is claimed lazily
@@ -47,8 +48,9 @@ scrollback-limit = 100000000
 # and a working terminfo on remote hosts.
 shell-integration-features = cursor,sudo,title,path,ssh-env,ssh-terminfo
 
-# Allow programs to read clipboard
-clipboard-read = allow
+# Ask before a program reads the clipboard, any output (a remote host over ssh,
+# a cat'd file) can request it with OSC 52
+clipboard-read = ask
 # Allow programs to write to clipboard
 clipboard-write = allow
 # Automatically copy selected text
@@ -72,7 +74,7 @@ auto-update = check
 
 # Toggle dropdown quick terminal, global so it works while another app is focused
 # (macOS asks for accessibility permission the first time)
-keybind = global:cmd+s=toggle_quick_terminal
+keybind = global:alt+space=toggle_quick_terminal
 # Copy URL under cursor
 keybind = cmd+u=copy_url_to_clipboard
 # Reload config without restarting
