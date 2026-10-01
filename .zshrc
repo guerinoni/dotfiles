@@ -15,6 +15,8 @@ unsetopt MAIL_WARNING
 # GLOB_DOTS deliberately left off: it makes a bare * match .git and .env, so
 # rm * or mv * dst reaches things you never meant to touch. Use *(D) when you
 # actually want dotfiles in a glob.
+# EXTENDED_GLOB and NULL_GLOB also left off: together they turned HEAD^ into a
+# pattern that matched nothing and vanished, so git show HEAD^ showed HEAD.
 setopt NUMERIC_GLOB_SORT  # sort filenames numerically when it makes sense
 setopt NO_CASE_GLOB       # case insensitive globbing
 
@@ -32,10 +34,8 @@ export HISTFILE="$HOME/.zsh_history"
 # History options
 setopt HIST_IGNORE_SPACE        # don't save commands starting with space
 setopt SHARE_HISTORY            # share history across multiple zsh sessions (implies INC_APPEND_HISTORY)
-setopt HIST_EXPIRE_DUPS_FIRST   # expire duplicates first
 setopt HIST_IGNORE_ALL_DUPS     # ignore all duplicates
 setopt HIST_SAVE_NO_DUPS        # don't save duplicates
-setopt HIST_IGNORE_DUPS         # ignore duplicates
 setopt HIST_FIND_NO_DUPS        # ignore duplicates when searching
 setopt HIST_REDUCE_BLANKS       # removes blank lines from history
 setopt HIST_VERIFY              # verify history before executing
@@ -46,19 +46,24 @@ setopt HIST_VERIFY              # verify history before executing
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS    # don't store duplicates in the stack
 setopt PUSHD_SILENT         # don't print directory stack after pushd/popd
-setopt AUTO_CD              # push current directory onto stack
+setopt AUTO_CD              # typing a directory name cds into it
 
 # ============================================================================
 # ZSH NATIVE COMPLETION SYSTEM
 # ============================================================================
 autoload -Uz compinit
 
-# Only check compinit cache once per day for performance
-if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit
-else
-  compinit -C
-fi
+# Full check only when the dump is a day old. (#q) needs extendedglob, scoped
+# here so it stays off at the prompt. compinit leaves an unchanged dump alone,
+# hence the touch, or the full check would run on every shell after day one.
+() {
+  setopt localoptions extendedglob
+  if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit && touch ~/.zcompdump
+  else
+    compinit -C
+  fi
+}
 
 # Completion options
 # COMPLETE_ALIASES deliberately left off: it stops aliases expanding before
@@ -93,23 +98,8 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 # ============================================================================
 setopt PROMPT_SUBST         # enable command substitution in the prompt
 
-# Timer for long-running commands
-# Performance optimization: cache git status and remote info
-typeset -g __git_prompt_cache=""
-typeset -g __git_prompt_cache_dir=""
-typeset -gA __git_remote_cache
-
 function preexec() {
   timer=${timer:-$SECONDS}
-  # Clear git cache on command execution
-  __git_prompt_cache=""
-  __git_prompt_cache_dir=""
-  # Invalidate remote cache only for commands that can move refs
-  case "$1" in
-    git*push*|git*pull*|git*fetch*|git*commit*|git*reset*|git*rebase*|git*merge*|git*checkout*|git*switch*)
-      __git_remote_cache=()
-      ;;
-  esac
 }
 
 function precmd() {
@@ -127,64 +117,40 @@ function precmd() {
   fi
 }
 
+# One git process per prompt: porcelain v2 reports branch, ahead/behind and
+# file states together. --no-optional-locks keeps the prompt from taking
+# index.lock while an agent runs git in the same repo.
 function git_prompt_info() {
-  # Check if we're in a git repository first
-  git rev-parse --is-inside-work-tree &>/dev/null || return
+  local out line branch oid modified staged untracked
+  local -a ab
+  local -i ahead=0 behind=0
+  out=$(git --no-optional-locks status --porcelain=v2 --branch 2>/dev/null) || return
 
-  local current_dir="$PWD"
+  for line in "${(@f)out}"; do
+    case $line in
+      '# branch.oid '*)  oid=${line#'# branch.oid '} ;;
+      '# branch.head '*) branch=${line#'# branch.head '} ;;
+      '# branch.ab '*)
+        ab=(${=line#'# branch.ab '})
+        ahead=${ab[1]#+}
+        behind=${ab[2]#-}
+        ;;
+      [12u]' '*)
+        [[ ${line[3]} != . ]] && staged=S
+        [[ ${line[4]} != . ]] && modified=M
+        ;;
+      '? '*) untracked=U ;;
+    esac
+  done
+  [[ $branch == '(detached)' ]] && branch=${oid[1,7]}
 
-  # Use cached result if we're in the same directory
-  if [[ "$__git_prompt_cache_dir" == "$current_dir" && -n "$__git_prompt_cache" ]]; then
-    echo "$__git_prompt_cache"
-    return
-  fi
+  local flags=$modified$staged$untracked color="%F{green}" remote=""
+  [[ -n $modified$staged ]] && color="%F{yellow}"
+  [[ -n $untracked ]] && color="%F{red}"
+  (( behind )) && remote+="%F{red}↓%f"
+  (( ahead )) && remote+="%F{green}↑%f"
 
-  local branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
-  [[ -z "$branch" ]] && return
-
-  local git_status=""
-  local color="%F{green}"
-
-  # Use git status porcelain for better performance
-  local status_output=$(git status --porcelain 2>/dev/null)
-
-  if [[ -n "$status_output" ]]; then
-    local haystack=$'\n'"$status_output"
-    if [[ $haystack == *$'\n'?[MTD]* ]]; then
-      git_status+="M"
-      color="%F{yellow}"
-    fi
-    if [[ $haystack == *$'\n'[MADRC]* ]]; then
-      git_status+="S"
-      color="%F{yellow}"
-    fi
-    if [[ $haystack == *$'\n'\?\?* ]]; then
-      git_status+="U"
-      color="%F{red}"
-    fi
-  fi
-
-  local remote_status=""
-  if (( ${+__git_remote_cache[$current_dir]} )); then
-    remote_status="${__git_remote_cache[$current_dir]}"
-  else
-    local remote=$(git rev-list --left-right --count @{upstream}...HEAD 2>/dev/null)
-    if [[ -n $remote ]]; then
-      local behind=${remote%%$'\t'*}
-      local ahead=${remote##*$'\t'}
-      [[ $behind -gt 0 ]] && remote_status+="%F{red}↓%f"
-      [[ $ahead -gt 0 ]] && remote_status+="%F{green}↑%f"
-    fi
-    __git_remote_cache[$current_dir]="$remote_status"
-  fi
-
-  local result=" ${color}${branch}%f${git_status:+ [${git_status}]}${remote_status}"
-
-  # Cache the result for current directory
-  __git_prompt_cache="$result"
-  __git_prompt_cache_dir="$current_dir"
-
-  echo "$result"
+  echo " ${color}${branch//\%/%%}%f${flags:+ [${flags}]}${remote}"
 }
 
 # More informative prompt with better visual hierarchy
@@ -194,46 +160,34 @@ PROMPT='%F{cyan}%n%f@%F{blue}%m%f:%F{yellow}%2~%f$(git_prompt_info) %(?.%F{green
 # KEY BINDINGS
 # ============================================================================
 
+# Explicit, because zsh picks vi mode when it starts with EDITOR=nvim already
+# exported, which is every shell inside tmux or nvim. Ctrl-A/E/K/U/W/F/B/T/Y
+# come with the emacs keymap. Up/Down and Ctrl-R are bound by atuin.
+bindkey -e
 bindkey "^[[1;3C" forward-word           # Alt + Right
 bindkey "^[[1;3D" backward-word          # Alt + Left
-# Up/Down arrows are bound by atuin
-bindkey "^A" beginning-of-line           # Ctrl + A
-bindkey "^E" end-of-line                 # Ctrl + E
-bindkey "^K" kill-line                   # Ctrl + K
-bindkey "^U" kill-whole-line             # Ctrl + U
-bindkey "^W" backward-kill-word          # Ctrl + W
-# Ctrl+R is handled by atuin
-bindkey "^F" forward-char                # Ctrl + F
-bindkey "^B" backward-char               # Ctrl + B
-# Ctrl + D left at its default delete-char-or-list, so it still exits the shell
-# on an empty line
-bindkey "^H" backward-delete-char        # Ctrl + H
-bindkey "^T" transpose-chars             # Ctrl + T
-bindkey "^Y" yank                        # Ctrl + Y
 
 # ============================================================================
 # PATH CONFIGURATION
 # ============================================================================
 
-# Helper function to add a directory to PATH if not already present
-add_to_path() {
-  case ":$PATH:" in
-    *":$1:"*) ;;
-    *) PATH="$1:$PATH" ;;
-  esac
-}
-
-add_to_path /opt/homebrew/opt/libpq/bin
-add_to_path ~/.local/bin
-add_to_path /usr/local/bin
-add_to_path ~/.cargo/bin
-
-export PATH
+# -U drops duplicates, keeping the first occurrence. Ruby gem dirs come from a
+# glob so no ruby process is spawned on every shell start.
+typeset -U path
+path=(
+  ~/.gem/ruby/*/bin(NOn)
+  /opt/homebrew/lib/ruby/gems/*/bin(NOn)
+  /opt/homebrew/opt/ruby/bin
+  ~/.cargo/bin
+  ~/.local/bin
+  /opt/homebrew/opt/libpq/bin
+  $path
+)
 
 # ============================================================================
 # ENVIRONMENT VARIABLES
 # ============================================================================
-export GPG_TTY=$(tty)
+export GPG_TTY=$TTY
 export PAGER="less"
 export LESS="-R -F"  # -R: raw color codes, -F: exit if output fits one screen
 export EDITOR="nvim"
@@ -243,16 +197,11 @@ export VISUAL="$EDITOR"
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
-# Locale settings
-export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # ============================================================================
 # ZSH NATIVE FEATURES
 # ============================================================================
-# Enable glob patterns
-setopt EXTENDED_GLOB
-setopt NULL_GLOB
 setopt GLOB_STAR_SHORT    # ** for recursive globbing
 
 # Additional useful options
@@ -272,11 +221,7 @@ command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git' --glob '!node_modules'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="find . -type d -not -path '*/.git/*' -not -path '*/node_modules/*'"
-command -v fzf >/dev/null && source <(fzf --zsh)
+# Empty FZF_CTRL_R_COMMAND skips fzf's Ctrl-R, which would otherwise replace
+# atuin's since fzf is sourced after it
+command -v fzf >/dev/null && FZF_CTRL_R_COMMAND= source <(fzf --zsh)
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
-
-# Ruby paths (glob avoids spawning ruby on every shell start)
-add_to_path /opt/homebrew/opt/ruby/bin
-for d in /opt/homebrew/lib/ruby/gems/*/bin(N) ~/.gem/ruby/*/bin(N); do
-  add_to_path "$d"
-done
