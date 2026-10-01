@@ -13,6 +13,11 @@ symlink() {
   local src="$1"
   local dest="$2"
   mkdir -p "$(dirname "$dest")"
+  # ln -f would delete a real file, and on a real directory it links inside it
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    mv "$dest" "$dest.bak.$(date +%s)"
+    log "Backed up existing $dest"
+  fi
   ln -sfn "$src" "$dest"
   log "Linked $src → $dest"
 }
