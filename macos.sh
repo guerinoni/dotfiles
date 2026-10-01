@@ -310,14 +310,14 @@ defaults write com.apple.CrashReporter DialogType -string "none"
 log "Restarting affected applications..."
 
 # NOTE: Safari + TextEdit are NOT killed here on purpose — losing open tabs or
-# unsaved drafts would be rude.
+# unsaved drafts would be rude. Terminal neither: on a fresh Mac install.sh
+# runs inside it, and killing it would stop the install before brew bundle.
 for app in "Activity Monitor" \
   "cfprefsd" \
   "Dock" \
   "Finder" \
   "Photos" \
   "SystemUIServer" \
-  "Terminal" \
   "usernoted"; do
   killall "${app}" &>/dev/null || true
 done
