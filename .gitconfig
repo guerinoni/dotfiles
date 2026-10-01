@@ -40,6 +40,13 @@
 
 [commit]
 	gpgsign = true
+	verbose = true # show the diff below the message in the commit editor
+
+[tag]
+	sort = version:refname # v1.10 after v1.9, not after v1.1
+
+[help]
+	autocorrect = prompt
 
 # pushInsteadOf, not insteadOf: pushes go over SSH but https clones stay https,
 # so go mod download and anonymous fetches of public repos keep working.
@@ -71,6 +78,7 @@
 
 [rerere]
     enabled = true
+    autoUpdate = true # stage files rerere resolved, no git add after each replay
 
 [rebase]
     autoStash = true
