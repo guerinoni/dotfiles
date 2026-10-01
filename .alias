@@ -16,6 +16,10 @@ update() {
     brew cleanup --prune=all -s         # -s removes source files too
     brew autoremove
 
+    echo "\ninstalled but missing from the Brewfile (dry run):"
+    local alias_file=~/.alias
+    brew bundle cleanup --file="${alias_file:A:h}/Brewfile"
+
     # ── Trash ───────────────────────────────────────────────────────
     echo "\nTrash left untouched. Run emptytrash when you explicitly want it emptied."
 
@@ -56,7 +60,8 @@ alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:r
 gdbr() {
     git fetch --prune
     local branch
-    git branch -vv | awk '/: gone]/{print ($1 == "*" ? $2 : $1)}' | while read -r branch; do
+    git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads |
+        awk '$2 == "[gone]" {print $1}' | while read -r branch; do
         git branch -D "$branch"
     done
 }
@@ -173,14 +178,16 @@ extract() {
                 *.zst)                                    unzstd "$1"      ;;
                 *.lzma)                                   unlzma "$1"      ;;
                 *.Z)                                      uncompress "$1"  ;;
-                *) echo "❌ '$1' cannot be extracted (unsupported format)" ;;
-            esac
+                *) echo "❌ '$1' cannot be extracted (unsupported format)"; return 1 ;;
+            esac || { echo "❌ extraction failed"; return 1; }
             echo "✅ extraction complete"
         else
             echo "❌ '$1' is not a valid file"
+            return 1
         fi
     else
         echo "usage: extract <archive_file>"
+        return 2
     fi
 }
 
@@ -188,10 +195,9 @@ extract() {
 # ============================================================================
 # DIRECTORY NAVIGATION
 # ============================================================================
-alias ..="cd .."
+# .. and ~ need no alias, AUTO_CD already cds into them
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias ~="cd ~"
 alias -- -="cd -"  # Go back to previous directory
 
 # ============================================================================
@@ -224,7 +230,7 @@ sysinfo() {
     
     # Get memory info in a more readable format
     local total_mem=$(sysctl -n hw.memsize | awk '{print $1/1024/1024/1024 " GB"}')
-    local used_mem=$(vm_stat | awk '
+    local used_mem=$(vm_stat | awk -v pagesize="$(sysctl -n hw.pagesize)" '
         /Pages active/ { active = $3 }
         /Pages inactive/ { inactive = $3 }
         /Pages speculative/ { speculative = $3 }
@@ -237,7 +243,7 @@ sysinfo() {
             gsub(/\.$/, "", wired)
             gsub(/\.$/, "", compressed)
             used_pages = active + inactive + speculative + wired + compressed
-            used_gb = used_pages * 4096 / 1024 / 1024 / 1024
+            used_gb = used_pages * pagesize / 1024 / 1024 / 1024
             printf "%.1f GB", used_gb
         }')
     echo "memory: ${used_mem} used of ${total_mem}"
@@ -519,11 +525,12 @@ alias paths='echo $PATH | tr ":" "\n"'
 # ============================================================================
 # INTERACTIVE PROCESS KILLER (requires fzf)
 # ============================================================================
+# SIGTERM by default so processes can clean up, fkill KILL when one ignores it
 fkill() {
     local pid
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
     if [ -n "$pid" ]; then
-        echo "$pid" | xargs kill -9
+        echo "$pid" | xargs kill -s "${1:-TERM}"
     fi
 }
 
