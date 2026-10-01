@@ -3,51 +3,52 @@
 
 return {
     "nvim-treesitter/nvim-treesitter",
-    branch = "master", -- v0.x API; v1.0 lives on `main` with a different setup
+    branch = "main",
+    lazy = false, -- main does not support lazy loading
     build = ":TSUpdate",
     config = function()
-        local configs = require("nvim-treesitter.configs")
+        require("nvim-treesitter").install({
+            "bash",
+            "c",
+            "cpp",
+            "cmake",
+            "dockerfile",
+            "json",
+            "hcl",
+            "hurl",
+            "go",
+            "gomod",
+            "gosum",
+            "gotmpl",
+            "gowork",
+            "lua",
+            "luadoc",
+            "markdown",
+            "markdown_inline",
+            "rust",
+            "sql",
+            "terraform",
+            "toml",
+            "vim",
+            "vimdoc",
+            "yaml"
+        })
 
-        configs.setup({
-            ensure_installed = {
-                "bash",
-                "c",
-                "cpp",
-                "cmake",
-                "dockerfile",
-                "json",
-                "hcl",
-                "hurl",
-                "go",
-                "gomod",
-                "gosum",
-                "gotmpl",
-                "gowork",
-                "lua",
-                "luadoc",
-                "markdown",
-                "markdown_inline",
-                "rust",
-                "sql",
-                "terraform",
-                "toml",
-                "vim",
-                "vimdoc",
-                "yaml"
-            },
-
-            highlight = { enable = true },
-
-            -- Hitting enter select the word, next <enter> select entire block, next <enter> select entire
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "<Enter>",
-                    node_incremental = "<Enter>",
-                    scope_incremental = false,
-                    node_decremental = "<Backspace>",
-                },
-            },
+        -- main only installs parsers, highlighting and the old incremental
+        -- selection are now Neovim's job. Enter selects the node under the
+        -- cursor, Enter again grows to the parent, Backspace shrinks back.
+        vim.api.nvim_create_autocmd("FileType", {
+            group = vim.api.nvim_create_augroup("treesitter-start", { clear = true }),
+            callback = function(args)
+                if not pcall(vim.treesitter.start, args.buf) then
+                    return
+                end
+                local select = function(target)
+                    return function() vim.treesitter.select(target, vim.v.count1) end
+                end
+                vim.keymap.set({ "n", "x" }, "<Enter>", select("parent"), { buffer = args.buf })
+                vim.keymap.set("x", "<Backspace>", select("child"), { buffer = args.buf })
+            end,
         })
     end
 }
