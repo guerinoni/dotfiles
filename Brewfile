@@ -22,7 +22,6 @@ brew "ripgrep"                               # Fast grep alternative
 brew "bat"                                   # Better cat with syntax highlighting
 brew "shellcheck"                            # Shell script linting
 brew "tree"                                  # Directory tree view
-brew "htop"                                  # Interactive process viewer
 brew "btop"                                  # Modern resource monitor
 brew "jq"                                    # JSON processor
 brew "yq"                                    # YAML processor
@@ -31,6 +30,7 @@ brew "tmux"                                  # Persistent terminal sessions for 
 
 # Editors
 brew "neovim"                                # Modern vim
+brew "tree-sitter-cli"                       # nvim-treesitter main branch compiles parsers with it
 
 # Security
 brew "gnupg"                                 # GPG encryption
@@ -104,7 +104,6 @@ cask "google-chrome@canary"                  # Chrome canary
 cask "gcloud-cli"                            # Google Cloud SDK (renamed from google-cloud-sdk)
 
 # Utilities
-cask "netnewswire"                           # RSS reader
 cask "folo"                                  # RSS reader
 cask "cap"                                   # Screen recording
 cask "tunnelblick"                           # OpenVPN client
