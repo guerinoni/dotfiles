@@ -14,11 +14,9 @@ update() {
 
     echo "\ncleaning Homebrew..."
     brew cleanup --prune=all -s         # -s removes source files too
-    brew autoremove
+    brew autoremove --dry-run
 
-    echo "\ninstalled but missing from the Brewfile (dry run):"
-    local alias_file=~/.alias
-    brew bundle cleanup --file="${alias_file:A:h}/Brewfile"
+    # Keep Brewfile cleanup out of automatic updates: it uninstalls apps absent from the file.
 
     # ── Trash ───────────────────────────────────────────────────────
     echo "\nTrash left untouched. Run emptytrash when you explicitly want it emptied."
