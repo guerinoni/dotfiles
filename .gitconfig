@@ -70,7 +70,6 @@
 
 [fetch]
     prune = true
-    prunetags = true
     writeCommitGraph = true  # maintain commit-graph for faster log/blame
 
 [transfer]

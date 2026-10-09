@@ -13,6 +13,10 @@ return {
         "saghen/blink.cmp",
     },
     config = function()
+        local document_highlight_method = vim.lsp.protocol.Methods.textDocument_documentHighlight
+        local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = true })
+        local detach_augroup = vim.api.nvim_create_augroup("lsp-detach", { clear = true })
+
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
             callback = function(event)
@@ -38,9 +42,9 @@ return {
 
                 if
                     client and
-                    client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+                    client:supports_method(document_highlight_method, event.buf)
                 then
-                    local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
+                    vim.api.nvim_clear_autocmds({ group = highlight_augroup, buffer = event.buf })
                     vim.api.nvim_create_autocmd(
                         { "CursorHold", "CursorHoldI" },
                         {
@@ -58,17 +62,6 @@ return {
                             callback = vim.lsp.buf.clear_references
                         }
                     )
-
-                    vim.api.nvim_create_autocmd(
-                        "LspDetach",
-                        {
-                            group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
-                            callback = function(event2)
-                                vim.lsp.buf.clear_references()
-                                vim.api.nvim_clear_autocmds { group = "lsp-highlight", buffer = event2.buf }
-                            end
-                        }
-                    )
                 end
 
                 if
@@ -82,6 +75,27 @@ return {
                         end,
                         "[T]oggle Inlay [H]ints"
                     )
+                end
+            end
+        })
+
+        vim.api.nvim_create_autocmd("LspDetach", {
+            group = detach_augroup,
+            callback = function(event)
+                for _, attached_client in ipairs(vim.lsp.get_clients({ bufnr = event.buf })) do
+                    if
+                        attached_client.id ~= event.data.client_id and
+                        attached_client:supports_method(document_highlight_method, event.buf)
+                    then
+                        return
+                    end
+                end
+
+                vim.api.nvim_clear_autocmds({ group = highlight_augroup, buffer = event.buf })
+                if vim.api.nvim_buf_is_valid(event.buf) then
+                    vim.api.nvim_buf_call(event.buf, function()
+                        vim.lsp.buf.clear_references()
+                    end)
                 end
             end
         })

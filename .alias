@@ -13,8 +13,8 @@ update() {
     brew upgrade --cask --greedy        || errors+=("brew upgrade --cask")
 
     echo "\ncleaning Homebrew..."
-    brew cleanup --prune=all -s         # -s removes source files too
-    brew autoremove --dry-run
+    brew cleanup --prune=all -s         || errors+=("brew cleanup")
+    brew autoremove --dry-run           || errors+=("brew autoremove preview")
 
     # Keep Brewfile cleanup out of automatic updates: it uninstalls apps absent from the file.
 

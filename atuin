@@ -28,8 +28,7 @@ cwd_filter = [
   ".*/\\.env",                                  # Dotenv directories
 ]
 
-auto_sync = true                                # Sync automatically when logged in
-sync_frequency = "5m"                           # How often to sync (0 = after every command)
+auto_sync = false                               # Keep shell history local
 update_check = true                             # Check for Atuin updates
 
 [stats]

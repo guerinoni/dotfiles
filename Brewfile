@@ -97,6 +97,7 @@ cask "whatsapp"                              # Messaging
 cask "microsoft-teams"                       # Microsoft Teams
 
 # Browsers
+cask "arc"                                     # Arc browser
 cask "brave-browser"                         # Privacy-focused browser
 cask "google-chrome@canary"                  # Chrome canary
 

@@ -180,7 +180,11 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+if has_fda; then
+  defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+else
+  warn "Skipping System Settings prefs, terminal lacks Full Disk Access."
+fi
 
 ###############################################################################
 # Activity Monitor
@@ -210,9 +214,13 @@ fi
 ###############################################################################
 log "Configuring TextEdit..."
 
-defaults write com.apple.TextEdit RichText -int 0
-defaults write com.apple.TextEdit PlainTextEncoding -int 4
-defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+if has_fda; then
+  defaults write com.apple.TextEdit RichText -int 0
+  defaults write com.apple.TextEdit PlainTextEncoding -int 4
+  defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+else
+  warn "Skipping TextEdit prefs, terminal lacks Full Disk Access."
+fi
 
 ###############################################################################
 # Safari (developer)
@@ -247,8 +255,12 @@ fi
 ###############################################################################
 log "Configuring Mac App Store..."
 
-defaults write com.apple.appstore WebKitDeveloperExtras -bool true
-defaults write com.apple.appstore ShowDebugMenu -bool true
+if has_fda; then
+  defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+  defaults write com.apple.appstore ShowDebugMenu -bool true
+else
+  warn "Skipping App Store prefs, terminal lacks Full Disk Access."
+fi
 
 ###############################################################################
 # Photos
@@ -284,9 +296,9 @@ defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -bool 
 ###############################################################################
 log "Configuring Notifications..."
 
-# Show full notification previews (message text instead of just "Notification").
-# 1 = never, 2 = when unlocked, 3 = always. Apps set to "Default" follow this.
-defaults write com.apple.ncprefs content_visibility -int 3
+# Show notification previews only when unlocked for apps set to "Default".
+# This does not suppress generic notifications on the lock screen.
+defaults write com.apple.ncprefs content_visibility -int 2
 
 ###############################################################################
 # Sound
