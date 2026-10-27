@@ -274,11 +274,12 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ###############################################################################
 log "Configuring Software Update..."
 
-defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true
-defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
-defaults write com.apple.SoftwareUpdate ConfigDataInstall -bool true
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+# softwareupdated reads the system domain, per-user writes here are ignored
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ScheduleFrequency -int 1
 defaults write com.apple.commerce AutoUpdate -bool true
 
 ###############################################################################

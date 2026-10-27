@@ -1,6 +1,7 @@
 # Taps
-tap "netbirdio/tap"
+tap "netbirdio/tap", trusted: true
 tap "skyhook-io/tap"
+tap "can1357/tap"
 
 # ============================================================================
 # CLI Tools
@@ -28,8 +29,12 @@ brew "yq"                                    # YAML processor
 brew "zoxide"                                # Frecency-based cd replacement
 brew "tmux"                                  # Persistent terminal sessions for long-running agents/tasks
 
+# AI
+brew "rtk"                                   # CLI proxy to minimize LLM token consumption
+brew "can1357/tap/omp", trusted: true        # Coding agent with the IDE wired in
+
 # Editors
-brew "neovim"                                # Modern vim
+brew "neovim"                               # Modern vim
 brew "tree-sitter-cli"                       # nvim-treesitter main branch compiles parsers with it
 
 # Security
@@ -43,7 +48,7 @@ brew "netbirdio/tap/netbird"                 # Peer-to-peer VPN
 # Kubernetes
 brew "k9s"                                   # Kubernetes TUI
 brew "kubectx"                               # Switch k8s contexts/namespaces
-brew "skyhook-io/tap/radar"                  # K8s topology & Helm management
+brew "skyhook-io/tap/radar", trusted: true   # K8s topology & Helm management
 
 # Databases
 brew "libpq"                                 # PostgreSQL client libs
@@ -108,5 +113,6 @@ cask "gcloud-cli"                            # Google Cloud SDK (renamed from go
 cask "folo"                                  # RSS reader
 cask "cap"                                   # Screen recording
 cask "tunnelblick"                           # OpenVPN client
+cask "netbirdio/tap/netbird-ui"              # NetBird tray GUI (needs the netbird formula)
 cask "wireshark-app"                         # Network analyzer GUI
 cask "microsoft-auto-update"                 # Microsoft auto-updater
