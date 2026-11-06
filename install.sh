@@ -45,13 +45,6 @@ symlink "$SCRIPT_DIR/ghostty" "$HOME/.config/ghostty/config"
 log "Setting up Atuin config..."
 symlink "$SCRIPT_DIR/atuin" "$HOME/.config/atuin/config.toml"
 
-log "Running macOS defaults script..."
-if [[ -x "$SCRIPT_DIR/macos.sh" ]]; then
-  "$SCRIPT_DIR/macos.sh"
-else
-  log "Skipped: macos.sh not found or not executable"
-fi
-
 log "Installing Homebrew if needed..."
 if ! command -v brew >/dev/null 2>&1; then
   /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -73,6 +66,14 @@ elif command -v curl >/dev/null 2>&1; then
   curl -fsSL https://get.jetify.com/devbox | bash
 else
   log "Error: curl is not installed, cannot install Devbox"
+fi
+
+# Last, so a failing defaults write can't stop the packages from installing
+log "Running macOS defaults script..."
+if [[ -x "$SCRIPT_DIR/macos.sh" ]]; then
+  "$SCRIPT_DIR/macos.sh"
+else
+  log "Skipped: macos.sh not found or not executable"
 fi
 
 log "Setup complete 🎉"

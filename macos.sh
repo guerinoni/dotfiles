@@ -10,19 +10,24 @@ warn() {
   printf "\033[1;33m!!\033[0m %s\n" "$1" >&2
 }
 
-# Sandboxed app prefs (Safari, Terminal, etc.) live in
-# ~/Library/Containers/<bundle-id>/Data/Library/Preferences/. Writing them via
-# `defaults` requires the calling terminal to have Full Disk Access. Probe by
-# attempting a no-op read; if it fails, skip those blocks instead of aborting
-# under `set -e`.
-has_fda() {
-  defaults read com.apple.Safari >/dev/null 2>&1
-}
-
 # Sanity check: macOS only
 if [[ "$(uname -s)" != "Darwin" ]]; then
   echo "This script is macOS only." >&2
   exit 1
+fi
+
+# Sandboxed app prefs (Safari, Terminal, etc.) live in
+# ~/Library/Containers/<bundle-id>/Data/Library/Preferences/. Writing them via
+# `defaults` requires the calling terminal to have Full Disk Access, so skip
+# those blocks without it instead of aborting under `set -e`. Probe the TCC
+# database, readable only with that access: reading com.apple.Safari also fails
+# on a fresh Mac where Safari has never opened.
+if head -c1 "/Library/Application Support/com.apple.TCC/TCC.db" >/dev/null 2>&1; then
+  has_fda=true
+else
+  has_fda=false
+  warn "Terminal lacks Full Disk Access: skipping Safari, Terminal, TextEdit, App Store and System Settings prefs."
+  warn "Grant it in System Settings → Privacy & Security → Full Disk Access, then rerun."
 fi
 
 # Close System Settings so it doesn't overwrite changes
@@ -153,10 +158,8 @@ defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # don't auto-open "safe" files after download (Safari will obey)
-if has_fda; then
+if "$has_fda"; then
   defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
-else
-  warn "Skipping Safari AutoOpenSafeDownloads — terminal lacks Full Disk Access."
 fi
 
 # App Management is a TCC privacy permission. macOS does not allow normal
@@ -171,7 +174,6 @@ warn "Enable your terminal in System Settings -> Privacy & Security -> App Manag
 log "Configuring Window Performance..."
 
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
-defaults write com.apple.Terminal WindowResizeTime -float 0.001
 defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
 # Expand save/print panels by default
@@ -180,10 +182,8 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-if has_fda; then
+if "$has_fda"; then
   defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
-else
-  warn "Skipping System Settings prefs, terminal lacks Full Disk Access."
 fi
 
 ###############################################################################
@@ -202,11 +202,10 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 log "Configuring Terminal..."
 
-if has_fda; then
+if "$has_fda"; then
+  defaults write com.apple.Terminal WindowResizeTime -float 0.001
   defaults write com.apple.Terminal NSQuitAlwaysKeepsWindows -bool false
   defaults write com.apple.Terminal SecureKeyboardEntry -bool true
-else
-  warn "Skipping Terminal prefs — terminal lacks Full Disk Access."
 fi
 
 ###############################################################################
@@ -214,12 +213,10 @@ fi
 ###############################################################################
 log "Configuring TextEdit..."
 
-if has_fda; then
+if "$has_fda"; then
   defaults write com.apple.TextEdit RichText -int 0
   defaults write com.apple.TextEdit PlainTextEncoding -int 4
   defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
-else
-  warn "Skipping TextEdit prefs, terminal lacks Full Disk Access."
 fi
 
 ###############################################################################
@@ -227,7 +224,7 @@ fi
 ###############################################################################
 log "Configuring Safari (developer)..."
 
-if has_fda; then
+if "$has_fda"; then
   # Develop menu + Web Inspector
   defaults write com.apple.Safari IncludeDevelopMenu -bool true
   defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
@@ -245,9 +242,6 @@ if has_fda; then
 
   # Don't preload top hit (saves bandwidth + reduces tracking surface)
   defaults write com.apple.Safari PreloadTopHit -bool false
-else
-  warn "Skipping Safari developer prefs — grant Full Disk Access to your terminal in"
-  warn "System Settings → Privacy & Security → Full Disk Access, then rerun."
 fi
 
 ###############################################################################
@@ -255,11 +249,9 @@ fi
 ###############################################################################
 log "Configuring Mac App Store..."
 
-if has_fda; then
+if "$has_fda"; then
   defaults write com.apple.appstore WebKitDeveloperExtras -bool true
   defaults write com.apple.appstore ShowDebugMenu -bool true
-else
-  warn "Skipping App Store prefs, terminal lacks Full Disk Access."
 fi
 
 ###############################################################################
@@ -324,7 +316,7 @@ log "Restarting affected applications..."
 
 # NOTE: Safari + TextEdit are NOT killed here on purpose — losing open tabs or
 # unsaved drafts would be rude. Terminal neither: on a fresh Mac install.sh
-# runs inside it, and killing it would stop the install before brew bundle.
+# runs inside it, and killing it would stop the install.
 for app in "Activity Monitor" \
   "cfprefsd" \
   "Dock" \
