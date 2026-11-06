@@ -14,6 +14,7 @@ vim.o.showmode = false          -- Hide mode information, it is in status line
 vim.o.signcolumn = "yes"        -- Show sign column
 vim.o.clipboard = "unnamedplus" -- Enable clipboard integration with system clipboard
 vim.o.winborder = "rounded"     -- One border style for every float, plugins included
+vim.o.updatetime = 250          -- Idle time before CursorHold, which drives LSP highlights
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  Notice listchars is set using `vim.opt` instead of `vim.o`.
