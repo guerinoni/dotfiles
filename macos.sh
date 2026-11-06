@@ -63,7 +63,7 @@ defaults write com.apple.dock mru-spaces -bool false
 # don't group windows by app in Mission Control — show every window
 defaults write com.apple.dock expose-group-apps -bool false
 
-# Hot corners all disabled (set to 0 to enable, 2/3/4/5 for various actions)
+# Hot corners all off (0 means no action, values like 2/3/4/5 assign one)
 defaults write com.apple.dock wvous-tl-corner -int 0
 defaults write com.apple.dock wvous-tr-corner -int 0
 defaults write com.apple.dock wvous-bl-corner -int 0
