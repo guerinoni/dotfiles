@@ -60,6 +60,7 @@ brew "awscli"                                # AWS CLI
 brew "python@3.14"                           # Python 3.14
 brew "ruby"                                  # Ruby
 brew "node"                                  # Node.js stable
+brew "uv"                                    # Python tooling, uvx runs MCP servers like aws-mcp
 
 # Media
 brew "ffmpeg"                                # Video/audio processing
