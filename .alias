@@ -226,19 +226,15 @@ sysinfo() {
     
     # Get memory info in a more readable format
     local total_mem=$(sysctl -n hw.memsize | awk '{print $1/1024/1024/1024 " GB"}')
+    # App memory + wired + compressed. Inactive and speculative pages are file
+    # cache that macOS drops on demand, counting them showed the machine as full.
     local used_mem=$(vm_stat | awk -v pagesize="$(sysctl -n hw.pagesize)" '
-        /Pages active/ { active = $3 }
-        /Pages inactive/ { inactive = $3 }
-        /Pages speculative/ { speculative = $3 }
+        /Anonymous pages/ { anonymous = $3 }
+        /Pages purgeable/ { purgeable = $3 }
         /Pages wired down/ { wired = $4 }
         /Pages occupied by compressor/ { compressed = $5 }
         END {
-            gsub(/\.$/, "", active)
-            gsub(/\.$/, "", inactive) 
-            gsub(/\.$/, "", speculative)
-            gsub(/\.$/, "", wired)
-            gsub(/\.$/, "", compressed)
-            used_pages = active + inactive + speculative + wired + compressed
+            used_pages = anonymous - purgeable + wired + compressed
             used_gb = used_pages * pagesize / 1024 / 1024 / 1024
             printf "%.1f GB", used_gb
         }')
