@@ -3,9 +3,8 @@ return {
     dependencies = { "echasnovski/mini.icons" },
     opts = {
         files = {
-            -- Include hidden files in search
-            fd_opts = "--color=never --type f --hidden --follow --exclude .git --exclude node_modules",
-            rg_opts = "--color=never --files --hidden --follow -g '!.git' -g '!node_modules'",
+            -- Include hidden files in search, for the keymap and :FzfLua files alike
+            cmd = "rg --files --hidden --follow -g '!.git' -g '!node_modules'",
         },
         grep = {
             -- Add --fixed-strings option to treat input as literal strings
@@ -21,11 +20,7 @@ return {
     keys = {
         {
             "<leader>ff",
-            function() 
-                require('fzf-lua').files({
-                    cmd = "rg --files --hidden --follow -g '!.git' -g '!node_modules'"
-                })
-            end,
+            function() require('fzf-lua').files() end,
             desc = "Find Files in project directory (including hidden)"
         },
         {
