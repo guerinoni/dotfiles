@@ -61,10 +61,6 @@
 [gpg]
 	program = /opt/homebrew/bin/gpg
 
-# Work-specific config (URL rewrites, per-dir identity) lives here, untracked.
-[include]
-	path = ~/.gitconfig.local
-
 [column]
 	ui = auto
 
@@ -92,3 +88,8 @@
 
 [branch]
     sort = -committerdate
+
+# Work-specific config (URL rewrites, per-dir identity) lives here, untracked.
+# Last, so it can override anything above.
+[include]
+	path = ~/.gitconfig.local
