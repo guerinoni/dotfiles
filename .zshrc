@@ -179,6 +179,7 @@ path=(
   /opt/homebrew/lib/ruby/gems/*/bin(NOn)
   /opt/homebrew/opt/ruby/bin
   ~/.cargo/bin
+  ~/go/bin
   ~/.local/bin
   /opt/homebrew/opt/libpq/bin
   $path
