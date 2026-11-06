@@ -151,8 +151,7 @@ port() {
 # Quick directory creation and navigation
 mkcd() {
     if [ $# -eq 1 ]; then
-        mkdir -p "$1" && cd "$1"
-        echo "📁 created and entered directory: $1"
+        mkdir -p "$1" && cd "$1" && echo "📁 created and entered directory: $1"
     else
         echo "usage: mkcd <directory_name>"
     fi
