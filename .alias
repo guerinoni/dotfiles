@@ -164,11 +164,10 @@ extract() {
             echo "📦 extracting $1..."
             # bsdtar sniffs the compression itself, so every tarball shape goes
             # through one branch. The old *.xz arm fed foo.tar.xz to unxz and
-            # left a bare .tar sitting there.
+            # left a bare .tar sitting there. It reads 7z too, no 7z binary needed.
             case $1 in
-                *.tar|*.tar.*|*.tbz2|*.tgz|*.txz|*.tzst)  tar xf "$1"      ;;
+                *.tar|*.tar.*|*.tbz2|*.tgz|*.txz|*.tzst|*.7z)  tar xf "$1" ;;
                 *.zip)                                    unzip "$1"       ;;
-                *.7z)                                     7z x "$1"        ;;
                 *.bz2)                                    bunzip2 "$1"     ;;
                 *.gz)                                     gunzip "$1"      ;;
                 *.xz)                                     unxz "$1"        ;;
