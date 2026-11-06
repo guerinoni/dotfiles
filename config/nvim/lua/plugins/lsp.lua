@@ -125,7 +125,6 @@ return {
                         usePlaceholders = true,
                         completeUnimported = true,
                         staticcheck = true,
-                        directoryFilters = { "-.git" },
                         semanticTokens = true,
 
                         codelenses = {
