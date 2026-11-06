@@ -271,6 +271,12 @@ devspace() {
     du -sh "${paths[@]}" 2>/dev/null | sort -rh
 }
 
+# Only Cargo's target/ has this tag. Vendored source can have a real src/target/,
+# the cc crate does, and deleting that breaks every build using the crate.
+_rust_targets() {
+    find "$1" -type d -name target -prune -exec test -e '{}/CACHEDIR.TAG' \; -print 2>/dev/null
+}
+
 devclean() {
     case "${1:-}" in
         go)
@@ -291,12 +297,12 @@ devclean() {
             du -sh ~/.cargo/registry ~/.cargo/git ~/.rustup/toolchains 2>/dev/null
             ;;
         rust-targets-dry)
-            find "${2:-.}" -type d -name target -prune -exec du -sh {} + 2>/dev/null | sort -rh
+            _rust_targets "${2:-.}" | while read -r dir; do du -sh "$dir"; done | sort -rh
             ;;
         rust-targets)
             local root="${2:-.}"
             local targets
-            targets=$(find "$root" -type d -name target -prune -print 2>/dev/null)
+            targets=$(_rust_targets "$root")
             if [[ -z "$targets" ]]; then
                 echo "no Rust target directories found under $root"
                 return 0
