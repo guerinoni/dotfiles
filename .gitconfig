@@ -6,7 +6,6 @@
 [core]
 	pager = delta
 	editor = nvim
-	ignorecase = false
 	excludesFile = ~/.gitignore_global
 	fsmonitor = false     # enable per-repo only; global true can leave stale IPC sockets in agent worktrees
 	untrackedCache = true # cache untracked scans, the other half of a fast status
