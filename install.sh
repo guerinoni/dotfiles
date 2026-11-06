@@ -48,7 +48,6 @@ symlink "$SCRIPT_DIR/atuin" "$HOME/.config/atuin/config.toml"
 log "Installing Homebrew if needed..."
 if ! command -v brew >/dev/null 2>&1; then
   /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
@@ -62,10 +61,8 @@ fi
 log "Installing Devbox..."
 if command -v devbox >/dev/null 2>&1; then
   log "Skipped: devbox already installed"
-elif command -v curl >/dev/null 2>&1; then
-  curl -fsSL https://get.jetify.com/devbox | bash
 else
-  log "Error: curl is not installed, cannot install Devbox"
+  curl -fsSL https://get.jetify.com/devbox | bash
 fi
 
 # Last, so a failing defaults write can't stop the packages from installing
