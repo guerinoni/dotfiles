@@ -498,15 +498,22 @@ devpkg() {
     esac
 }
 
+# Keeps ps's header on top, sorting all of it pushed the header off the end
+_ps_by_mem() {
+    local header
+    IFS= read -r header
+    echo "$header"
+    sort -nrk4 | head -n "$1"
+}
+
 memtop() {
-    ps -Ao pid,%cpu,%mem,rss,comm | sort -nrk4 | head -30
+    ps -Ao pid,%cpu,%mem,rss,comm | _ps_by_mem 30
 }
 
 agenttop() {
     ps -Ao pid,%cpu,%mem,rss,comm |
         awk 'NR == 1 || $5 ~ /(claude|codex|opencode|treehouse|node|npm|chrome-devtools-mcp)/' |
-        sort -nrk4 |
-        head -40
+        _ps_by_mem 40
 }
 
 # ============================================================================
