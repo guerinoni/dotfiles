@@ -59,7 +59,8 @@ return {
                         { "<leader>rp", ":RustLsp parentModule<CR>",     desc = "Parent module" },
                         { "<leader>rm", ":RustLsp expandMacro<CR>",      desc = "Expand macro" },
                         { "<leader>rc", ":RustLsp openCargo<CR>",        desc = "Open crate" },
-                        { "<leader>rg", ":RustLsp crateGraph x11<CR>",   desc = "Crate graph" },
+                        -- Homebrew's graphviz has no x11 output, so write a file
+                        { "<leader>rg", ":RustLsp crateGraph svg /tmp/crates.svg<CR>", desc = "Crate graph (/tmp/crates.svg)" },
                         { "<leader>rd", ":RustLsp debuggables<CR>",      desc = "Debuggables" },
                     })
                 end,
