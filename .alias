@@ -260,6 +260,7 @@ devspace() {
         ~/Library/Caches/pip
         ~/Library/Caches/go-build
         ~/go/pkg/mod
+        ~/hack/*/.devbox(N)
     )
 
     du -sh "${paths[@]}" 2>/dev/null | sort -rh
