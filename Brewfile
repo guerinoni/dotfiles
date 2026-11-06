@@ -87,6 +87,7 @@ cask "beekeeper-studio"                      # SQL database GUI
 # AI
 cask "claude"                                # Claude AI assistant
 cask "codex"                                 # Codex AI coding agent
+cask "amp-app"                               # Amp coding agent and development environment
 
 # Productivity
 cask "1password"                             # Password manager
