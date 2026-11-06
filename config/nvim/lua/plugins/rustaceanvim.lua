@@ -16,13 +16,11 @@ return {
             server = {
                 default_settings = {
                     ["rust-analyzer"] = {
-                        assist = {
-                            importGranularity = "crate",
-                            importEnforceGranularity = true,
+                        imports = {
+                            granularity = { group = "crate", enforce = true },
                         },
                         cargo = {
-                            allFeatures = true,
-                            loadOutDirsFromCheck = true,
+                            features = "all",
                         },
                         procMacro = {
                             enable = true,
@@ -31,8 +29,7 @@ return {
                         -- command moves to its own `check` block.
                         checkOnSave = true,
                         check = {
-                            command = "clippy",
-                            extraArgs = { "--all-features" },
+                            command = "clippy", -- features come from cargo.features above
                         },
                         completion = {
                             autoimport = { enable = true },
@@ -45,7 +42,6 @@ return {
                             closureReturnTypeHints = { enable = "always" },
                             lifetimeElisionHints = { enable = "always" },
                             maxLength = 5,
-                            enable = true,
                         },
                         lens = { enable = true },
                     },
