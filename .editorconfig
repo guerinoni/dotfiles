@@ -11,7 +11,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{lua,json,yaml,yml,toml}]
+[*.{json,yaml,yml,toml}]
 indent_size = 2
 
 [*.go]

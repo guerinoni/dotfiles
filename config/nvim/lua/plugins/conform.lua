@@ -9,16 +9,16 @@ return {
             -- get treated as buffer content. shellcheck is wired through
             -- bashls; yaml/json/terraform diagnostics come from their LSPs.
             formatters_by_ft = {
-                bash      = { "shfmt" },
-                sh        = { "shfmt" },
-                c         = { "clang-format" },
-                cpp       = { "clang-format" },
-                lua       = { "stylua" },
-                rust      = { "rustfmt" },
-                go        = { "goimports" },
-                json      = { "jq" },
+                bash = { "shfmt" },
+                sh = { "shfmt" },
+                c = { "clang-format" },
+                cpp = { "clang-format" },
+                lua = { "stylua" },
+                rust = { "rustfmt" },
+                go = { "goimports" },
+                json = { "jq" },
                 terraform = { "terraform_fmt" },
-                yaml      = { "yamlfmt" },
+                yaml = { "yamlfmt" },
             },
 
             format_on_save = false,

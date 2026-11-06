@@ -1,6 +1,6 @@
 return {
-    'mrcjkb/rustaceanvim',
-    version = '^6',
+    "mrcjkb/rustaceanvim",
+    version = "^6",
     lazy = false, -- This plugin is already lazy
 
     -- Settings must live on vim.g.rustaceanvim and be set BEFORE the plugin
@@ -54,14 +54,18 @@ return {
                     -- buffer goes in the spec, which-key ignores it in the second argument
                     require("which-key").add({
                         buffer = bufnr,
-                        { "<leader>r",  group = "Rust" },
-                        { "<leader>rr", ":RustLsp runnables<CR>",        desc = "Runnables" },
-                        { "<leader>rp", ":RustLsp parentModule<CR>",     desc = "Parent module" },
-                        { "<leader>rm", ":RustLsp expandMacro<CR>",      desc = "Expand macro" },
-                        { "<leader>rc", ":RustLsp openCargo<CR>",        desc = "Open crate" },
+                        { "<leader>r", group = "Rust" },
+                        { "<leader>rr", ":RustLsp runnables<CR>", desc = "Runnables" },
+                        { "<leader>rp", ":RustLsp parentModule<CR>", desc = "Parent module" },
+                        { "<leader>rm", ":RustLsp expandMacro<CR>", desc = "Expand macro" },
+                        { "<leader>rc", ":RustLsp openCargo<CR>", desc = "Open crate" },
                         -- Homebrew's graphviz has no x11 output, so write a file
-                        { "<leader>rg", ":RustLsp crateGraph svg /tmp/crates.svg<CR>", desc = "Crate graph (/tmp/crates.svg)" },
-                        { "<leader>rd", ":RustLsp debuggables<CR>",      desc = "Debuggables" },
+                        {
+                            "<leader>rg",
+                            ":RustLsp crateGraph svg /tmp/crates.svg<CR>",
+                            desc = "Crate graph (/tmp/crates.svg)",
+                        },
+                        { "<leader>rd", ":RustLsp debuggables<CR>", desc = "Debuggables" },
                     })
                 end,
             },

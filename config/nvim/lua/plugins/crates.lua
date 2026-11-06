@@ -1,7 +1,7 @@
 return {
-    'saecki/crates.nvim',
+    "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
     config = function()
-        require('crates').setup()
+        require("crates").setup()
     end,
 }

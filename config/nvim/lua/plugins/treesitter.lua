@@ -31,7 +31,7 @@ return {
             "toml",
             "vim",
             "vimdoc",
-            "yaml"
+            "yaml",
         })
 
         -- main only installs parsers, highlighting and the old incremental
@@ -44,11 +44,13 @@ return {
                     return
                 end
                 local select = function(target)
-                    return function() vim.treesitter.select(target, vim.v.count1) end
+                    return function()
+                        vim.treesitter.select(target, vim.v.count1)
+                    end
                 end
                 vim.keymap.set({ "n", "x" }, "<Enter>", select("parent"), { buffer = args.buf })
                 vim.keymap.set("x", "<Backspace>", select("child"), { buffer = args.buf })
             end,
         })
-    end
+    end,
 }

@@ -20,13 +20,17 @@ return {
     keys = {
         {
             "<leader>ff",
-            function() require('fzf-lua').files() end,
-            desc = "Find Files in project directory (including hidden)"
+            function()
+                require("fzf-lua").files()
+            end,
+            desc = "Find Files in project directory (including hidden)",
         },
         {
             "<leader>fg",
-            function() require('fzf-lua').live_grep() end,
-            desc = "Find by grepping in project directory"
+            function()
+                require("fzf-lua").live_grep()
+            end,
+            desc = "Find by grepping in project directory",
         },
         {
             "<leader>fh",
@@ -134,5 +138,5 @@ return {
             end,
             desc = "[G]it changed files: live [G]rep",
         },
-    }
+    },
 }

@@ -10,18 +10,18 @@ return {
         fuzzy = { implementation = "prefer_rust_with_warning" },
 
         keymap = {
-            preset = 'default',
-            ['<enter>'] = { 'accept', 'fallback' }
+            preset = "default",
+            ["<enter>"] = { "accept", "fallback" },
         },
 
         completion = {
             documentation = { auto_show = true, auto_show_delay_ms = 0 },
-            ghost_text = { enabled = true }
+            ghost_text = { enabled = true },
         },
 
         sources = {
-            default = { 'lsp', 'buffer', 'snippets', 'path' },
+            default = { "lsp", "buffer", "snippets", "path" },
             providers = {},
         },
-    }
+    },
 }
