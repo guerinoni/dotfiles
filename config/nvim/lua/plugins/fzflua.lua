@@ -133,7 +133,7 @@ return {
             function()
                 -- Restrict live grep to files changed vs HEAD (tracked + untracked).
                 local files = vim.fn.systemlist(
-                    "git diff --name-only HEAD; git ls-files --others --exclude-standard"
+                    "git diff --name-only --relative --diff-filter=d HEAD; git ls-files --others --exclude-standard"
                 )
                 if vim.v.shell_error ~= 0 or #files == 0 then
                     vim.notify("No changed files", vim.log.levels.INFO)
