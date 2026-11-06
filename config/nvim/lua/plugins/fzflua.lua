@@ -11,10 +11,6 @@ return {
             -- Add --fixed-strings option to treat input as literal strings
             rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --fixed-strings -g '!.git' -g '!node_modules'",
         },
-        live_grep = {
-            -- Add --fixed-strings option for live grep as well
-            rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --fixed-strings -g '!.git' -g '!node_modules'",
-        },
         lsp = {
             -- Jump directly if only one result (skips the picker)
             jump1 = true,
