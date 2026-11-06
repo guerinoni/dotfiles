@@ -51,7 +51,9 @@ return {
                     },
                 },
                 on_attach = function(_, bufnr)
+                    -- buffer goes in the spec, which-key ignores it in the second argument
                     require("which-key").add({
+                        buffer = bufnr,
                         { "<leader>r",  group = "Rust" },
                         { "<leader>rr", ":RustLsp runnables<CR>",        desc = "Runnables" },
                         { "<leader>rp", ":RustLsp parentModule<CR>",     desc = "Parent module" },
@@ -59,7 +61,7 @@ return {
                         { "<leader>rc", ":RustLsp openCargo<CR>",        desc = "Open crate" },
                         { "<leader>rg", ":RustLsp crateGraph x11<CR>",   desc = "Crate graph" },
                         { "<leader>rd", ":RustLsp debuggables<CR>",      desc = "Debuggables" },
-                    }, { noremap = true, silent = true, buffer = bufnr })
+                    })
                 end,
             },
         }
