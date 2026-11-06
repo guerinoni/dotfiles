@@ -170,11 +170,9 @@ return {
         vim.list_extend(
             ensure_installed,
             {
-                "shellcheck",   -- Bash linter (invoked by bashls)
                 "shfmt",        -- Bash formatter
                 "stylua",       -- Lua formatter
                 "clang-format", -- C/C++ formatter
-                "jq",           -- JSON formatter
                 "yamlfmt"       -- YAML formatter
             }
         )
