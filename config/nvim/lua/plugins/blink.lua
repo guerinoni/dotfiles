@@ -4,9 +4,6 @@
 return {
     "saghen/blink.cmp",
     version = "1.*",
-    dependencies = {
-        "zbirenbaum/copilot.lua",
-    },
 
     opts = {
         signature = { enabled = true },
